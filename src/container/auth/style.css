@@ -1,0 +1,48 @@
+.login-rectangle {
+  background: var(--global-09-white, #FFF);
+  max-width: 50%;
+  padding-top: 7%;
+  margin-left: 25%;
+  /* justify-content: center; */
+}
+.border{
+  
+  border: 1px solid var(--components-breadcrumb-fill, #E9ECEF);
+}
+
+@media screen and (max-width: 768px) {
+  .login-rectangle {
+width: 98%;
+}
+}
+
+.header{
+color: var(--global-01-primary, #007BFF);
+font-family: Inter;
+font-size: 32px;
+font-style: normal;
+font-weight: 500;
+line-height: 38px;
+text-align: center;
+
+}
+.login-fields{
+    width: Fill (544px);
+    height: Hug (27px);
+    padding: 15px;
+
+}
+
+.login-links{
+  margin-top: 16px;
+  margin-bottom: 24px;
+  margin: 2px 3px;
+
+}
+.auth-alert {
+    position: absolute;
+    justify-content: end;
+    right: 0;
+    transform: translate(-30px, 10px);
+    min-width: 25%;
+}

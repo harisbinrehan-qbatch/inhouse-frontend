@@ -1,0 +1,46 @@
+.ecom{
+font-family: Inter;
+font-size: 16px;
+font-weight: 700;
+line-height: 24px;
+letter-spacing: 0px;
+text-align: left;
+width: auto;
+height: 24px;
+top: 12px;
+left: 60px;
+color: rgba(52, 58, 64, 1);
+}
+.user-image{
+width: 30px;
+height: 31px;
+left: -9px;
+}
+.notification-icon{
+width: 16px;
+height: 16px;
+top: 16px;
+left: 1124px;
+} 
+.user-name{
+color:rgba(0, 123, 255, 1);
+font-family: Inter;
+font-size: 12px;
+font-weight: 500;
+line-height: 12px;
+letter-spacing: 0px;
+text-align: right;
+}
+/* .navbar-main-div{
+    position:sticky;
+    top: 0px;
+     z-index: 100;
+} */
+.sticky-section {
+  position: sticky;
+  top: 0; /* Adjust this value to set the sticky position as needed */
+  background-color: white;
+  z-index: 100;
+}
+
+

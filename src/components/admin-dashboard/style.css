@@ -1,0 +1,48 @@
+.dashboard-main-div{
+  width:100%;
+background-color: rgba(233, 236, 239, 1);
+}
+
+.dashboard-header {
+  color: rgba(0, 32, 80, 1);
+  font-family: Inter;
+  font-size: 24px;
+  /* padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 15px; */
+}
+.line-chart-text{
+  color: red;
+  padding-left: 25px;
+}
+.dashboard-cart-main-div{
+    background-color:rgba(255, 255, 255, 1);
+    width: 320px;
+    height: 144px;
+}
+.dashboard-line-chart-main-div{
+   background-color:rgba(255, 255, 255, 1);
+   /* padding-left: 100px; */
+}
+.dashboard-line-chart-text{
+font-family: Inter;
+font-size: 12px;
+font-weight: 400;
+line-height: 18px;
+letter-spacing: 0px;
+text-align: left;
+}
+.dashboard-orders-graph-main-div{
+    background-color:rgba(255, 255, 255, 1);
+    margin-left: 21px;
+}
+.dashboard-orders-graph-text{
+font-family: Inter;
+font-size: 12px;
+font-weight: 400;
+line-height: 18px;
+letter-spacing: 0px;
+text-align: left;
+}
+
+

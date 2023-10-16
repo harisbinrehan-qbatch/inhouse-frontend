@@ -1,0 +1,13 @@
+.header-heading{
+    color: var(--global-01-primary, #007BFF);
+    font-family: Inter;
+}
+.header-text{
+font-family: Inter;
+font-size: 14px;
+font-weight: 700;
+line-height: 20px;
+letter-spacing: 0px;
+text-align: left;
+
+}

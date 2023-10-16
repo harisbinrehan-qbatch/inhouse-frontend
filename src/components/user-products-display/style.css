@@ -1,0 +1,19 @@
+.user-products-display-main-div {
+  position: sticky;
+  top:auto;
+  background-color: rgba(255, 255, 255, 1);
+  max-width: 608px;
+  height: 530px;
+  border-radius: 4px;
+  border: 1px;
+  gap: 16px;
+}
+.user-products-display-image{
+  width: 280px;
+height: 280px;
+top: 14px;
+left: 17px;
+}
+.temp{
+  background-color: antiquewhite;
+}

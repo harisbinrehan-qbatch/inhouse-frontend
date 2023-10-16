@@ -1,17 +1,19 @@
-import { useEffect } from 'react';
-import { Table } from 'react-bootstrap';
+/* eslint-disable max-len */
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Table } from 'react-bootstrap';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
 import Pencil from '../../assets/images/Pencil-square.svg';
 import ProductImage from '../../assets/images/product.png';
 import PaginationComponent from '../pagination';
 import Trash from '../../assets/images/Trash.svg';
-import { fetchProducts } from '../../redux/slices/products';
+import { fetchProducts, searchProducts } from '../../redux/slices/products';
 
 import './style.css';
 import CustomAlert from '../alert';
 import Loading from '../loading';
 import ProductsHeading from './admin-products-heading';
+import CustomForm from '../input';
 
 const Products = () => {
   const products = useSelector((state) => state.products.data);
@@ -20,15 +22,24 @@ const Products = () => {
   const { loading } = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    if (e.target.value !== '') {
+      dispatch(searchProducts(e.target.value));
+    }
+  };
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [page]);
 
   return (
     <div className="table-body w-100 p-4">
+      <ProductsHeading />
       {isProductError ? (
         <>
-          <ProductsHeading />
           <CustomAlert
             variant="danger"
             alertText="There was an error fetching the products."
@@ -39,7 +50,17 @@ const Products = () => {
         </>
       ) : (
         <>
-          <ProductsHeading />
+          <div className="header-buttons">
+            <b className="fs-5 mt-2">Search :</b>
+            <CustomForm
+              style={{ marginTop: '-20px' }}
+              placeholder="search by name"
+              className="mx-3"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+
           {loading ? (
             <div
               className="d-flex justify-content-center align-items-center"
@@ -69,8 +90,8 @@ const Products = () => {
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody className="w-100">
-                  {products.map((doc) => (
+                <tbody>
+                  {products?.map((doc) => (
                     <tr className="product-text" key={doc.id}>
                       <td>
                         <img

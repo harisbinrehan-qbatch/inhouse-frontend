@@ -3,15 +3,19 @@ import axios from 'axios';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async (_, { getState, rejectWithValue }) => {
+  async (name, { getState, rejectWithValue }) => {
     try {
       const state = getState();
       const { page } = state.products;
       const limit = 10;
+      let url = `http://localhost:5000/v1/products/fetchProducts?limit=${limit}&skip=${
+        (page - 1) * limit
+      }`;
+      if (name) {
+        url += `&name=${name}`;
+      }
       const response = await axios.get(
-        `http://localhost:5000/v1/products/fetchProducts?limit=${limit}&skip=${
-          (page - 1) * limit
-        }`,
+        url,
       );
       if (response.data.products.length === 0) {
         return rejectWithValue(response.data);
@@ -31,7 +35,6 @@ export const addProduct = createAsyncThunk(
         'http://localhost:5000/v1/products/addProduct',
         requestData,
       );
-      console.log(response.data);
       return response.data; // Updated to return response.data
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -42,7 +45,6 @@ export const addProduct = createAsyncThunk(
 export const searchProducts = createAsyncThunk(
   'products/searchProducts',
   async (requestData, { rejectWithValue }) => {
-    console.log(requestData);
     try {
       const response = await axios.get(
         `http://localhost:5000/v1/products/searchProducts?name=${requestData}`,
@@ -101,7 +103,6 @@ const productsSlice = createSlice({
       })
 
       .addCase(searchProducts.fulfilled, (state, action) => {
-        console.log('In fulfilled', action.payload);
         state.data = action.payload.products;
         state.isProductError = false;
         state.loading = false;
@@ -114,7 +115,6 @@ const productsSlice = createSlice({
         state.data = [];
         state.isProductError = true;
         state.loading = false;
-        console.log('In rejected');
       });
   },
 });

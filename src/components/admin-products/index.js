@@ -1,19 +1,21 @@
 /* eslint-disable max-len */
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
+import { debounce } from 'lodash';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
 import Pencil from '../../assets/images/Pencil-square.svg';
 import ProductImage from '../../assets/images/product.png';
 import PaginationComponent from '../pagination';
 import Trash from '../../assets/images/Trash.svg';
-import { fetchProducts, searchProducts } from '../../redux/slices/products';
+import { fetchProducts } from '../../redux/slices/products';
 
-import './style.css';
 import CustomAlert from '../alert';
 import Loading from '../loading';
 import ProductsHeading from './admin-products-heading';
 import CustomForm from '../input';
+
+import './style.css';
 
 const Products = () => {
   const products = useSelector((state) => state.products.data);
@@ -22,14 +24,9 @@ const Products = () => {
   const { loading } = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    if (e.target.value !== '') {
-      dispatch(searchProducts(e.target.value));
-    }
-  };
+  const handleSearch = debounce((e) => {
+    dispatch(fetchProducts(e.target.value));
+  }, 500);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -54,9 +51,9 @@ const Products = () => {
             <b className="fs-5 mt-2">Search :</b>
             <CustomForm
               style={{ marginTop: '-20px' }}
-              placeholder="search by name"
+              placeholder="Search by name"
               className="mx-3"
-              value={searchTerm}
+              // value={searchTerm}
               onChange={handleSearch}
             />
           </div>

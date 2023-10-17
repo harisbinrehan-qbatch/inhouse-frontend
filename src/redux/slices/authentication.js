@@ -34,7 +34,6 @@ export const loginUser = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    isAdmin: true,
     signUpError: null,
     loginError: null,
     user: {},

@@ -18,7 +18,6 @@ const Login = ({ header }) => {
   const handleLogin = () => {
     const body = { username, password };
     dispatch(loginUser(body));
-    console.log('Testing');
   };
   return (
     <div>

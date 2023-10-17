@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import Products from '../components/admin-products';
 import Login from '../container/auth/login';
@@ -14,10 +13,9 @@ import UserModuleHeader from '../components/user-module-heading';
 
 const CustomRoutes = () => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const { isAdmin } = useSelector((state) => state.authentication);
 
   if (user?.token) {
-    if (isAdmin) {
+    if (user.isAdmin === true) {
       return (
         <AdminLayout>
           <Routes>

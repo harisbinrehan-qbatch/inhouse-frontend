@@ -6,7 +6,7 @@ function PaginationComponent() {
   const currentPage = useSelector((state) => state.products.page);
   const { isProductError } = useSelector((state) => state.products);
   const dispatch = useDispatch();
-  console.log(isProductError);
+  // console.log(isProductError);
   const handleNextClick = () => {
     dispatch(incrementPage());
   };

@@ -7,7 +7,7 @@ export const fetchProducts = createAsyncThunk(
     try {
       const state = getState();
       const { page } = state.products;
-      const limit = 10;
+      const limit = 7;
       let url = `http://localhost:5000/v1/products/fetchProducts?limit=${limit}&skip=${
         (page - 1) * limit
       }`;
@@ -17,9 +17,9 @@ export const fetchProducts = createAsyncThunk(
       const response = await axios.get(
         url,
       );
-      console.log("Haris", response.data);
+      console.log('Haris', response.data);
       if (response.data.message) {
-        console.log("hhkjjhss");
+        console.log('hhkjjhss');
         return rejectWithValue({ error: response.data.message });
       }
       return response.data.products;
@@ -36,6 +36,20 @@ export const addProduct = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/products/addProduct',
         requestData,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+export const deleteProduct = createAsyncThunk(
+  'products/deleteProduct',
+  async (_id, { rejectWithValue }) => {
+    try {
+      // console.log("createAsyncThunk function", _id);
+      const response = await axios.delete(
+        `http://localhost:5000/v1/products/deleteProduct?_id=${_id}`,
       );
       return response.data;
     } catch (error) {
@@ -86,9 +100,19 @@ const productsSlice = createSlice({
       .addCase(addProduct.fulfilled, (state, action) => {
         state.productMessage = action.payload.message || 'Product added Successfully';
       })
-      .addCase(addProduct.pending, () => {}) // Removed extra parentheses
+      .addCase(addProduct.pending, () => {})
       .addCase(addProduct.rejected, (state) => {
         state.productMessage = 'Error adding product';
+      })
+
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.productMessage = action.payload.message || 'Product deleted Successfully';
+        console.log("In fulfilled", state.productMessage);
+      })
+      .addCase(deleteProduct.pending, () => {})
+      .addCase(deleteProduct.rejected, (state) => {
+        state.productMessage = 'Error deleting product';
+        console.log("In rejected", state.productMessage);
       });
   },
 });

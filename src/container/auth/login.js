@@ -12,9 +12,10 @@ import './style.css';
 
 const Login = ({ header }) => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState('Haris Bin Rehan');
+  const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('123456');
   const { loginError } = useSelector((state) => state.authentication);
+  const { loginMessage } = useSelector((state) => state.authentication);
   const handleLogin = () => {
     const body = { username, password };
     dispatch(loginUser(body));
@@ -25,7 +26,7 @@ const Login = ({ header }) => {
         {loginError && (
           <CustomAlert
             variant="danger"
-            alertText={loginError}
+            alertText={loginMessage}
             className="auth-alert"
           />
         )}

@@ -24,6 +24,7 @@ export const loginUser = createAsyncThunk(
         'http://localhost:5000/v1/auth/signin',
         body,
       );
+      console.log("Response", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -32,44 +33,51 @@ export const loginUser = createAsyncThunk(
 );
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
-    signUpError: null,
-    loginError: null,
+    signUpError: false,
+    signUpMessage: null,
+    loginMessage: null,
+    loginError: false,
     user: {},
+    isAdmin: true,
   },
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('user');
-      state.user = '';
+      localStorage.removeItem("user");
+      state.user = "";
     },
   },
 
   extraReducers: {
     [signUpUser.fulfilled]: (state, action) => {
-      state.signUpError = null;
+      state.signUpError = false;
       state.user = action.payload;
-      state.signUpError = action.payload.message || 'Signup Successful';
-      localStorage.setItem('user', JSON.stringify(action.payload));
+      state.signUpMessage = action.payload.message || "Signup Successful";
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     [signUpUser.pending]: (state) => {
-      state.signUpError = null;
+      state.signUpError = false;
     },
     [signUpUser.rejected]: (state, action) => {
-      state.signUpError = action.payload.message || 'Signup failed';
+      state.signUpError = true;
+      state.signUpMessage = action.payload.message || "Signup failed";
     },
 
     [loginUser.fulfilled]: (state, action) => {
-      state.loginError = null;
+      state.loginError = false;
       state.user = action.payload;
-      state.loginError = action.payload.message || 'Login Successful';
-      localStorage.setItem('user', JSON.stringify(action.payload));
+      state.isAdmin = action.payload.isAdmin;
+      console.log("isAdmin", state.isAdmin);
+      state.loginMessage = action.payload.message || "Login Successful";
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     [loginUser.pending]: (state) => {
-      state.loginError = null;
+      state.loginError = false;
     },
     [loginUser.rejected]: (state, action) => {
-      state.loginError = action.payload.message || 'Login failed';
+      state.loginError = true;
+      state.loginMessage = action.payload.message || "Login failed";
     },
   },
 });

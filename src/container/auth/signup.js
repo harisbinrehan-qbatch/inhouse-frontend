@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Form from '../../components/input';
@@ -17,7 +17,7 @@ const Signup = ({ header }) => {
   const [mobile, setMobile] = useState('03104106129');
   const [signupSuccess, setSignupSuccess] = useState(false);
   const { signUpError } = useSelector((state) => state.authentication);
-
+  const { signUpMessage } = useSelector((state) => state.authentication);
   const handleSignUp = () => {
     const body = {
       username,
@@ -44,16 +44,16 @@ const Signup = ({ header }) => {
         {signUpError && (
           <CustomAlert
             variant="danger"
-            alertText={signUpError}
+            alertText={signUpMessage}
             className="auth-alert"
           />
         )}
         {signupSuccess && (
-        <CustomAlert
-          variant="success"
-          alertText={signUpError}
-          className="auth-alert"
-        />
+          <CustomAlert
+            variant="success"
+            alertText={signUpMessage}
+            className="auth-alert"
+          />
         )}
       </div>
       <div className="login-rectangle">

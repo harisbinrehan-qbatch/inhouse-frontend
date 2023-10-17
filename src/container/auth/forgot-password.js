@@ -20,7 +20,7 @@ const ForgotPassword = ({ header }) => (
         <CustomBtn btnText="Forgot Password" size="default" className="w-100" />
       </div>
       <div className="login-fields text-center login-links">
-        <CustomLink text="No, I remember my password! " textLinkable="Login" link="/login" />
+        <CustomLink text="No, I remember my password! " textLinkable="Login" link="/" />
       </div>
     </div>
   </div>

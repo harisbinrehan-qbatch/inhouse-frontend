@@ -13,16 +13,18 @@ import Trash from '../../assets/images/Trash.svg';
 import {
   deleteProduct,
   fetchProducts,
+  setPageOne,
   setShow,
   setUpdateCanvasShow,
 } from '../../redux/slices/products';
 
-import './style.css';
 import CustomAlert from '../alert';
 import Loading from '../loading';
 import CustomForm from '../input';
 import CustomCanvas from '../canvas';
 import CustomBtn from '../button';
+
+import './style.css';
 
 const colorMap = {
   '#155724': 'green',
@@ -39,7 +41,9 @@ const Products = () => {
   const products = useSelector((state) => state.products.data);
   const { productMessage } = useSelector((state) => state.products);
   const { show, updateCanvasShow } = useSelector((state) => state.products);
-  const { isProductError, page, loading } = useSelector(
+  const {
+    page, isProductError, loading, editSuccess, deleteSuccess, addSuccess,
+  } = useSelector(
     (state) => state.products,
   );
 
@@ -51,13 +55,8 @@ const Products = () => {
 
   const handleUpdateClick = (productId) => {
     setCurrentProductId(productId);
-    // console.log('Product ID: ', currentProductId);
     dispatch(setUpdateCanvasShow());
   };
-
-  const handleSearch = debounce((e) => {
-    dispatch(fetchProducts(e.target.value));
-  }, 500);
 
   const handleDeleteProduct = (productId) => {
     dispatch(deleteProduct(productId));
@@ -65,7 +64,14 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, [page]);
+  }, [page, addSuccess, editSuccess, deleteSuccess]);
+  const handleSetPageOne = () => {
+    dispatch(setPageOne());
+  };
+  const handleSearch = debounce((e) => {
+    handleSetPageOne();
+    dispatch(fetchProducts(e.target.value));
+  }, 500);
 
   return (
     <div>
@@ -73,11 +79,6 @@ const Products = () => {
         <div className="main-div d-flex">
           <h2 className="products-header">Products</h2>
           <div className="header-buttons">
-            <CustomBtn
-              btnText="Import Bulk Products"
-              size="default"
-              className="mx-2"
-            />
             <CustomBtn
               btnText="Add New"
               size="default"
@@ -138,10 +139,10 @@ const Products = () => {
                         alt="thumbnail"
                         className="product-image mx-2"
                       />
-                      {doc.name || ''}
+                      {doc.name}
                     </td>
-                    <td>{doc.size || '___'}</td>
-                    <td>{getColorName(doc.color) || '___'}</td>
+                    <td>{doc.size}</td>
+                    <td>{getColorName(doc.color)}</td>
                     <td>{doc.price || 0}</td>
                     <td>{doc.quantity}</td>
                     <td>

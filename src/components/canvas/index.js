@@ -2,28 +2,30 @@
 import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from 'react-redux';
+
+import CustomForm from '../input';
+import CustomBtn from '../button';
+import CloudBox from './cloud-box';
+import arrowLeft from '../../assets/images/Arrow left.svg';
 import {
   setShow,
   addProduct,
   updateProduct,
   setUpdateCanvasShow,
 } from '../../redux/slices/products';
-import CustomForm from '../input';
+
 import './style.css';
-import CustomBtn from '../button';
-import CloudBox from './cloud-box';
-import arrowLeft from '../../assets/images/Arrow left.svg';
 
 const CustomCanvas = ({ header, btnText, _id }) => {
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     _id,
-    name: 'Polo',
-    price: '90',
+    name: '',
+    price: '',
     size: '',
     color: '',
-    quantity: '10',
+    quantity: '',
   });
 
   const handleClose = () => {

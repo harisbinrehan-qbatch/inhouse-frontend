@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { notification } from 'antd';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -17,7 +18,7 @@ export const fetchProducts = createAsyncThunk(
       const response = await axios.get(
         url,
       );
-      console.log('Haris', response.data);
+
       if (response.data.message) {
         return rejectWithValue({ error: response.data.message });
       }
@@ -46,7 +47,6 @@ export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (_id, { rejectWithValue }) => {
     try {
-      // console.log("createAsyncThunk function", _id);
       const response = await axios.delete(
         `http://localhost:5000/v1/products/deleteProduct?_id=${_id}`,
       );
@@ -61,7 +61,6 @@ export const updateProduct = createAsyncThunk(
   'products/updateProduct',
   async (body, { rejectWithValue }) => {
     try {
-      console.log('createAsyncThunk function', body);
       const response = await axios.put('http://localhost:5000/v1/products/updateProduct', body);
       return response.data;
     } catch (error) {
@@ -78,8 +77,10 @@ const productsSlice = createSlice({
     data: [],
     isProductError: false,
     productMessage: null,
-    page: 1,
     loading: false,
+    editSuccess: false,
+    deleteSuccess: false,
+    addSuccess: false,
   },
   reducers: {
     setShow(state) {
@@ -97,11 +98,13 @@ const productsSlice = createSlice({
     decrementPage(state) {
       state.page -= 1;
     },
+    setPageOne(state) {
+      state.page = 1;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        console.log('In fulfilled', action.payload);
         state.data = action.payload;
         state.isProductError = false;
         state.loading = false;
@@ -115,40 +118,85 @@ const productsSlice = createSlice({
         state.data = [];
         state.isProductError = true;
         state.loading = false;
-        console.log('In Rejected', action.payload.message);
       })
 
       .addCase(addProduct.fulfilled, (state, action) => {
+        state.addSuccess = true;
         state.productMessage = action.payload.message || 'Product added Successfully';
+        notification.success({
+          message: 'Success',
+          description: state.productMessage,
+          type: 'success',
+          duration: 2,
+        });
       })
-      .addCase(addProduct.pending, () => {})
+      .addCase(addProduct.pending, (state) => {
+        state.addSuccess = false;
+      })
       .addCase(addProduct.rejected, (state) => {
+        state.addSuccess = false;
         state.productMessage = 'Error adding product';
+        notification.error({
+          message: 'ERROR!',
+          description: state.productMessage,
+          type: 'success',
+          duration: 2,
+        });
       })
 
       .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.data = action.payload.products;
         state.productMessage = action.payload.message || 'Product deleted Successfully';
-        console.log('In fulfilled', state.productMessage);
+        state.deleteSuccess = true;
+        notification.success({
+          message: 'Success',
+          description: state.productMessage,
+          type: 'success',
+          duration: 2,
+        });
       })
-      .addCase(deleteProduct.pending, () => {})
+      .addCase(deleteProduct.pending, (state) => {
+        state.deleteSuccess = false;
+      })
       .addCase(deleteProduct.rejected, (state) => {
+        state.deleteSuccess = true;
         state.productMessage = 'Error deleting product';
-        console.log('In rejected', state.productMessage);
+        notification.error({
+          message: 'ERROR!',
+          description: state.productMessage,
+          type: 'success',
+          duration: 2,
+        });
       })
 
       .addCase(updateProduct.fulfilled, (state, action) => {
-        state.productMessage = action.payload || 'Product updated Successfully';
-        console.log('In fulfilled', state.productMessage);
+        state.data = action.payload.products;
+        state.productMessage = action.payload.message || 'Product updated Successfully';
+        state.editSuccess = true;
+        notification.success({
+          message: 'Success',
+          description: state.productMessage,
+          type: 'success',
+          duration: 2,
+        });
       })
-      .addCase(updateProduct.pending, () => {})
-      .addCase(updateProduct.rejected, (state) => {
-        state.productMessage = 'Error Updating product';
-        console.log('In rejected', state.productMessage);
+      .addCase(updateProduct.pending, (state) => {
+        state.editSuccess = false;
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.productMessage = action.payload.message || 'Error Updating product';
+        state.editSuccess = false;
+        notification.error({
+          message: 'ERROR!',
+          description: state.productMessage,
+          type: 'success',
+          duration: 2,
+        });
       });
   },
 });
 
 export const {
-  incrementPage, decrementPage, setShow, setUpdateCanvasShow,
+  incrementPage, decrementPage, setPageOne, setShow, setUpdateCanvasShow,
 } = productsSlice.actions;
 export default productsSlice;

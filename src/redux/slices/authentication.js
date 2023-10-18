@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk(
         'http://localhost:5000/v1/auth/signin',
         body,
       );
-      console.log('Response', response.data);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -68,7 +68,6 @@ const authSlice = createSlice({
       state.loginError = false;
       state.user = action.payload;
       state.isAdmin = action.payload.isAdmin;
-      console.log('isAdmin', state.isAdmin);
       state.loginMessage = action.payload.message || 'Login Successful';
       localStorage.setItem('user', JSON.stringify(action.payload));
     },

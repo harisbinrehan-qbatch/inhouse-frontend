@@ -2,33 +2,48 @@
 import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShow, addProduct } from '../../redux/slices/products';
+import {
+  setShow,
+  addProduct,
+  updateProduct,
+  setUpdateCanvasShow,
+} from '../../redux/slices/products';
 import CustomForm from '../input';
 import './style.css';
 import CustomBtn from '../button';
-import CloudBox from './temp';
+import CloudBox from './cloud-box';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 
-const AddProduct = () => {
-  const { show } = useSelector((state) => state.products);
+const CustomCanvas = ({ header, btnText, _id }) => {
+  const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
+    _id,
     name: 'Polo',
     price: '90',
+    size: '',
+    color: '',
     quantity: '10',
   });
 
   const handleClose = () => {
-    dispatch(setShow());
+    if (show) {
+      dispatch(setShow());
+    } else if (updateCanvasShow) {
+      dispatch(setUpdateCanvasShow());
+    }
   };
 
   const handleAddProduct = () => {
     dispatch(addProduct(formData));
   };
+  const handleUpdateProduct = () => {
+    dispatch(updateProduct(formData));
+  };
 
   return (
     <Offcanvas
-      show={show}
+      show={show || updateCanvasShow}
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"
@@ -44,8 +59,8 @@ const AddProduct = () => {
           />
         </div>
         <div className="offcanvas-header.custom-offcanvas-header">
-          <Offcanvas.Header className="">
-            <Offcanvas.Title className="">Add Product</Offcanvas.Title>
+          <Offcanvas.Header>
+            <Offcanvas.Title>{header}</Offcanvas.Title>
           </Offcanvas.Header>
         </div>
       </div>
@@ -67,15 +82,19 @@ const AddProduct = () => {
             <div className="pt-2">
               Size
               <div className="d-flex pt-2 pb-2">
-                {['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'].map((size, index) => (
-                  <div
-                    className={`size rounded p-1 ${formData.size === size ? 'selected' : ''}`}
-                    key={index}
-                    onClick={() => setFormData({ ...formData, size })}
-                  >
-                    {size}
-                  </div>
-                ))}
+                {['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'].map(
+                  (size, index) => (
+                    <div
+                      className={`size rounded p-1 ${
+                        formData.size === size ? 'selected' : ''
+                      }`}
+                      key={index}
+                      onClick={() => setFormData({ ...formData, size })}
+                    >
+                      {size}
+                    </div>
+                  ),
+                )}
               </div>
             </div>
 
@@ -115,10 +134,16 @@ const AddProduct = () => {
             </div>
             <div className="d-flex justify-content-center pt-5">
               <CustomBtn
-                btnText="Save"
+                btnText={btnText}
                 className="d-flex custom-button justify-content-center p-2"
                 size="sm"
-                onClick={handleAddProduct}
+                onClick={() => {
+                  if (show) {
+                    handleAddProduct();
+                  } else if (updateCanvasShow) {
+                    handleUpdateProduct();
+                  }
+                }}
               />
             </div>
           </Offcanvas.Body>
@@ -128,4 +153,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default CustomCanvas;

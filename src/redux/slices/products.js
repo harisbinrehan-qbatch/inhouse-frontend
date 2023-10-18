@@ -19,7 +19,6 @@ export const fetchProducts = createAsyncThunk(
       );
       console.log('Haris', response.data);
       if (response.data.message) {
-        console.log('hhkjjhss');
         return rejectWithValue({ error: response.data.message });
       }
       return response.data.products;
@@ -39,7 +38,7 @@ export const addProduct = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue({ message: error.response.data });
     }
   },
 );
@@ -58,10 +57,24 @@ export const deleteProduct = createAsyncThunk(
   },
 );
 
+export const updateProduct = createAsyncThunk(
+  'products/updateProduct',
+  async (body, { rejectWithValue }) => {
+    try {
+      console.log('createAsyncThunk function', body);
+      const response = await axios.put('http://localhost:5000/v1/products/updateProduct', body);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
     show: false,
+    updateCanvasShow: false,
     data: [],
     isProductError: false,
     productMessage: null,
@@ -72,9 +85,15 @@ const productsSlice = createSlice({
     setShow(state) {
       state.show = !state.show;
     },
+
+    setUpdateCanvasShow(state) {
+      state.updateCanvasShow = !state.updateCanvasShow;
+    },
+
     incrementPage(state) {
       state.page += 1;
     },
+
     decrementPage(state) {
       state.page -= 1;
     },
@@ -82,6 +101,7 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
+        console.log('In fulfilled', action.payload);
         state.data = action.payload;
         state.isProductError = false;
         state.loading = false;
@@ -91,10 +111,11 @@ const productsSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
-        state.productMessage = action.payload.error;
+        state.productMessage = action.payload.message || 'Internal Server Error.';
         state.data = [];
         state.isProductError = true;
         state.loading = false;
+        console.log('In Rejected', action.payload.message);
       })
 
       .addCase(addProduct.fulfilled, (state, action) => {
@@ -107,15 +128,27 @@ const productsSlice = createSlice({
 
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.productMessage = action.payload.message || 'Product deleted Successfully';
-        console.log("In fulfilled", state.productMessage);
+        console.log('In fulfilled', state.productMessage);
       })
       .addCase(deleteProduct.pending, () => {})
       .addCase(deleteProduct.rejected, (state) => {
         state.productMessage = 'Error deleting product';
-        console.log("In rejected", state.productMessage);
+        console.log('In rejected', state.productMessage);
+      })
+
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.productMessage = action.payload || 'Product updated Successfully';
+        console.log('In fulfilled', state.productMessage);
+      })
+      .addCase(updateProduct.pending, () => {})
+      .addCase(updateProduct.rejected, (state) => {
+        state.productMessage = 'Error Updating product';
+        console.log('In rejected', state.productMessage);
       });
   },
 });
 
-export const { incrementPage, decrementPage, setShow } = productsSlice.actions;
+export const {
+  incrementPage, decrementPage, setShow, setUpdateCanvasShow,
+} = productsSlice.actions;
 export default productsSlice;

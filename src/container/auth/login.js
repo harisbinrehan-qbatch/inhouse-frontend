@@ -12,7 +12,7 @@ import './style.css';
 
 const Login = ({ header }) => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState('admin');
+  const [username, setUsername] = useState('Haris Bin Rehan');
   const [password, setPassword] = useState('123456');
   const { loginError } = useSelector((state) => state.authentication);
   const { loginMessage } = useSelector((state) => state.authentication);

@@ -75,6 +75,7 @@ const productsSlice = createSlice({
     show: false,
     updateCanvasShow: false,
     data: [],
+    page: 1,
     isProductError: false,
     productMessage: null,
     loading: false,

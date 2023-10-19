@@ -10,7 +10,8 @@ import Orders from '../components/admin-orders';
 import Dashboard from '../components/admin-dashboard';
 import AdminLayout from '../admin-layout';
 import UserLayout from '../user-layout';
-import UserModuleHeader from '../components/user-module-heading';
+import UserShoppingBag from '../components/user-shopping-bag';
+import UserMainPage from '../components/user-main-page';
 
 const CustomRoutes = () => {
   const { isAdmin } = useSelector((state) => state.authentication);
@@ -32,7 +33,8 @@ const CustomRoutes = () => {
     return (
       <UserLayout>
         <Routes>
-          <Route path="" element={<UserModuleHeader />} />
+          <Route path="" element={<UserMainPage />} />
+          <Route path="/shopping-bag" element={<UserShoppingBag />} />
         </Routes>
       </UserLayout>
     );

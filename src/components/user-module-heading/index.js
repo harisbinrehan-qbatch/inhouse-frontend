@@ -4,8 +4,8 @@ import CustomForm from '../input';
 import './style.css';
 
 const UserModuleHeader = () => (
-  <div className="container d-flex justify-content-between user-header-main-div ps-5 pe-5">
-    <h4 className="header-heading pt-3">Heading</h4>
+  <div className="container d-flex justify-content-between user-header-main-div pe-5 ps-5">
+    <h4 className="header-heading pt-3 ps-4">Heading</h4>
     <div className="d-flex gap-4 pt-3 pb-3">
       <h5 className="pt-2 header-text">Filters:</h5>
       <CustomDropdown dropdownText="Size" prop1="S" prop2="M" prop3="L" />

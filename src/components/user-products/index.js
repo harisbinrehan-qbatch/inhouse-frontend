@@ -46,7 +46,7 @@ const UserProducts = () => {
   ));
 
   return (
-    <div className="d-flex ps-5">
+    <div className="d-flex ps-5 pt-3">
       <div className="d-flex gap-5 p-4 flex-wrap user-products-main-div">
         {productComponents}
       </div>

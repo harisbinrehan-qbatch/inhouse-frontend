@@ -55,7 +55,7 @@ const UserProductsDisplay = ({ product }) => {
           </div>
         </div>
         <div className="d-flex pt-5 justify-content-end">
-          <CustomBtn btnText="Add to cart" />
+          <CustomBtn btnText="Add to cart" link="/shopping-bag" />
         </div>
       </div>
     </div>

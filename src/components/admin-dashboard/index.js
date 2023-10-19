@@ -6,7 +6,7 @@ import './style.css';
 
 const Dashboard = () => (
   <div className="dashboard-main-div">
-    <h2 className="dashboard-header d-flex p-4">Dashboard</h2>
+    <h2 className="heading d-flex p-4">Dashboard</h2>
     <div className="d-flex justify-content-around ps-4 pe-4">
       <DashboardCart
         cartText="Today"

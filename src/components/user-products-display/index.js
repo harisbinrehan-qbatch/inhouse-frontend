@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import CustomBtn from '../button';
 import productImage from '../../assets/images/product.png';
 
@@ -20,7 +19,7 @@ const UserProductsDisplay = ({ product }) => {
             alt="product"
             className="user-products-display-image"
           />
-          <div className="">
+          <div>
             <div className="p-3">{product.name}</div>
             <div className="ps-3">
               Color
@@ -55,7 +54,7 @@ const UserProductsDisplay = ({ product }) => {
           </div>
         </div>
         <div className="d-flex pt-5 justify-content-end">
-          <Link to="/shopping-bag">
+          <Link to={`/shopping-bag?product=${product.id}`}>
             <CustomBtn btnText="Add to cart" />
           </Link>
         </div>

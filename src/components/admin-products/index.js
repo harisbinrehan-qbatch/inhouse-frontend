@@ -48,6 +48,7 @@ const Products = () => {
   );
 
   const dispatch = useDispatch();
+
   const handleAddProductClick = () => {
     dispatch(setShow());
   };
@@ -77,7 +78,7 @@ const Products = () => {
     <div>
       <div className="table-body w-100 h-100 p-4">
         <div className="main-div d-flex">
-          <h2 className="products-header">Products</h2>
+          <h2 className="heading">Products</h2>
           <div className="header-buttons">
             <CustomBtn
               btnText="Add New"
@@ -141,22 +142,22 @@ const Products = () => {
                       />
                       {doc.name}
                     </td>
-                    <td>{doc.size}</td>
-                    <td>{getColorName(doc.color)}</td>
-                    <td>{doc.price || 0}</td>
-                    <td>{doc.quantity}</td>
+                    <td className="pt-4">{doc.size}</td>
+                    <td className="pt-4">{getColorName(doc.color)}</td>
+                    <td className="pt-4">{doc.price || 0}</td>
+                    <td className="pt-4">{doc.quantity}</td>
                     <td>
                       <img
                         src={Pencil}
                         alt="pen"
-                        className="mx-2"
+                        className="mx-2 pt-4"
                         style={{ cursor: 'pointer' }}
                         onClick={() => handleUpdateClick(doc._id)}
                       />
                       <img
                         src={Trash}
                         alt="trash"
-                        className="mx-2"
+                        className="mx-2 pt-4"
                         style={{ cursor: 'pointer' }}
                         onClick={() => handleDeleteProduct(doc._id)}
                       />

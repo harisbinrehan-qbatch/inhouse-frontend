@@ -9,14 +9,12 @@ import './style.css';
 import UserProductsDisplay from '../user-products-display';
 
 const UserProducts = () => {
-  const [selectedProduct, setSelectedProduct] = useState({
-    name: 'No Product Selected',
-  });
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
 
   const products = useSelector((state) => state.products.data);
 
@@ -44,6 +42,14 @@ const UserProducts = () => {
       </div>
     </div>
   ));
+
+  if (products.length === 0) {
+    return (
+      <div className="d-flex ps-5 pt-3 ms-4">
+        <h2 className="heading">No products found.</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="d-flex ps-5 pt-3">

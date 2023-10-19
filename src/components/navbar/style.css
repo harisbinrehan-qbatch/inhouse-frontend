@@ -36,11 +36,10 @@ text-align: right;
     top: 0px;
      z-index: 100;
 } */
-.sticky-section {
+.navbar-sticky-section {
   position: sticky;
-  top: 0; /* Adjust this value to set the sticky position as needed */
-  background-color: white;
-  z-index: 100;
+  top: 0px;
+  background-color: rgb(255, 255, 255);
 }
 
 

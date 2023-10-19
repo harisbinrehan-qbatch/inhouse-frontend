@@ -1,18 +1,22 @@
-.orders-main-div{
-background-color: rgba(233, 236, 239, 1);
+.orders-main-div {
+  background-color: rgba(233, 236, 239, 1);
 }
-.orders-rectangle-main-div{
-    background-color:rgba(255, 255, 255, 1);
-    width: 320px;
-    height: 80px;
+.orders-rectangle-main-div {
+  background-color: rgba(255, 255, 255, 1);
+  width: 320px;
+  height: 80px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+  border: 1px;
 }
 
-.orders-rectangle-text{
-    color: rgba(0, 123, 255, 1);
-    font-family: Inter;
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 29px;
-    letter-spacing: 0px;
-    text-align: left;
+.orders-rectangle-text {
+  color: rgba(0, 123, 255, 1);
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 29px;
+  letter-spacing: 0px;
+  text-align: left;
 }

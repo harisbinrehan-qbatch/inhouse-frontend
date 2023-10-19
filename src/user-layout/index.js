@@ -11,9 +11,7 @@ const UserLayout = ({ children, setIsLoggedIn }) => (
         setIsLoggedIn={setIsLoggedIn}
       />
     </div>
-    <div className="">
-      {children}
-    </div>
+    <div className="card-overlay">{children}</div>
   </div>
 );
 

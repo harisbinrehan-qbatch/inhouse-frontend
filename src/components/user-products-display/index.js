@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import CustomBtn from '../button';
 import productImage from '../../assets/images/product.png';
 
@@ -47,15 +49,15 @@ const UserProductsDisplay = ({ product }) => {
               </div>
               <div className="d-flex ps-1 mt-3">
                 <p>Price:</p>
-                <p>
-                  {product.price}
-                </p>
+                <p>{product.price}</p>
               </div>
             </div>
           </div>
         </div>
         <div className="d-flex pt-5 justify-content-end">
-          <CustomBtn btnText="Add to cart" link="/shopping-bag" />
+          <Link to="/shopping-bag">
+            <CustomBtn btnText="Add to cart" />
+          </Link>
         </div>
       </div>
     </div>

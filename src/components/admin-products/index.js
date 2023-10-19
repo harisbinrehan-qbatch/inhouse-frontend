@@ -108,7 +108,7 @@ const Products = () => {
           <div>
             <Table>
               <thead>
-                <tr className="table-secondary">
+                <tr className="table-secondary mt-3">
                   <th>
                     Name
                     <img src={Arrow} alt="Arrow Icon" className="ps-2" />

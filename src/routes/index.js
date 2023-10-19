@@ -10,8 +10,8 @@ import Orders from '../components/admin-orders';
 import Dashboard from '../components/admin-dashboard';
 import AdminLayout from '../admin-layout';
 import UserLayout from '../user-layout';
-import UserShoppingBag from '../components/user-shopping-bag';
 import UserMainPage from '../components/user-main-page';
+import UserCart from '../components/user-cart';
 
 const CustomRoutes = () => {
   const { isAdmin } = useSelector((state) => state.authentication);
@@ -34,7 +34,7 @@ const CustomRoutes = () => {
       <UserLayout>
         <Routes>
           <Route path="" element={<UserMainPage />} />
-          <Route path="/shopping-bag" element={<UserShoppingBag />} />
+          <Route path="/shopping-bag" element={<UserCart />} />
         </Routes>
       </UserLayout>
     );

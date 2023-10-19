@@ -13,8 +13,8 @@ import UserLayout from '../user-layout';
 import UserModuleHeader from '../components/user-module-heading';
 
 const CustomRoutes = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
   const { isAdmin } = useSelector((state) => state.authentication);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   if (user?.token) {
     if (isAdmin) {
@@ -32,7 +32,7 @@ const CustomRoutes = () => {
     return (
       <UserLayout>
         <Routes>
-          <Route index element={<UserModuleHeader />} />
+          <Route path="" element={<UserModuleHeader />} />
         </Routes>
       </UserLayout>
     );
@@ -53,4 +53,5 @@ const CustomRoutes = () => {
     </Routes>
   );
 };
+
 export default CustomRoutes;

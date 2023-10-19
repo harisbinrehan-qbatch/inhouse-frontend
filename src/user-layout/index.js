@@ -1,6 +1,7 @@
 import CustomNavbar from '../components/navbar';
 import UserProducts from '../components/user-products';
 import UserProductsDisplay from '../components/user-products-display';
+// import UserModuleHeader from '../components/user-module-heading';
 import './style.css';
 
 const UserLayout = ({ children, setIsLoggedIn }) => (

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { loginUser } from '../../redux/slices/authentication';
-import CustomCheckbox from '../../components/checkbox';
 import CustomLink from '../../components/link';
 import CustomBtn from '../../components/button';
 import CustomForm from '../../components/input';
@@ -57,9 +56,6 @@ const Login = ({ header }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </div>
-          <div className="login-fields">
-            <CustomCheckbox id="default-radio" label="Remember me" />
           </div>
           <div className="login-fields">
             <CustomBtn

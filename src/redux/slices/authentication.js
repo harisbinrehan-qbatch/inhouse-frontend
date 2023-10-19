@@ -40,12 +40,22 @@ const authSlice = createSlice({
     loginMessage: null,
     loginError: false,
     user: {},
-    isAdmin: true,
+    isAdmin: false,
   },
   reducers: {
     logout: (state) => {
       localStorage.removeItem('user');
       state.user = '';
+    },
+    setIsAdmin: (state) => {
+      console.log('In setIsAdmin reducer function');
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      if (user.isAdmin === true) {
+        state.isAdmin = true;
+      } else {
+        state.isAdmin = false;
+      }
     },
   },
 
@@ -81,5 +91,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, getToken, getUser } = authSlice.actions;
+export const {
+  logout, getToken, getUser, setIsAdmin,
+} = authSlice.actions;
 export default authSlice;

@@ -4,11 +4,10 @@
 .scrollable-section {
   overflow-y: auto;
   max-height: 100vh;
-  max-height: calc(100vh - 145px);
+  max-height: calc(100vh - 120px);
 }
 .sticky-section {
   position: sticky;
   top: 0;
-  background-color: white;
   z-index: 100;
 }

@@ -4,7 +4,7 @@ import CustomForm from '../input';
 import './style.css';
 
 const UserModuleHeader = () => (
-  <div className="container d-flex justify-content-between">
+  <div className="container d-flex justify-content-between user-header-main-div ps-5 pe-5">
     <h4 className="header-heading pt-3">Heading</h4>
     <div className="d-flex gap-4 pt-3 pb-3">
       <h5 className="pt-2 header-text">Filters:</h5>

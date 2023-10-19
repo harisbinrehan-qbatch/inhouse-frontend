@@ -48,7 +48,6 @@ const Products = () => {
   );
 
   const dispatch = useDispatch();
-
   const handleAddProductClick = () => {
     dispatch(setShow());
   };
@@ -65,6 +64,7 @@ const Products = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [page, addSuccess, editSuccess, deleteSuccess]);
+
   const handleSetPageOne = () => {
     dispatch(setPageOne());
   };

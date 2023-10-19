@@ -1,3 +1,7 @@
+.user-header-main-div{
+    min-width: 100%;
+    background-color: rgba(223, 223, 223, 1);
+}
 .header-heading{
     color: var(--global-01-primary, #007BFF);
     font-family: Inter;
@@ -9,5 +13,4 @@ font-weight: 700;
 line-height: 20px;
 letter-spacing: 0px;
 text-align: left;
-
 }

@@ -37,8 +37,8 @@ function getColorName(hexCode) {
   return colorMap[hexCode] || hexCode;
 }
 const Products = () => {
-  const [currentProductId, setCurrentProductId] = useState();
   const products = useSelector((state) => state.products.data);
+  const [currentProductId, setCurrentProductId] = useState();
   const { productMessage } = useSelector((state) => state.products);
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const {

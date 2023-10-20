@@ -2,7 +2,7 @@
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 1);
   border: 1px;
-  max-height: 400px;
+  min-height: 500px;
   position: sticky;
   top: 95px;
   background-color: white;

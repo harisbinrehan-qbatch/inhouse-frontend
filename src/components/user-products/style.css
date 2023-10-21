@@ -4,8 +4,8 @@
 .product-div {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 1);
-  min-width: 289px;
-  height: 418px;
+  width: 289px;
+  min-height: 418px;
   border-radius: 4px;
   border: 1px;
 }

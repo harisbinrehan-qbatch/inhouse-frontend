@@ -9,9 +9,6 @@ import './style.css';
 import UserProductsDisplay from '../user-products-display';
 
 const UserProducts = () => {
-  const [selectedProduct, setSelectedProduct] = useState({
-    name: 'No Product Selected',
-  });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,6 +16,10 @@ const UserProducts = () => {
   }, []);
 
   const products = useSelector((state) => state.products.data);
+  const initialSelectedProduct = products[0];
+  const [selectedProduct, setSelectedProduct] = useState(
+    initialSelectedProduct,
+  );
 
   const showProductDetails = (product) => {
     setSelectedProduct(product);
@@ -31,7 +32,7 @@ const UserProducts = () => {
         alt="product"
         className="user-product-image p-2"
       />
-      <p className="p-1">{product.name}</p>
+      <p className="p-1 flex-wrap w-100">{product.name}</p>
       <div className="d-flex ps-1">
         <p>Price:</p>
         <p>{product.price}</p>
@@ -48,7 +49,7 @@ const UserProducts = () => {
   if (products.length === 0) {
     return (
       <div className="d-flex ps-5 pt-3 ms-4">
-        <h2 className="heading ">No products found.</h2>
+        <h2 className="heading">No products found.</h2>
       </div>
     );
   }

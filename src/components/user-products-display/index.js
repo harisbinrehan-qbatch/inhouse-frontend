@@ -1,15 +1,24 @@
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import CustomBtn from '../button';
 import productImage from '../../assets/images/product.png';
+import { addToCart } from '../../redux/slices/cart';
 
 import './style.css';
 
 const UserProductsDisplay = ({ product }) => {
+  const { cart } = useSelector((state) => state.cart);
+  console.log('The cart is :', cart);
+  const dispatch = useDispatch();
+
   if (!product) {
     return null;
   }
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  };
 
   return (
     <div>
@@ -56,7 +65,7 @@ const UserProductsDisplay = ({ product }) => {
         </div>
         <div className="d-flex pt-5 justify-content-end">
           <Link to="/shopping-bag">
-            <CustomBtn btnText="Add to cart" />
+            <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
           </Link>
         </div>
       </div>

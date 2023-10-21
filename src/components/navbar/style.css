@@ -31,11 +31,6 @@ line-height: 12px;
 letter-spacing: 0px;
 text-align: right;
 }
-/* .navbar-main-div{
-    position:sticky;
-    top: 0px;
-     z-index: 100;
-} */
 .navbar-sticky-section {
   position: sticky;
   top: 0px;

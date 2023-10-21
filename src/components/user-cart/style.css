@@ -1,6 +1,17 @@
-.heading{
-    color:rgba(0, 123, 255, 1);
+.heading {
+  color: rgba(0, 123, 255, 1);
 }
-.arrow-size{
-    min-width: 40px;
+.arrow-size {
+  min-width: 40px;
+}
+.select-all-main-div {
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 1);
+  min-height: 70px;
+  border-radius: 4px;
+  border: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 930px !important;
 }

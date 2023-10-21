@@ -6,11 +6,19 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     cart: [],
+    mastercardShow: false,
+    proceedToCheckout: false,
   },
   reducers: {
+    setMastercardShow(state) {
+      state.mastercardShow = !state.mastercardShow;
+    },
+    setProceedToCheckout: (state) => {
+      state.proceedToCheckout = !state.proceedToCheckout;
+    },
     addToCart: (state, action) => {
       const productToAdd = action.payload;
-      console.log('Here????', action);
+
       const existingProduct = state.cart.find(
         (item) => item._id === productToAdd._id,
       );
@@ -74,7 +82,9 @@ export const {
   incrementQuantity,
   decrementQuantity,
   selectAllCartItems,
+  setMastercardShow,
   deselectAllCartItems,
+  setProceedToCheckout,
 } = cartSlice.actions;
 
 export default cartSlice;

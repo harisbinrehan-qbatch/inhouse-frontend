@@ -1,0 +1,8 @@
+.master-card{
+    border: solid black;
+    border-radius: 10px;
+    color:white;
+}
+.hidden {
+  display: none;
+}

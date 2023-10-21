@@ -5,20 +5,23 @@ import UserCartSummary from '../user-cart-summary';
 import Arrow from '../../assets/images/Arrow left.svg';
 import CartItem from '../user-cart-item';
 import Trash from '../../assets/images/Trash.svg';
-
+import CustomBtn from '../button';
 import './style.css';
 import {
   deselectAllCartItems,
   selectAllCartItems,
 } from '../../redux/slices/cart';
+import { setShow } from '../../redux/slices/products';
+import AddAddress from '../user-add-address';
+import AddPayment from '../user-add-payment';
 
 function UserCart() {
+  const { show } = useSelector((state) => state.products);
   const { cart } = useSelector((state) => state.cart);
-  console.log('CART', cart);
+  const { proceedToCheckout } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const [selectAll, setSelectAll] = useState(false);
-
-  const dispatch = useDispatch();
 
   const toggleSelectAll = () => {
     setSelectAll(() => !selectAll);
@@ -30,11 +33,15 @@ function UserCart() {
     }
   };
 
+  const handleAddAddressClick = () => {
+    dispatch(setShow());
+  };
+
   return (
     <div className="container">
       <div className="row">
         {cart.length === 0 ? (
-          <div className="col-md-9">
+          <div className="">
             <div className="d-flex p-2 pt-3">
               <Link to="/">
                 <img className="ms-1 pt-2 arrow-size" src={Arrow} alt="<--" />
@@ -54,36 +61,52 @@ function UserCart() {
             </div>
             <div className="col-md-9">
               <div className="container pt1 ms-3 me-5 select-all-main-div">
-                <input
-                  type="checkbox"
-                  checked={selectAll}
-                  onChange={toggleSelectAll}
-                />
-                <span className="container">
-                  Select
-                  {' '}
-                  {cart.length}
-                  {' '}
-                  items
-                </span>
-
-                <img
-                  className={
-                    selectAll ? 'cart-trash-enabled' : 'cart-trash-disabled'
-                  }
-                  src={Trash}
-                  alt="trash"
-                />
+                {proceedToCheckout ? (
+                  <CustomBtn
+                    btnText="Add Delivery Address"
+                    onClick={handleAddAddressClick}
+                  />
+                ) : (
+                  <>
+                    <input
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={toggleSelectAll}
+                    />
+                    <span className="container">
+                      Select
+                      {' '}
+                      {cart.length}
+                      {' '}
+                      items
+                    </span>
+                    <img
+                      className={
+                        selectAll ? 'cart-trash-enabled' : 'cart-trash-disabled'
+                      }
+                      src={Trash}
+                      alt="trash"
+                    />
+                  </>
+                )}
               </div>
 
               {cart.map((cartItem, index) => (
                 <CartItem key={index} cartItem={cartItem} />
               ))}
             </div>
-            <UserCartSummary />
+            <>
+              <UserCartSummary />
+              {proceedToCheckout && (
+                <div className="add-payment-container">
+                  <AddPayment />
+                </div>
+              )}
+            </>
           </>
         )}
       </div>
+      {show && <AddAddress header="Add Delivery Address" />}
     </div>
   );
 }

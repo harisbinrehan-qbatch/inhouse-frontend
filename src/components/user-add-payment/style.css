@@ -1,10 +1,7 @@
-.card-summary-main-div {
+.add-payment-main-div {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 1);
   border: 1px;
   height: 350px;
-  position: sticky;
-  top: 79px;
   background-color: white;
-  z-index: 100;
 }

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import CustomBtn from '../button';
@@ -8,8 +8,8 @@ import { addToCart } from '../../redux/slices/cart';
 import './style.css';
 
 const UserProductsDisplay = ({ product }) => {
-  const { cart } = useSelector((state) => state.cart);
-  console.log('The cart is :', cart);
+  // const { cart } = useSelector((state) => state.cart);
+  // console.log('The cart is :', cart);
   const dispatch = useDispatch();
 
   if (!product) {

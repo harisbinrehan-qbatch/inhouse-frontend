@@ -10,15 +10,13 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const productToAdd = action.payload;
-      // Check if the product is already in the cart
+      console.log('Here????', action);
       const existingProduct = state.cart.find(
         (item) => item._id === productToAdd._id,
       );
       if (existingProduct) {
-        // If the product is in the cart, increment its quantity
         existingProduct.quantity += 1;
       } else {
-        // If the product is not in the cart, add it with quantity 1
         state.cart.push({ ...productToAdd, quantity: 1 });
       }
       notification.success({

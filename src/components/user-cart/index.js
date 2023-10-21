@@ -7,17 +7,21 @@ import CartItem from '../user-cart-item';
 import Trash from '../../assets/images/Trash.svg';
 
 import './style.css';
-import { deselectAllCartItems, selectAllCartItems } from '../../redux/slices/cart'; // Import the actions
+import {
+  deselectAllCartItems,
+  selectAllCartItems,
+} from '../../redux/slices/cart';
 
 function UserCart() {
   const { cart } = useSelector((state) => state.cart);
-  console.log('Cart has:', cart);
+  console.log('CART', cart);
 
   const [selectAll, setSelectAll] = useState(false);
+
   const dispatch = useDispatch();
 
   const toggleSelectAll = () => {
-    setSelectAll(!selectAll);
+    setSelectAll(() => !selectAll);
 
     if (selectAll) {
       dispatch(deselectAllCartItems());
@@ -44,7 +48,7 @@ function UserCart() {
           <>
             <div className="d-flex p-2 pt-3">
               <Link to="/">
-                <img className="ms-1 pt-2 arrow-size" src={Arrow} alt="<--" />
+                <img className="ms-3 pt-2 arrow-size" src={Arrow} alt="<--" />
               </Link>
               <h2 className="heading pt-2 ps-2">Shopping Bag</h2>
             </div>
@@ -55,9 +59,18 @@ function UserCart() {
                   checked={selectAll}
                   onChange={toggleSelectAll}
                 />
-                <span className="container">Select All</span>
+                <span className="container">
+                  Select
+                  {' '}
+                  {cart.length}
+                  {' '}
+                  items
+                </span>
+
                 <img
-                  className="d-flex cart-trash-disabled justify-content-center"
+                  className={
+                    selectAll ? 'cart-trash-enabled' : 'cart-trash-disabled'
+                  }
                   src={Trash}
                   alt="trash"
                 />

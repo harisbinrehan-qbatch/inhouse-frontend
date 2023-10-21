@@ -4,32 +4,23 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from 'react-redux';
 
 import arrowLeft from '../../assets/images/Arrow left.svg';
-import { setShow } from '../../redux/slices/products';
 
 import './style.css';
 import CustomForm from '../input';
 import CustomBtn from '../button';
+import { setMastercardShow } from '../../redux/slices/cart';
 
 const MastercardCanvas = ({ header }) => {
-  const { show } = useSelector((state) => state.products);
+  const { mastercardShow } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  // const [formData, setFormData] = useState({
-  //   _id,
-  //   name: 'Haris Bin Rehan',
-  //   mobile: '03012633285',
-  //   country: 'Pakistan',
-  //   province: 'Punjab',
-  //   city: 'Lahore',
-  //   Address: 'Asia Center, Qbatch',
-  // });
 
   const handleClose = () => {
-    dispatch(setShow());
+    dispatch(setMastercardShow());
   };
 
   return (
     <Offcanvas
-      show={show}
+      show={mastercardShow}
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"

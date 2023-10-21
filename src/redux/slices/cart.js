@@ -11,6 +11,7 @@ const cartSlice = createSlice({
   },
   reducers: {
     setMastercardShow(state) {
+    //   console.log('setMastercardShow', state.mastercardShow);
       state.mastercardShow = !state.mastercardShow;
     },
     setProceedToCheckout: (state) => {

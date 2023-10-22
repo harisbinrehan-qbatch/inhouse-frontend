@@ -9,7 +9,9 @@ import MastercardCanvas from '../mastercard-canvas';
 import { setMastercardShow } from '../../redux/slices/cart';
 
 function AddPayment() {
-  const { mastercardShow } = useSelector((state) => state.cart);
+  const { mastercardShow, haveAddress, paymentDetails } = useSelector(
+    (state) => state.cart,
+  );
   const dispatch = useDispatch();
 
   const handleAddPaymentDetails = () => {
@@ -32,6 +34,7 @@ function AddPayment() {
         />
       </div>
       {mastercardShow && <MastercardCanvas header="Add Payment Method" />}
+      {haveAddress && paymentDetails && <CustomBtn className="d-flex my-4" btnText="Place Order" variant="success" />}
     </div>
   );
 }

@@ -12,14 +12,16 @@ import {
   deselectAllCartItems,
   selectAllCartItems,
   setAddressShow,
+  setChangeAddressShow,
 } from '../../redux/slices/cart';
 import AddAddress from '../user-add-address-canvas';
 import AddPayment from '../user-add-payment';
 import AddressBox from '../user-address-box';
+import ChangeAddressCanvas from '../user-change-address-canvas';
 
 function UserCart() {
   const {
-    addressShow, cart, proceedToCheckout, haveAddress, addresses,
+    addressShow, changeAddressShow, cart, proceedToCheckout, haveAddress, addresses,
   } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
@@ -38,6 +40,9 @@ function UserCart() {
 
   const handleAddAddressClick = () => {
     dispatch(setAddressShow());
+  };
+  const handleChangeAddressClick = () => {
+    dispatch(setChangeAddressShow());
   };
 
   return (
@@ -63,7 +68,7 @@ function UserCart() {
               <h2 className="heading pt-2 ps-2">Shopping Bag</h2>
             </div>
             <div className="col-md-9">
-              <div className="container pt1 ms-3 me-5 select-all-main-div">
+              <div className="container pt1 ms-4 me-5 select-all-main-div">
                 {proceedToCheckout ? (
                   haveAddress ? (
                     <div className="d-flex w-100 justify-content-between">
@@ -72,7 +77,12 @@ function UserCart() {
                         mobile={addresses[0].mobile}
                         address={addresses[0].address}
                       />
-                      <CustomBtn btnText="Change" variant="light" className="m-3" />
+                      <CustomBtn
+                        btnText="Change"
+                        variant="light"
+                        className="m-3"
+                        onClick={handleChangeAddressClick}
+                      />
                     </div>
                   ) : (
                     <CustomBtn
@@ -120,7 +130,11 @@ function UserCart() {
           </>
         )}
       </div>
-      {addressShow && <AddAddress header="Add Delivery Address" />}
+      {addressShow ? (
+        <AddAddress header="Add Delivery Address" />
+      ) : changeAddressShow ? (
+        <ChangeAddressCanvas header="Choose Address" />
+      ) : null}
     </div>
   );
 }

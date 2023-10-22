@@ -47,7 +47,7 @@ function CartItem({ cartItem }) {
 
   return (
     <div
-      className={`d-flex cart-item-main-div m-3 ${
+      className={`d-flex cart-item-main-div my-3 ms-4 me-3 ${
         isSelected ? 'selected' : ''
       }`}
     >

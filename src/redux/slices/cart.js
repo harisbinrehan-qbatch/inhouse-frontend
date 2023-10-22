@@ -11,13 +11,16 @@ const cartSlice = createSlice({
     paymentDetails: null,
     orderSummary: null,
     mastercardShow: false,
+    changeAddressShow: false,
     addressShow: false,
     proceedToCheckout: false,
   },
   reducers: {
     setPaymentDetails: (state, action) => {
       if (
-        Object.values(action.payload).some((field) => field === null || field === '')
+        Object.values(action.payload).some(
+          (field) => field === null || field === '',
+        )
       ) {
         notification.error({
           message: 'Error',
@@ -26,7 +29,6 @@ const cartSlice = createSlice({
           duration: 2,
         });
       } else {
-        // If no field is empty, update the state and show a success notification
         state.paymentDetails = action.payload;
         notification.success({
           message: 'Success',
@@ -53,8 +55,12 @@ const cartSlice = createSlice({
     setMastercardShow(state) {
       state.mastercardShow = !state.mastercardShow;
     },
+    setChangeAddressShow(state) {
+      state.changeAddressShow = !state.changeAddressShow;
+    },
     setAddressShow(state) {
       state.addressShow = !state.addressShow;
+      console.log('Here????', state.addressShow);
     },
     setProceedToCheckout: (state) => {
       state.proceedToCheckout = !state.proceedToCheckout;
@@ -131,6 +137,7 @@ export const {
   setMastercardShow,
   setAddressShow,
   setProceedToCheckout,
+  setChangeAddressShow,
   setOrderSummary,
   addAddress,
   setPaymentDetails,

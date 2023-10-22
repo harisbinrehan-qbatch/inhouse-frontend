@@ -11,7 +11,7 @@ const MasterCard = () => {
     ? paymentDetails.cardNumber.match(/.{3}/g).join(' ')
     : '0000 0000 0000 0000';
 
-  console.log('Payment Details', paymentDetails);
+  // console.log('Payment Details', paymentDetails);
   const cardBackStyle = {
     backgroundImage: `url(${CardBack})`,
     backgroundSize: 'cover',

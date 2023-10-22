@@ -7,6 +7,7 @@ const cartSlice = createSlice({
   initialState: {
     cart: [],
     addresses: [],
+    haveAddress: false,
     paymentDetails: null,
     orderSummary: null,
     mastercardShow: false,
@@ -15,14 +16,27 @@ const cartSlice = createSlice({
   },
   reducers: {
     setPaymentDetails: (state, action) => {
-      state.paymentDetails = action.payload;
-      notification.success({
-        message: 'Success',
-        description: 'Payment details added successfully.',
-        type: 'success',
-        duration: 2,
-      });
+      if (
+        Object.values(action.payload).some((field) => field === null || field === '')
+      ) {
+        notification.error({
+          message: 'Error',
+          description: 'Payment fields cannot be empty.',
+          type: 'error',
+          duration: 2,
+        });
+      } else {
+        // If no field is empty, update the state and show a success notification
+        state.paymentDetails = action.payload;
+        notification.success({
+          message: 'Success',
+          description: 'Payment details added successfully.',
+          type: 'success',
+          duration: 2,
+        });
+      }
     },
+
     addAddress: (state, action) => {
       state.addresses.push(action.payload);
       notification.success({
@@ -31,6 +45,7 @@ const cartSlice = createSlice({
         type: 'success',
         duration: 2,
       });
+      state.haveAddress = true;
     },
     setOrderSummary: (state, action) => {
       state.orderSummary = action.payload;

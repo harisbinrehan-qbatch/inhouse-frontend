@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,13 +13,15 @@ import {
   selectAllCartItems,
   setAddressShow,
 } from '../../redux/slices/cart';
-import AddAddress from '../user-add-address';
+import AddAddress from '../user-add-address-canvas';
 import AddPayment from '../user-add-payment';
+import AddressBox from '../user-address-box';
 
 function UserCart() {
-  const { addressShow } = useSelector((state) => state.cart);
-  const { cart } = useSelector((state) => state.cart);
-  const { proceedToCheckout } = useSelector((state) => state.cart);
+  const {
+    addressShow, cart, proceedToCheckout, haveAddress, addresses,
+  } = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
 
   const [selectAll, setSelectAll] = useState(false);
@@ -62,10 +65,21 @@ function UserCart() {
             <div className="col-md-9">
               <div className="container pt1 ms-3 me-5 select-all-main-div">
                 {proceedToCheckout ? (
-                  <CustomBtn
-                    btnText="Add Delivery Address"
-                    onClick={handleAddAddressClick}
-                  />
+                  haveAddress ? (
+                    <div className="d-flex w-100 justify-content-between">
+                      <AddressBox
+                        name={addresses[0].name}
+                        mobile={addresses[0].mobile}
+                        address={addresses[0].address}
+                      />
+                      <CustomBtn btnText="Change" variant="light" className="m-3" />
+                    </div>
+                  ) : (
+                    <CustomBtn
+                      btnText="Add Delivery Address"
+                      onClick={handleAddAddressClick}
+                    />
+                  )
                 ) : (
                   <>
                     <input

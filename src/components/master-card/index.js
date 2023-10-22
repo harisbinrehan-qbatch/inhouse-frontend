@@ -1,13 +1,17 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 import MasterCardImage from '../../assets/images/mastercard.svg';
 import CardBack from '../../assets/images/card-background.png';
 import './style.css';
 
-const MasterCard = ({
-  cardNumber, cardholderName, expirationDate, cvc,
-}) => {
-  const formattedCardNumber = cardNumber.match(/.{3}/g).join(' ');
+const MasterCard = () => {
+  const { paymentDetails } = useSelector((state) => state.cart);
 
+  // Add a null check before accessing paymentDetails.cardNumber
+  const formattedCardNumber = paymentDetails && paymentDetails.cardNumber
+    ? paymentDetails.cardNumber.match(/.{3}/g).join(' ')
+    : '0000 0000 0000 0000';
+
+  console.log('Payment Details', paymentDetails);
   const cardBackStyle = {
     backgroundImage: `url(${CardBack})`,
     backgroundSize: 'cover',
@@ -32,15 +36,17 @@ const MasterCard = ({
       </div>
       <div className="d-flex gap-5">
         <div style={{ fontStyle: 'italic' }} className="d-flex ps-4">
-          {expirationDate}
+          {paymentDetails && (paymentDetails.expiryDate || '00/00')}
         </div>
-        <div style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{cvc}</div>
+        <div style={{ fontStyle: 'italic', fontWeight: 'bold' }}>
+          {paymentDetails && (paymentDetails.cvc || '123')}
+        </div>
       </div>
       <div
         className="d-flex py-2 ps-4 pe-4 justify-content-around"
         style={{ fontWeight: 'bold' }}
       >
-        {cardholderName}
+        {paymentDetails && (paymentDetails.cardholderName || 'Dummy Name')}
       </div>
     </div>
   );

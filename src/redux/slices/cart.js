@@ -6,13 +6,40 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     cart: [],
+    addresses: [],
+    paymentDetails: null,
+    orderSummary: null,
     mastercardShow: false,
+    addressShow: false,
     proceedToCheckout: false,
   },
   reducers: {
+    setPaymentDetails: (state, action) => {
+      state.paymentDetails = action.payload;
+      notification.success({
+        message: 'Success',
+        description: 'Payment details added successfully.',
+        type: 'success',
+        duration: 2,
+      });
+    },
+    addAddress: (state, action) => {
+      state.addresses.push(action.payload);
+      notification.success({
+        message: 'Success',
+        description: 'Address added successfully.',
+        type: 'success',
+        duration: 2,
+      });
+    },
+    setOrderSummary: (state, action) => {
+      state.orderSummary = action.payload;
+    },
     setMastercardShow(state) {
-    //   console.log('setMastercardShow', state.mastercardShow);
       state.mastercardShow = !state.mastercardShow;
+    },
+    setAddressShow(state) {
+      state.addressShow = !state.addressShow;
     },
     setProceedToCheckout: (state) => {
       state.proceedToCheckout = !state.proceedToCheckout;
@@ -26,7 +53,9 @@ const cartSlice = createSlice({
       if (existingProduct) {
         existingProduct.quantity += 1;
       } else {
+        console.log('Here?', state.cart);
         state.cart.push({ ...productToAdd, quantity: 1 });
+        console.log('Here after?', state.cart);
       }
       notification.success({
         message: 'Success',
@@ -36,6 +65,7 @@ const cartSlice = createSlice({
       });
     },
     removeFromCart: (state, action) => {
+      console.log('removeFromCart', action.payload);
       const itemIdToRemove = action.payload._id;
       state.cart = state.cart.filter((item) => item._id !== itemIdToRemove);
       notification.success({
@@ -64,7 +94,6 @@ const cartSlice = createSlice({
       }
     },
     selectAllCartItems: (state) => {
-      console.log('INREDUX', state.cart);
       state.cart.forEach((item) => {
         item.selected = true;
       });
@@ -83,9 +112,13 @@ export const {
   incrementQuantity,
   decrementQuantity,
   selectAllCartItems,
-  setMastercardShow,
   deselectAllCartItems,
+  setMastercardShow,
+  setAddressShow,
   setProceedToCheckout,
+  setOrderSummary,
+  addAddress,
+  setPaymentDetails,
 } = cartSlice.actions;
 
 export default cartSlice;

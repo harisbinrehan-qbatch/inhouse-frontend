@@ -1,28 +1,38 @@
+import React, { useEffect } from 'react'; // Make sure to import React if you're using JSX
 import { useSelector, useDispatch } from 'react-redux';
-
+import { setOrderSummary, setProceedToCheckout } from '../../redux/slices/cart';
 import CustomBtn from '../button';
-import { setProceedToCheckout } from '../../redux/slices/cart';
 
 import './style.css';
 
 function UserCartSummary() {
-  const cart = useSelector((state) => state.cart.cart);
-
+  const { cart, orderSummary } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const handleSetProceedToCheckout = () => {
     dispatch(setProceedToCheckout());
   };
 
-  const subTotal = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0,
-  );
+  useEffect(() => {
+    // Save order summary details to Redux state and set 'proceedToCheckout' to true
+    const subTotal = cart.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0,
+    );
 
-  const taxRate = 0.1;
-  const tax = subTotal * taxRate;
+    const taxRate = 0.1;
+    const tax = subTotal * taxRate;
 
-  const total = subTotal + tax;
+    const total = subTotal + tax;
+
+    dispatch(
+      setOrderSummary({
+        subTotal,
+        tax,
+        total,
+      }),
+    );
+  }, [cart, dispatch]);
 
   return (
     <div className="card-summary-main-div col-md-3">
@@ -30,15 +40,15 @@ function UserCartSummary() {
         <h3 className="heading">Order Summary</h3>
         <h5 className="pt-3">
           Sub Total: $
-          {subTotal.toFixed(2)}
+          {orderSummary ? orderSummary.subTotal.toFixed(2) : 'N/A'}
         </h5>
         <h5 className="pt-3">
           Tax: $
-          {tax.toFixed(2)}
+          {orderSummary ? orderSummary.tax.toFixed(2) : 'N/A'}
         </h5>
         <h5 className="pt-3">
           Total: $
-          {total.toFixed(2)}
+          {orderSummary ? orderSummary.total.toFixed(2) : 'N/A'}
         </h5>
       </div>
       <div className="d-flex justify-content-center pt-3">

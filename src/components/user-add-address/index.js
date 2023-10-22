@@ -1,37 +1,51 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-// import React, { useState } from 'react';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import arrowLeft from '../../assets/images/Arrow left.svg';
-import {
-  setShow,
-} from '../../redux/slices/products';
-
-import './style.css';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import { setAddressShow, addAddress } from '../../redux/slices/cart';
 import CustomForm from '../input';
 import CustomBtn from '../button';
 
+import arrowLeft from '../../assets/images/Arrow left.svg';
+
+import './style.css';
+
 const AddAddress = ({ header }) => {
-  const { show } = useSelector((state) => state.products);
+  const [name, setName] = useState('Haris Bin Rehan');
+  const [mobile, setMobile] = useState('03104106129');
+  const [country, setCountry] = useState('Pakistan');
+  const [province, setProvince] = useState('Punjab');
+  const [city, setCity] = useState('Lahore');
+  const [address, setAddress] = useState('Asia center, Qbatch');
+  const [isDefault, setIsDefault] = useState(false);
+  const { addressShow } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  // const [formData, setFormData] = useState({
-  //   _id,
-  //   name: 'Haris Bin Rehan',
-  //   mobile: '03012633285',
-  //   country: 'Pakistan',
-  //   province: 'Punjab',
-  //   city: 'Lahore',
-  //   Address: 'Asia Center, Qbatch',
-  // });
 
   const handleClose = () => {
-    dispatch(setShow());
+    dispatch(setAddressShow());
+  };
+
+  const handleSaveAddress = () => {
+    // Create a new address object with the provided data
+    const newAddress = {
+      name,
+      mobile,
+      country,
+      province,
+      city,
+      address,
+      isDefault, // Include the isDefault value
+    };
+
+    // Dispatch the addAddress action to add the new address to the Redux store
+    dispatch(addAddress(newAddress));
+
+    // Close the Offcanvas
+    handleClose();
   };
 
   return (
     <Offcanvas
-      show={show}
+      show={addressShow}
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"
@@ -58,29 +72,69 @@ const AddAddress = ({ header }) => {
           <Offcanvas.Body>
             <div className="container pt-2">
               <div>
-                <CustomForm label="Name" placeholder="Please enter name" />
+                <CustomForm
+                  label="Name"
+                  placeholder="Please enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
               <div className="d-flex justify-content-between pt-4">
                 <div>
-                  <CustomForm label="Mobile #" placeholder="Mobile #" />
+                  <CustomForm
+                    label="Mobile #"
+                    placeholder="Mobile #"
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                  />
                 </div>
                 <div>
-                  <CustomForm label="Country" placeholder="Country" />
+                  <CustomForm
+                    label="Country"
+                    placeholder="Country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="d-flex justify-content-between pt-4">
                 <div>
-                  <CustomForm label="Province" placeholder="Province" />
+                  <CustomForm
+                    label="Province"
+                    placeholder="Province"
+                    value={province}
+                    onChange={(e) => setProvince(e.target.value)}
+                  />
                 </div>
                 <div>
-                  <CustomForm label="City" placeholder="City" />
+                  <CustomForm
+                    label="City"
+                    placeholder="City"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                  />
                 </div>
               </div>
               <div className=" pt-4">
-                <CustomForm label="Address" placeholder="Address" />
+                <CustomForm
+                  label="Address"
+                  placeholder="Address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+              <div className="d-flex pt-4">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={isDefault}
+                    onChange={() => setIsDefault(!isDefault)}
+                  />
+                </label>
+                <p className="ps-3">Set as default address</p>
               </div>
               <div className="mt-5">
-                <CustomBtn btnText="Save" />
+                <CustomBtn btnText="Save" onClick={handleSaveAddress} />
               </div>
             </div>
           </Offcanvas.Body>

@@ -11,9 +11,8 @@ import { setMastercardShow } from '../../redux/slices/cart';
 function AddPayment() {
   const { mastercardShow } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  console.log(mastercardShow);
+
   const handleAddPaymentDetails = () => {
-    console.log('Here?????');
     dispatch(setMastercardShow());
   };
 

@@ -10,13 +10,13 @@ import './style.css';
 import {
   deselectAllCartItems,
   selectAllCartItems,
+  setAddressShow,
 } from '../../redux/slices/cart';
-import { setShow } from '../../redux/slices/products';
 import AddAddress from '../user-add-address';
 import AddPayment from '../user-add-payment';
 
 function UserCart() {
-  const { show } = useSelector((state) => state.products);
+  const { addressShow } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state.cart);
   const { proceedToCheckout } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function UserCart() {
   };
 
   const handleAddAddressClick = () => {
-    dispatch(setShow());
+    dispatch(setAddressShow());
   };
 
   return (
@@ -106,7 +106,7 @@ function UserCart() {
           </>
         )}
       </div>
-      {show && <AddAddress header="Add Delivery Address" />}
+      {addressShow && <AddAddress header="Add Delivery Address" />}
     </div>
   );
 }

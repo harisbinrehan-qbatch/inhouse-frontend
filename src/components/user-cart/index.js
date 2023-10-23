@@ -7,7 +7,6 @@ import Arrow from '../../assets/images/Arrow left.svg';
 import CartItem from '../user-cart-item';
 import Trash from '../../assets/images/Trash.svg';
 import CustomBtn from '../button';
-import './style.css';
 import {
   deselectAllCartItems,
   selectAllCartItems,
@@ -19,15 +18,19 @@ import AddPayment from '../user-add-payment';
 import AddressBox from '../user-address-box';
 import ChangeAddressCanvas from '../user-change-address-canvas';
 
+import './style.css';
+
 function UserCart() {
   const {
     addressShow,
     changeAddressShow,
-    cart,
+    cartProducts,
     proceedToCheckout,
     haveAddress,
     addresses,
   } = useSelector((state) => state.cart);
+
+  // console.log('jhasdhjaskdj', addressShow);
 
   const dispatch = useDispatch();
 
@@ -55,7 +58,7 @@ function UserCart() {
   return (
     <div className="container">
       <div className="row">
-        {cart.length === 0 ? (
+        {cartProducts.length === 0 ? (
           <div className="">
             <div className="d-flex p-2 pt-3">
               <Link to="/">
@@ -108,7 +111,7 @@ function UserCart() {
                     <span className="container">
                       Select
                       {' '}
-                      {cart.length}
+                      {cartProducts.length}
                       {' '}
                       items
                     </span>
@@ -123,7 +126,7 @@ function UserCart() {
                 )}
               </div>
 
-              {cart.map((cartItem, index) => (
+              {cartProducts.map((cartItem, index) => (
                 <CartItem key={index} cartItem={cartItem} />
               ))}
             </div>

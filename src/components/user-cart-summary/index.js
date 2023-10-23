@@ -6,7 +6,7 @@ import CustomBtn from '../button';
 import './style.css';
 
 function UserCartSummary() {
-  const { cart, orderSummary } = useSelector((state) => state.cart);
+  const { cartProducts, orderSummary } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const handleSetProceedToCheckout = () => {
@@ -15,7 +15,7 @@ function UserCartSummary() {
 
   useEffect(() => {
     // Save order summary details to Redux state and set 'proceedToCheckout' to true
-    const subTotal = cart.reduce(
+    const subTotal = cartProducts.reduce(
       (total, item) => total + item.price * item.quantity,
       0,
     );
@@ -32,7 +32,7 @@ function UserCartSummary() {
         total,
       }),
     );
-  }, [cart, dispatch]);
+  }, [cartProducts, dispatch]);
 
   return (
     <div className="card-summary-main-div col-md-3">

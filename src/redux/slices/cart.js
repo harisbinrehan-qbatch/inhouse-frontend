@@ -1,16 +1,33 @@
 /* eslint-disable no-underscore-dangle */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 import { notification } from 'antd';
+
+export const placeOrder = createAsyncThunk(
+  'cart/placeOrder',
+  async (requestData, { rejectWithValue }) => {
+    console.log('in createAsyncThunk', requestData);
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/v1/orders/placeOrder',
+        requestData,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    userId: null,
-    cart: [],
+    cartProducts: [],
     addresses: [],
-    haveAddress: false,
     paymentDetails: null,
     orderSummary: null,
+    orderSuccess: false,
+    haveAddress: false,
     mastercardShow: false,
     changeAddressShow: false,
     addressShow: false,
@@ -18,15 +35,16 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      const { product, user } = action.payload;
-      const productToAdd = { ...product, user };
-      state.userId = action.payload.user.userId;
-      const existingProduct = state.cart.find((item) => item._id === productToAdd._id);
+      const { product } = action.payload;
+      const productToAdd = { ...product };
+      const existingProduct = state.cartProducts.find(
+        (item) => item._id === productToAdd._id,
+      );
 
       if (existingProduct) {
         existingProduct.quantity += 1;
       } else {
-        state.cart.push({ ...productToAdd, quantity: 1 });
+        state.cartProducts.push({ ...productToAdd, quantity: 1 });
       }
       notification.success({
         message: 'Success',
@@ -99,7 +117,9 @@ const cartSlice = createSlice({
     removeFromCart: (state, action) => {
       console.log('removeFromCart', action.payload);
       const itemIdToRemove = action.payload._id;
-      state.cart = state.cart.filter((item) => item._id !== itemIdToRemove);
+      state.cartProducts = state.cartProducts.filter(
+        (item) => item._id !== itemIdToRemove,
+      );
       notification.success({
         message: 'Success',
         description: 'Product removed from cart.',
@@ -109,7 +129,7 @@ const cartSlice = createSlice({
     },
     incrementQuantity: (state, action) => {
       const itemIdToIncrement = action.payload._id;
-      const productToIncrement = state.cart.find(
+      const productToIncrement = state.cartProducts.find(
         (item) => item._id === itemIdToIncrement,
       );
       if (productToIncrement) {
@@ -118,7 +138,7 @@ const cartSlice = createSlice({
     },
     decrementQuantity: (state, action) => {
       const itemIdToDecrement = action.payload._id;
-      const productToDecrement = state.cart.find(
+      const productToDecrement = state.cartProducts.find(
         (item) => item._id === itemIdToDecrement,
       );
       if (productToDecrement && productToDecrement.quantity > 1) {
@@ -126,15 +146,41 @@ const cartSlice = createSlice({
       }
     },
     selectAllCartItems: (state) => {
-      state.cart.forEach((item) => {
+      state.cartProducts.forEach((item) => {
         item.selected = true;
       });
     },
     deselectAllCartItems: (state) => {
-      state.cart.forEach((item) => {
+      state.cartProducts.forEach((item) => {
         item.selected = false;
       });
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(placeOrder.fulfilled, (state, action) => {
+        state.orderSuccess = true;
+        state.orderMessage = action.payload.message || 'Order Placed Successfully';
+        notification.success({
+          message: 'Success',
+          description: state.orderMessage,
+          type: 'success',
+          duration: 2,
+        });
+      })
+      .addCase(placeOrder.pending, (state) => {
+        state.orderSuccess = false;
+      })
+      .addCase(placeOrder.rejected, (state) => {
+        state.orderSuccess = false;
+        state.orderMessage = 'Error placing order';
+        notification.error({
+          message: 'ERROR!',
+          description: state.orderMessage,
+          type: 'success',
+          duration: 2,
+        });
+      });
   },
 });
 

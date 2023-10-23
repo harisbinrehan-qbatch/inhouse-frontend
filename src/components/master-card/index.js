@@ -9,7 +9,7 @@ const MasterCard = () => {
   // Add a null check before accessing paymentDetails.cardNumber
   const formattedCardNumber = paymentDetails && paymentDetails.cardNumber
     ? paymentDetails.cardNumber.slice(12, 16) // Corrected this line
-    : '0000 0000 0000 0000';
+    : '00';
 
   // console.log('Payment Details', paymentDetails);
   const cardBackStyle = {
@@ -39,7 +39,7 @@ const MasterCard = () => {
           {paymentDetails ? paymentDetails.expiryDate || '00/00' : '00/00'}
         </div>
         <div style={{ fontStyle: 'italic', fontWeight: 'bold' }}>
-          {paymentDetails ? paymentDetails.cvc || '123' : '123'}
+          {paymentDetails ? paymentDetails.cvc || '123' : '000'}
         </div>
       </div>
       <div

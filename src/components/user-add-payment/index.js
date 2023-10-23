@@ -6,10 +6,12 @@ import MasterCard from '../master-card';
 
 import './style.css';
 import MastercardCanvas from '../mastercard-canvas';
-import { setMastercardShow } from '../../redux/slices/cart';
+import { placeOrder, setMastercardShow } from '../../redux/slices/cart';
 
 function AddPayment() {
-  const { mastercardShow, haveAddress, paymentDetails } = useSelector(
+  const {
+    mastercardShow, haveAddress, paymentDetails, cartProducts, orderSummary,
+  } = useSelector(
     (state) => state.cart,
   );
   const dispatch = useDispatch();
@@ -18,6 +20,17 @@ function AddPayment() {
     dispatch(setMastercardShow());
   };
 
+  const handlePlaceOrder = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    const requestData = {
+      userId: user.userId,
+      products: cartProducts,
+      orderSummary,
+    };
+
+    dispatch(placeOrder(requestData));
+  };
   return (
     <div className="container add-payment-main-div col-md-3">
       <h2 className="p-2 heading">Add Payment</h2>
@@ -34,7 +47,7 @@ function AddPayment() {
         />
       </div>
       {mastercardShow && <MastercardCanvas header="Add Payment Method" />}
-      {haveAddress && paymentDetails && <CustomBtn className="d-flex my-4" btnText="Place Order" variant="success" />}
+      {haveAddress && paymentDetails && <CustomBtn className="d-flex my-4" btnText="Place Order" variant="success" onClick={handlePlaceOrder} />}
     </div>
   );
 }

@@ -23,7 +23,6 @@ const MastercardCanvas = ({ header }) => {
   };
 
   const handleSavePaymentDetails = () => {
-    // Create an object to store payment details
     const paymentDetails = {
       cardNumber,
       expiryDate,
@@ -32,7 +31,7 @@ const MastercardCanvas = ({ header }) => {
     };
 
     dispatch(setPaymentDetails(paymentDetails));
-    // handleClose();
+    handleClose();
   };
 
   return (

@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk(
         'http://localhost:5000/v1/auth/signin',
         body,
       );
-
+      console.log('in login aync', response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

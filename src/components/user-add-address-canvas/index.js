@@ -33,10 +33,9 @@ const AddAddress = ({ header }) => {
       province,
       city,
       address,
-      isDefault, // Include the isDefault value
+      isDefault,
     };
 
-    // Dispatch the addAddress action to add the new address to the Redux store
     dispatch(addAddress(newAddress));
 
     // Close the Offcanvas

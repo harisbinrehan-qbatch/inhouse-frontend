@@ -5,6 +5,7 @@ import { notification } from 'antd';
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
+    userId: null,
     cart: [],
     addresses: [],
     haveAddress: false,
@@ -16,6 +17,37 @@ const cartSlice = createSlice({
     proceedToCheckout: false,
   },
   reducers: {
+    addToCart: (state, action) => {
+      const { product, user } = action.payload;
+      const productToAdd = { ...product, user };
+      state.userId = action.payload.user.userId;
+      const existingProduct = state.cart.find((item) => item._id === productToAdd._id);
+
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        state.cart.push({ ...productToAdd, quantity: 1 });
+      }
+      notification.success({
+        message: 'Success',
+        description: 'Product added to the cart.',
+        type: 'success',
+        duration: 2,
+      });
+    },
+
+    setDefaultAddress: (state, action) => {
+      console.log('In setDefaultAddress', action.payload);
+      state.addresses = state.addresses.map((singleAddress, index) => {
+        if (index === action.payload) {
+          singleAddress.isDefault = true;
+        } else {
+          singleAddress.isDefault = false;
+        }
+        return singleAddress;
+      });
+    },
+
     setPaymentDetails: (state, action) => {
       if (
         Object.values(action.payload).some(
@@ -60,30 +92,9 @@ const cartSlice = createSlice({
     },
     setAddressShow(state) {
       state.addressShow = !state.addressShow;
-      console.log('Here????', state.addressShow);
     },
     setProceedToCheckout: (state) => {
       state.proceedToCheckout = !state.proceedToCheckout;
-    },
-    addToCart: (state, action) => {
-      const productToAdd = action.payload;
-
-      const existingProduct = state.cart.find(
-        (item) => item._id === productToAdd._id,
-      );
-      if (existingProduct) {
-        existingProduct.quantity += 1;
-      } else {
-        console.log('Here?', state.cart);
-        state.cart.push({ ...productToAdd, quantity: 1 });
-        console.log('Here after?', state.cart);
-      }
-      notification.success({
-        message: 'Success',
-        description: 'Product added to the cart.',
-        type: 'success',
-        duration: 2,
-      });
     },
     removeFromCart: (state, action) => {
       console.log('removeFromCart', action.payload);
@@ -141,6 +152,7 @@ export const {
   setOrderSummary,
   addAddress,
   setPaymentDetails,
+  setDefaultAddress,
 } = cartSlice.actions;
 
 export default cartSlice;

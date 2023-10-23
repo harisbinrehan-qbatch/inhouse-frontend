@@ -8,7 +8,7 @@ const MasterCard = () => {
 
   // Add a null check before accessing paymentDetails.cardNumber
   const formattedCardNumber = paymentDetails && paymentDetails.cardNumber
-    ? paymentDetails.cardNumber.match(/.{3}/g).join(' ')
+    ? paymentDetails.cardNumber.slice(12, 16) // Corrected this line
     : '0000 0000 0000 0000';
 
   // console.log('Payment Details', paymentDetails);
@@ -31,22 +31,24 @@ const MasterCard = () => {
       >
         <p>****</p>
         <p>****</p>
-        <p>***</p>
-        <p>{formattedCardNumber.split(' ')[3]}</p>
+        <p>****</p>
+        <p>{formattedCardNumber}</p>
       </div>
       <div className="d-flex gap-5">
         <div style={{ fontStyle: 'italic' }} className="d-flex ps-4">
-          {paymentDetails && (paymentDetails.expiryDate || '00/00')}
+          {paymentDetails ? paymentDetails.expiryDate || '00/00' : '00/00'}
         </div>
         <div style={{ fontStyle: 'italic', fontWeight: 'bold' }}>
-          {paymentDetails && (paymentDetails.cvc || '123')}
+          {paymentDetails ? paymentDetails.cvc || '123' : '123'}
         </div>
       </div>
       <div
         className="d-flex py-2 ps-4 pe-4 justify-content-around"
         style={{ fontWeight: 'bold' }}
       >
-        {paymentDetails && (paymentDetails.cardholderName || 'Dummy Name')}
+        {paymentDetails
+          ? paymentDetails.cardholderName || 'Dummy Name'
+          : 'Dummy Name'}
       </div>
     </div>
   );

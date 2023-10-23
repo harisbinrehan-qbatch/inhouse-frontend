@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -7,19 +8,16 @@ import AddressBox from '../user-address-box';
 
 import './style.css';
 import CustomBtn from '../button';
-// import AddAddress from '../user-add-address-canvas';
 
 const ChangeAddressCanvas = ({ header }) => {
-  const { changeAddressShow, addresses } = useSelector(
-    (state) => state.cart,
-  );
+  const { changeAddressShow, addresses } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const handleClose = () => {
     dispatch(setChangeAddressShow());
   };
+
   const handleAddAddressClick = () => {
-    console.log('jhsfbjsbjfk');
     dispatch(setAddressShow());
   };
 
@@ -52,12 +50,17 @@ const ChangeAddressCanvas = ({ header }) => {
           <Offcanvas.Body>
             <div className="container pt-2">
               {addresses.map((address, index) => (
-                <div className="mt-3" style={{ border: '1px solid #000', borderRadius: '10px' }}>
+                <div
+                  key={index}
+                  className="mt-3"
+                  style={{ border: '1px solid #000', borderRadius: '10px' }}
+                >
                   <AddressBox
-                    key={index}
                     name={address.name}
                     mobile={address.mobile}
                     address={address.address}
+                    isDefault={address.isDefault}
+                    index={index}
                   />
                 </div>
               ))}

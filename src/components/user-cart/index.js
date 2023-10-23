@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import UserCartSummary from '../user-cart-summary';
@@ -21,7 +21,12 @@ import ChangeAddressCanvas from '../user-change-address-canvas';
 
 function UserCart() {
   const {
-    addressShow, changeAddressShow, cart, proceedToCheckout, haveAddress, addresses,
+    addressShow,
+    changeAddressShow,
+    cart,
+    proceedToCheckout,
+    haveAddress,
+    addresses,
   } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
@@ -44,6 +49,8 @@ function UserCart() {
   const handleChangeAddressClick = () => {
     dispatch(setChangeAddressShow());
   };
+
+  const defaultAddress = addresses.find((address) => address.isDefault);
 
   return (
     <div className="container">
@@ -70,12 +77,13 @@ function UserCart() {
             <div className="col-md-9">
               <div className="container pt1 ms-4 me-5 select-all-main-div">
                 {proceedToCheckout ? (
-                  haveAddress ? (
+                  haveAddress && defaultAddress ? (
                     <div className="d-flex w-100 justify-content-between">
                       <AddressBox
-                        name={addresses[0].name}
-                        mobile={addresses[0].mobile}
-                        address={addresses[0].address}
+                        name={defaultAddress.name}
+                        mobile={defaultAddress.mobile}
+                        address={defaultAddress.address}
+                        disableCustomBtn
                       />
                       <CustomBtn
                         btnText="Change"

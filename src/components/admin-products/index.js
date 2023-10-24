@@ -7,7 +7,6 @@ import { debounce } from 'lodash';
 import { Table } from 'react-bootstrap';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
 import Pencil from '../../assets/images/Pencil-square.svg';
-import ProductImage from '../../assets/images/product.png';
 import PaginationComponent from '../pagination';
 import Trash from '../../assets/images/Trash.svg';
 import {
@@ -38,6 +37,7 @@ function getColorName(hexCode) {
 }
 const Products = () => {
   const products = useSelector((state) => state.products.data);
+  console.log('BJHbjabfkjshkjdfnasj', products);
   const [currentProductId, setCurrentProductId] = useState();
   const { productMessage } = useSelector((state) => state.products);
   const { show, updateCanvasShow } = useSelector((state) => state.products);
@@ -136,7 +136,7 @@ const Products = () => {
                   >
                     <td>
                       <img
-                        src={ProductImage}
+                        src={`http://localhost:5000/${doc.images[0]}`}
                         alt="thumbnail"
                         className="product-image mx-2"
                       />

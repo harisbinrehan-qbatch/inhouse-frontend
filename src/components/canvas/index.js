@@ -19,13 +19,14 @@ import './style.css';
 const CustomCanvas = ({ header, btnText, _id }) => {
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
+  const [selectedImages, setSelectedImages] = useState([]);
   const [formData, setFormData] = useState({
     _id,
-    name: '',
-    price: '',
-    size: '',
-    color: '',
-    quantity: '',
+    name: 'Haris',
+    price: '23',
+    size: 'M',
+    color: 'Black',
+    quantity: '34',
   });
 
   const handleClose = () => {
@@ -37,7 +38,12 @@ const CustomCanvas = ({ header, btnText, _id }) => {
   };
 
   const handleAddProduct = () => {
-    dispatch(addProduct(formData));
+    console.log('handleAddProduct', selectedImages);
+    const obj = {
+      ...formData,
+      images: selectedImages,
+    };
+    dispatch(addProduct({ obj }));
   };
   const handleUpdateProduct = () => {
     dispatch(updateProduct(formData));
@@ -69,7 +75,10 @@ const CustomCanvas = ({ header, btnText, _id }) => {
 
       <div className="d-flex">
         <div className="p-4">
-          <CloudBox />
+          <CloudBox
+            selectedImages={selectedImages}
+            setSelectedImages={setSelectedImages}
+          />
         </div>
         <div className="d-flex offcanvas-body">
           <Offcanvas.Body>

@@ -47,15 +47,15 @@ const authSlice = createSlice({
       localStorage.removeItem('user');
       state.user = '';
     },
-    setIsAdmin: (state) => {
-      const user = JSON.parse(localStorage.getItem('user'));
+    // setIsAdmin: (state) => {
+    //   const user = JSON.parse(localStorage.getItem('user'));
 
-      if (user.isAdmin === true) {
-        state.isAdmin = true;
-      } else {
-        state.isAdmin = false;
-      }
-    },
+    //   if (user.isAdmin === true) {
+    //     state.isAdmin = true;
+    //   } else {
+    //     state.isAdmin = false;
+    //   }
+    // },
   },
 
   extraReducers: {
@@ -76,7 +76,11 @@ const authSlice = createSlice({
     [loginUser.fulfilled]: (state, action) => {
       state.loginError = false;
       state.user = action.payload;
-      state.isAdmin = action.payload.isAdmin;
+      if (state.user.isAdmin === true) {
+        state.isAdmin = true;
+      } else {
+        state.isAdmin = false;
+      }
       state.loginMessage = action.payload.message || 'Login Successful';
       localStorage.setItem('user', JSON.stringify(action.payload));
     },
@@ -91,6 +95,6 @@ const authSlice = createSlice({
 });
 
 export const {
-  logout, getToken, getUser, setIsAdmin,
+  logout, getToken, getUser,
 } = authSlice.actions;
 export default authSlice;

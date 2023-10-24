@@ -100,7 +100,7 @@ function UserCart() {
                       />
                       <CustomBtn
                         btnText="Change"
-                        variant="light"
+                        variant="dark"
                         className="m-3"
                         onClick={handleChangeAddressClick}
                       />
@@ -140,14 +140,14 @@ function UserCart() {
                 <CartItem key={index} cartItem={cartItem} />
               ))}
             </div>
-            <>
+            <div className="col-md-3">
               <UserCartSummary />
               {proceedToCheckout && (
-                <div className="add-payment-container">
+                <div className="add-payment-container mb-2">
                   <AddPayment />
                 </div>
               )}
-            </>
+            </div>
           </>
         )}
       </div>

@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable react/button-has-type */
-import React, { useRef, useState } from 'react';
+import { useRef } from 'react';
 import cloudImage from '../../assets/images/cloud-arrow-up.svg';
 import CustomBtn from '../button';
 import './style.css';
 
-const CloudBox = () => {
-  const [selectedImages, setSelectedImages] = useState([]);
+const CloudBox = ({ selectedImages, setSelectedImages }) => {
   const fileInputRef = useRef(null);
 
   const handleBrowseClick = () => {

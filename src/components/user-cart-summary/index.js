@@ -35,7 +35,7 @@ function UserCartSummary() {
   }, [cartProducts, dispatch]);
 
   return (
-    <div className="card-summary-main-div col-md-3">
+    <div className="card-summary-main-div mb-3">
       <div className="p-3">
         <h3 className="heading">Order Summary</h3>
         <h5 className="pt-3">

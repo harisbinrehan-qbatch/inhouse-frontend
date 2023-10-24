@@ -32,7 +32,7 @@ function AddPayment() {
     dispatch(placeOrder(requestData));
   };
   return (
-    <div className="container add-payment-main-div col-md-3">
+    <div className="container add-payment-main-div">
       <h2 className="p-2 heading">Add Payment</h2>
       <div onClick={handleAddPaymentDetails}>
         <CustomBtn

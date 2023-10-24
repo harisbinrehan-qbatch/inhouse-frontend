@@ -17,7 +17,7 @@ function CustomNavbar() {
   };
 
   return (
-    <div className="navbar-sticky-section">
+    <div style={{ zIndex: '3' }} className="navbar-sticky-section">
       <Navbar expand="lg">
         <Container>
           <h2 className="ecom">Q-Commerce</h2>

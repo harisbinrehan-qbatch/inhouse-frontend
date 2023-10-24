@@ -1,7 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { isEmpty } from 'lodash';
 import UserCartSummary from '../user-cart-summary';
 import Arrow from '../../assets/images/Arrow left.svg';
 import CartItem from '../user-cart-item';
@@ -9,6 +10,7 @@ import Trash from '../../assets/images/Trash.svg';
 import CustomBtn from '../button';
 import {
   deselectAllCartItems,
+  getAddress,
   selectAllCartItems,
   setAddressShow,
   setChangeAddressShow,
@@ -26,10 +28,12 @@ function UserCart() {
     changeAddressShow,
     cartProducts,
     proceedToCheckout,
-    haveAddress,
     addresses,
   } = useSelector((state) => state.cart);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [defaultAddress, setDefaultAddress] = useState({});
 
+  console.log('default ddress in user cart,,  ', defaultAddress);
   // console.log('jhasdhjaskdj', addressShow);
 
   const dispatch = useDispatch();
@@ -45,6 +49,17 @@ function UserCart() {
       dispatch(selectAllCartItems());
     }
   };
+  useEffect(() => {
+    console.log('Is this being called?');
+    dispatch(getAddress(user.userId));
+  }, []);
+
+  useEffect(() => {
+    console.log({ addresses });
+    setDefaultAddress(
+      addresses?.addressInfo?.find((address) => address.isDefault) || {},
+    );
+  }, [addresses]);
 
   const handleAddAddressClick = () => {
     dispatch(setAddressShow());
@@ -52,8 +67,6 @@ function UserCart() {
   const handleChangeAddressClick = () => {
     dispatch(setChangeAddressShow());
   };
-
-  const defaultAddress = addresses.find((address) => address.isDefault);
 
   return (
     <div className="container">
@@ -80,7 +93,7 @@ function UserCart() {
             <div className="col-md-9">
               <div className="container pt1 ms-4 me-5 select-all-main-div">
                 {proceedToCheckout ? (
-                  haveAddress && defaultAddress ? (
+                  !isEmpty(defaultAddress) ? (
                     <div className="d-flex w-100 justify-content-between">
                       <AddressBox
                         name={defaultAddress.name}

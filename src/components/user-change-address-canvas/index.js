@@ -49,7 +49,7 @@ const ChangeAddressCanvas = ({ header }) => {
         <div className="d-flex offcanvas-body">
           <Offcanvas.Body>
             <div className="container pt-2">
-              {addresses.map((address, index) => (
+              {addresses?.addressInfo?.map((address, index) => (
                 <div
                   key={index}
                   className="mt-3"

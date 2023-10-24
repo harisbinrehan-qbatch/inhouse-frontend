@@ -6,10 +6,55 @@ import { notification } from 'antd';
 export const placeOrder = createAsyncThunk(
   'cart/placeOrder',
   async (requestData, { rejectWithValue }) => {
-    console.log('in createAsyncThunk', requestData);
     try {
       const response = await axios.post(
         'http://localhost:5000/v1/orders/placeOrder',
+        requestData,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
+
+export const addAddress = createAsyncThunk(
+  'cart/addAddress',
+  async (requestData, { rejectWithValue }) => {
+    try {
+      console.log('adresss is ,', requestData);
+      const response = await axios.post(
+        'http://localhost:5000/v1/orders/saveAddress',
+        requestData,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
+
+export const getAddress = createAsyncThunk(
+  'cart/getAddress',
+  async (userId, { rejectWithValue }) => {
+    console.log('In getAddress createAsyncThunk', userId);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/v1/orders/getAddresses?userId=${userId}`,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
+
+export const updateDefaultAddress = createAsyncThunk(
+  'cart/updateDefaultAddress',
+  async (requestData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/v1/orders/updateDefaultAddress',
         requestData,
       );
       return response.data;
@@ -23,11 +68,11 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     cartProducts: [],
-    addresses: [],
+    addresses: {},
     paymentDetails: null,
     orderSummary: null,
+    addAddressSuccess: false,
     orderSuccess: false,
-    haveAddress: false,
     mastercardShow: false,
     changeAddressShow: false,
     addressShow: false,
@@ -54,18 +99,6 @@ const cartSlice = createSlice({
       });
     },
 
-    setDefaultAddress: (state, action) => {
-      console.log('In setDefaultAddress', action.payload);
-      state.addresses = state.addresses.map((singleAddress, index) => {
-        if (index === action.payload) {
-          singleAddress.isDefault = true;
-        } else {
-          singleAddress.isDefault = false;
-        }
-        return singleAddress;
-      });
-    },
-
     setPaymentDetails: (state, action) => {
       if (
         Object.values(action.payload).some(
@@ -88,17 +121,6 @@ const cartSlice = createSlice({
         });
       }
     },
-
-    addAddress: (state, action) => {
-      state.addresses.push(action.payload);
-      notification.success({
-        message: 'Success',
-        description: 'Address added successfully.',
-        type: 'success',
-        duration: 2,
-      });
-      state.haveAddress = true;
-    },
     setOrderSummary: (state, action) => {
       state.orderSummary = action.payload;
     },
@@ -115,7 +137,6 @@ const cartSlice = createSlice({
       state.proceedToCheckout = !state.proceedToCheckout;
     },
     removeFromCart: (state, action) => {
-      console.log('removeFromCart', action.payload);
       const itemIdToRemove = action.payload._id;
       state.cartProducts = state.cartProducts.filter(
         (item) => item._id !== itemIdToRemove,
@@ -177,7 +198,73 @@ const cartSlice = createSlice({
         notification.error({
           message: 'ERROR!',
           description: state.orderMessage,
+          type: 'error',
+          duration: 2,
+        });
+      })
+
+      .addCase(getAddress.fulfilled, (state, action) => {
+        // console.log('getAddress', action.payload);
+        // eslint-disable-next-line prefer-destructuring
+        state.addresses = action.payload.addresses[0];
+        notification.success({
+          message: 'Success',
+          description: 'Address loaded successfully',
           type: 'success',
+          duration: 2,
+        });
+      })
+
+      .addCase(getAddress.pending, () => {
+        // You might want to set a loading state here if necessary.
+      })
+      .addCase(getAddress.rejected, () => {
+        notification.error({
+          message: 'ERROR!',
+          description: 'Error getting address',
+          type: 'error',
+          duration: 2,
+        });
+      })
+
+      .addCase(addAddress.fulfilled, (state) => {
+        state.addAddressSuccess = true;
+        notification.success({
+          message: 'Success',
+          description: 'Address added successfully.',
+          type: 'success',
+          duration: 2,
+        });
+      })
+      .addCase(addAddress.pending, (state) => {
+        state.addAddressSuccess = false;
+      })
+      .addCase(addAddress.rejected, (state) => {
+        state.orderSuccess = false;
+        state.orderMessage = 'Error adding address';
+        notification.error({
+          message: 'ERROR!',
+          description: state.orderMessage,
+          type: 'error',
+          duration: 2,
+        });
+      })
+
+      .addCase(updateDefaultAddress.fulfilled, () => {
+        notification.success({
+          message: 'Success',
+          description: 'Default address updated successfully.',
+          type: 'success',
+          duration: 2,
+        });
+      })
+      .addCase(updateDefaultAddress.pending, () => {})
+      .addCase(updateDefaultAddress.rejected, (state) => {
+        state.orderMessage = 'Error updating default address';
+        notification.error({
+          message: 'ERROR!',
+          description: state.orderMessage,
+          type: 'error',
           duration: 2,
         });
       });
@@ -186,19 +273,18 @@ const cartSlice = createSlice({
 
 export const {
   addToCart,
+  setDefaultAddress,
+  setPaymentDetails,
+  setOrderSummary,
+  setMastercardShow,
+  setChangeAddressShow,
+  setAddressShow,
+  setProceedToCheckout,
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
   selectAllCartItems,
   deselectAllCartItems,
-  setMastercardShow,
-  setAddressShow,
-  setProceedToCheckout,
-  setChangeAddressShow,
-  setOrderSummary,
-  addAddress,
-  setPaymentDetails,
-  setDefaultAddress,
 } = cartSlice.actions;
 
 export default cartSlice;

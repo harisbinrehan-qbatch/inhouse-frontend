@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+// import { useEffect } from 'react';
 import CustomBtn from '../button';
 import { setDefaultAddress } from '../../redux/slices/cart';
 
@@ -11,9 +12,9 @@ function AddressBox({
   index,
 }) {
   const dispatch = useDispatch();
-
+  const user = JSON.parse(localStorage.getItem('user'));
   const handleSetDefaultAddress = () => {
-    dispatch(setDefaultAddress(index));
+    dispatch(setDefaultAddress(index, user.userId));
   };
 
   return (

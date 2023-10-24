@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk(
         'http://localhost:5000/v1/auth/signin',
         body,
       );
-      console.log('in login aync', response.data);
+      // console.log('in login aync', response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -48,7 +48,7 @@ const authSlice = createSlice({
       state.user = '';
     },
     setIsAdmin: (state) => {
-      console.log('In setIsAdmin reducer function');
+      // console.log('In setIsAdmin reducer function');
       const user = JSON.parse(localStorage.getItem('user'));
 
       if (user.isAdmin === true) {

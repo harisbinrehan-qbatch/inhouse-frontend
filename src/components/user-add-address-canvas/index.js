@@ -19,14 +19,14 @@ const AddAddress = ({ header }) => {
   const [isDefault, setIsDefault] = useState(false);
   const { addressShow } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
+  const user = JSON.parse(localStorage.getItem('user'));
   const handleClose = () => {
     dispatch(setAddressShow());
   };
 
   const handleSaveAddress = () => {
-    // Create a new address object with the provided data
     const newAddress = {
+      userId: user.userId,
       name,
       mobile,
       country,
@@ -37,8 +37,7 @@ const AddAddress = ({ header }) => {
     };
 
     dispatch(addAddress(newAddress));
-
-    // Close the Offcanvas
+    // dispatch(getAddress(user.userId));
     handleClose();
   };
 

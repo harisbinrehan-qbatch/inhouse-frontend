@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useSelector, useDispatch } from 'react-redux';
-
+import { isEmpty } from 'lodash';
 import CustomBtn from '../button';
 import MasterCard from '../master-card';
 
@@ -35,7 +35,11 @@ function AddPayment() {
     <div className="container add-payment-main-div col-md-3">
       <h2 className="p-2 heading">Add Payment</h2>
       <div onClick={handleAddPaymentDetails}>
-        <CustomBtn className="m-2" variant="light" btnText="+ Add new" />
+        <CustomBtn
+          className="m-2"
+          variant="light"
+          btnText={!isEmpty(paymentDetails) ? 'Update' : '+ Add new'}
+        />
       </div>
       <div>
         <MasterCard
@@ -47,7 +51,14 @@ function AddPayment() {
         />
       </div>
       {mastercardShow && <MastercardCanvas header="Add Payment Method" />}
-      {paymentDetails && <CustomBtn className="d-flex my-4" btnText="Place Order" variant="success" onClick={handlePlaceOrder} />}
+      {!isEmpty(paymentDetails) && (
+        <CustomBtn
+          className="d-flex my-4"
+          btnText="Place Order"
+          variant="success"
+          onClick={handlePlaceOrder}
+        />
+      )}
     </div>
   );
 }

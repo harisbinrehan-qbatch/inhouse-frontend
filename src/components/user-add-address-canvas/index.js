@@ -37,7 +37,6 @@ const AddAddress = ({ header }) => {
     };
 
     dispatch(addAddress(newAddress));
-    // dispatch(getAddress(user.userId));
     handleClose();
   };
 

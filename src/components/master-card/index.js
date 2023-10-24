@@ -6,12 +6,10 @@ import './style.css';
 const MasterCard = () => {
   const { paymentDetails } = useSelector((state) => state.cart);
 
-  // Add a null check before accessing paymentDetails.cardNumber
   const formattedCardNumber = paymentDetails && paymentDetails.cardNumber
-    ? paymentDetails.cardNumber.slice(12, 16) // Corrected this line
+    ? paymentDetails.cardNumber.slice(12, 16)
     : '00';
 
-  // console.log('Payment Details', paymentDetails);
   const cardBackStyle = {
     backgroundImage: `url(${CardBack})`,
     backgroundSize: 'cover',

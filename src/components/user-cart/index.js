@@ -27,14 +27,13 @@ function UserCart() {
     addressShow,
     changeAddressShow,
     cartProducts,
+    addAddressSuccess,
+    updateAddressSuccess,
     proceedToCheckout,
     addresses,
   } = useSelector((state) => state.cart);
   const user = JSON.parse(localStorage.getItem('user'));
   const [defaultAddress, setDefaultAddress] = useState({});
-
-  console.log('default ddress in user cart,,  ', defaultAddress);
-  // console.log('jhasdhjaskdj', addressShow);
 
   const dispatch = useDispatch();
 
@@ -50,12 +49,10 @@ function UserCart() {
     }
   };
   useEffect(() => {
-    console.log('Is this being called?');
     dispatch(getAddress(user.userId));
-  }, []);
+  }, [addAddressSuccess, updateAddressSuccess]);
 
   useEffect(() => {
-    console.log({ addresses });
     setDefaultAddress(
       addresses?.addressInfo?.find((address) => address.isDefault) || {},
     );

@@ -1,9 +1,10 @@
-import React, { useState } from 'react'; // Make sure to import React
+import { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from 'react-redux';
+
 import CustomForm from '../input';
 import CustomBtn from '../button';
-import { setMastercardShow, setPaymentDetails } from '../../redux/slices/cart';
+import { savePaymentDetails, setMastercardShow } from '../../redux/slices/cart';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 
 import './style.css';
@@ -12,17 +13,18 @@ const MastercardCanvas = ({ header }) => {
   const { mastercardShow } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  // Initialize state variables for input values
-  const [cardholderName, setCardholderName] = useState('Haris Bin Rehan'); // Initialize with an empty string
-  const [cardNumber, setCardNumber] = useState('02857900455603'); // Initialize with an empty string
-  const [expiryDate, setExpiryDate] = useState('07/25'); // Initialize with an empty string
-  const [cvc, setCvc] = useState('123'); // Initialize with an empty string
+  const [cardholderName, setCardholderName] = useState('Haris Bin Rehan');
+  const [cardNumber, setCardNumber] = useState('02857900455603');
+  const [expiryDate, setExpiryDate] = useState('07/25');
+  const [cvc, setCvc] = useState('123');
 
   const handleClose = () => {
     dispatch(setMastercardShow());
   };
 
   const handleSavePaymentDetails = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
     const paymentDetails = {
       cardNumber,
       expiryDate,
@@ -30,7 +32,7 @@ const MastercardCanvas = ({ header }) => {
       cardholderName,
     };
 
-    dispatch(setPaymentDetails(paymentDetails));
+    dispatch(savePaymentDetails({ userId: user.userId, paymentDetails }));
     handleClose();
   };
 

@@ -123,7 +123,7 @@ const Orders = () => {
                     </div>
                   </td>
                   <td>
-                    <div className="d-flex gap-2">
+                    <div className="d-flex gap-2 justify-content-end">
                       <img
                         src={sideArrow}
                         alt="arrow"
@@ -132,7 +132,7 @@ const Orders = () => {
                         onClick={() => handleSetMarkAsDelivered(order._id)}
                       />
                       {order.isDelivered ? (
-                        <div className="pt-1 ms-4 mark-delivered-div">
+                        <div className="d-flex pt-1 ms-4 mark-delivered-div">
                           Delivered
                         </div>
                       ) : (

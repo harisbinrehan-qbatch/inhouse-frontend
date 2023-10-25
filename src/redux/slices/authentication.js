@@ -47,15 +47,6 @@ const authSlice = createSlice({
       localStorage.removeItem('user');
       state.user = '';
     },
-    // setIsAdmin: (state) => {
-    //   const user = JSON.parse(localStorage.getItem('user'));
-
-    //   if (user.isAdmin === true) {
-    //     state.isAdmin = true;
-    //   } else {
-    //     state.isAdmin = false;
-    //   }
-    // },
   },
 
   extraReducers: {

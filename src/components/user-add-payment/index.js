@@ -10,10 +10,11 @@ import { placeOrder, setMastercardShow } from '../../redux/slices/cart';
 
 function AddPayment() {
   const {
-    mastercardShow, paymentDetails, cartProducts, orderSummary,
+    mastercardShow, paymentDetails, userCart, orderSummary,
   } = useSelector(
     (state) => state.cart,
   );
+
   const dispatch = useDispatch();
 
   const handleAddPaymentDetails = () => {
@@ -25,12 +26,13 @@ function AddPayment() {
 
     const requestData = {
       userId: user.userId,
-      products: cartProducts,
+      products: userCart.products,
       orderSummary,
     };
 
     dispatch(placeOrder(requestData));
   };
+
   return (
     <div className="container add-payment-main-div">
       <h2 className="p-2 heading">Add Payment</h2>
@@ -51,7 +53,7 @@ function AddPayment() {
         />
       </div>
       {mastercardShow && <MastercardCanvas header="Add Payment Method" />}
-      {!isEmpty(paymentDetails) && (
+      {!isEmpty(paymentDetails) && !isEmpty(userCart) && (
         <CustomBtn
           className="d-flex my-4"
           btnText="Place Order"

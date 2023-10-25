@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'; // Make sure to import React if you're using JSX
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import './style.css';
 import { setOrderSummary, setProceedToCheckout } from '../../redux/slices/cart';
 import CustomBtn from '../button';
 
-import './style.css';
-
 function UserCartSummary() {
-  const { cartProducts, orderSummary } = useSelector((state) => state.cart);
+  const { userCart, orderSummary } = useSelector(
+    (state) => state.cart,
+  );
   const dispatch = useDispatch();
 
   const handleSetProceedToCheckout = () => {
@@ -14,16 +16,16 @@ function UserCartSummary() {
   };
 
   useEffect(() => {
-    // Save order summary details to Redux state and set 'proceedToCheckout' to true
-    const subTotal = cartProducts.reduce(
+    const subTotal = userCart?.products?.reduce(
       (total, item) => total + item.price * item.quantity,
       0,
-    );
+    ) || 0;
 
     const taxRate = 0.1;
     const tax = subTotal * taxRate;
 
     const total = subTotal + tax;
+    console.log('Order Summary', subTotal, tax, total);
 
     dispatch(
       setOrderSummary({
@@ -32,23 +34,22 @@ function UserCartSummary() {
         total,
       }),
     );
-  }, [cartProducts, dispatch]);
-
+  }, [userCart.products]);
   return (
     <div className="card-summary-main-div mb-3">
       <div className="p-3">
         <h3 className="heading">Order Summary</h3>
         <h5 className="pt-3">
           Sub Total: $
-          {orderSummary ? orderSummary.subTotal.toFixed(2) : 'N/A'}
+          {orderSummary ? orderSummary?.subTotal?.toFixed?.(2) : '0'}
         </h5>
         <h5 className="pt-3">
           Tax: $
-          {orderSummary ? orderSummary.tax.toFixed(2) : 'N/A'}
+          {orderSummary ? orderSummary?.tax?.toFixed?.(2) : '0'}
         </h5>
         <h5 className="pt-3">
           Total: $
-          {orderSummary ? orderSummary.total.toFixed(2) : 'N/A'}
+          {orderSummary ? orderSummary?.total?.toFixed?.(2) : '0'}
         </h5>
       </div>
       <div className="d-flex justify-content-center pt-3">

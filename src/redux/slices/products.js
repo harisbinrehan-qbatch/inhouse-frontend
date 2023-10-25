@@ -7,11 +7,15 @@ export const fetchProducts = createAsyncThunk(
   async (name, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+      const { isAdmin } = state.authentication;
       const { page } = state.products;
       const limit = 7;
-      let url = `http://localhost:5000/v1/products/fetchProducts?limit=${limit}&skip=${
-        (page - 1) * limit
-      }`;
+      let url = 'http://localhost:5000/v1/products/fetchProducts?';
+      if (isAdmin) {
+        url += `skip=${(page - 1) * limit}`;
+        url += `&limit=${limit}`;
+      }
+
       if (name) {
         url += `&name=${name}`;
       }
@@ -33,7 +37,7 @@ export const addProduct = createAsyncThunk(
   'products/addProduct',
   async (requestData, { rejectWithValue }) => {
     try {
-      console.log('requestData in addProduct createAsyncThunk', requestData);
+      // console.log('requestData in addProduct createAsyncThunk', requestData);
       const response = await axios.post(
         'http://localhost:5000/v1/products/addProduct',
         requestData,
@@ -206,4 +210,5 @@ const productsSlice = createSlice({
 export const {
   incrementPage, decrementPage, setPageOne, setShow, setUpdateCanvasShow,
 } = productsSlice.actions;
+
 export default productsSlice;

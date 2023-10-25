@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import ProductImage from '../../assets/images/product.png';
 import CustomBtn from '../button';
 import Trash from '../../assets/images/Trash.svg';
 import {
   decrementQuantity,
+  getCartOfSpecificUser,
   incrementQuantity,
   removeFromCart,
 } from '../../redux/slices/cart';
@@ -44,6 +45,10 @@ function CartItem({ cartItem }) {
       dispatch(removeFromCart(cartItem));
     }
   };
+
+  useEffect(() => {
+    dispatch(getCartOfSpecificUser());
+  }, [cartItem]);
 
   return (
     <div

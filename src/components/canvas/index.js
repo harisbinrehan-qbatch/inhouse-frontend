@@ -38,7 +38,7 @@ const CustomCanvas = ({ header, btnText, _id }) => {
   };
 
   const handleAddProduct = () => {
-    console.log('handleAddProduct', selectedImages);
+    // console.log('handleAddProduct', selectedImages);
     const obj = {
       ...formData,
       images: selectedImages,

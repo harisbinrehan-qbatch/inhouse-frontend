@@ -10,12 +10,14 @@ import CustomBtn from '../button';
 const UserProductsDisplay = ({ product }) => {
   const dispatch = useDispatch();
 
+  const user = JSON.parse(localStorage.getItem('user'));
+
   if (!product) {
     return null;
   }
 
   const handleAddToCart = () => {
-    dispatch(addToCart({ product }));
+    dispatch(addToCart({ userId: user.userId, product }));
   };
 
   return (

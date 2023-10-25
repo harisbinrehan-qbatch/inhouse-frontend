@@ -5,13 +5,13 @@ import './style.css';
 
 const NewPassword = ({ header }) => (
   <div className="">
-    <h2 className="header">{header}</h2>
     <div className="login-rectangle">
+      <h2 className="header">{header}</h2>
       <div className="login-fields">
         <Form
           placeholder="enter new password"
           label="Enter New Password"
-          type="text"
+          type="email"
           hint="Password must contain Capital, small letter, number and symbols"
         />
         <Form

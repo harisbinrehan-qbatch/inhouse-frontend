@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
-
 import { Table } from 'react-bootstrap';
+import ProductImage from '../../assets/images/product.png';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
 import Pencil from '../../assets/images/Pencil-square.svg';
 import PaginationComponent from '../pagination';
@@ -37,15 +37,12 @@ function getColorName(hexCode) {
 }
 const Products = () => {
   const products = useSelector((state) => state.products.data);
-  console.log('BJHbjabfkjshkjdfnasj', products);
   const [currentProductId, setCurrentProductId] = useState();
   const { productMessage } = useSelector((state) => state.products);
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const {
     page, isProductError, loading, editSuccess, deleteSuccess, addSuccess,
-  } = useSelector(
-    (state) => state.products,
-  );
+  } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
 
@@ -136,7 +133,8 @@ const Products = () => {
                   >
                     <td>
                       <img
-                        src={`http://localhost:5000/${doc.images[0]}`}
+                        // src={`http://localhost:5000/${doc.images[0]}`}
+                        src={ProductImage}
                         alt="thumbnail"
                         className="product-image mx-2"
                       />

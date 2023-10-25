@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Alert from 'react-bootstrap/Alert'; // Import the Alert component from React Bootstrap
 import Form from '../../components/input';
 import { signUpUser } from '../../redux/slices/authentication';
 import CustomLink from '../../components/link';
 import CustomBtn from '../../components/button';
-import CustomAlert from '../../components/alert';
 
 import './style.css';
 
@@ -16,8 +17,10 @@ const Signup = ({ header }) => {
   const [email, setEmail] = useState('harisbinrehan@gmail.com');
   const [mobile, setMobile] = useState('03104106129');
   const [signupSuccess, setSignupSuccess] = useState(false);
-  const { signUpError } = useSelector((state) => state.authentication);
+  const [signupError, setSignupError] = useState(''); // Added signupError state
   const { signUpMessage } = useSelector((state) => state.authentication);
+  const navigate = useNavigate();
+
   const handleSignUp = () => {
     const body = {
       username,
@@ -28,32 +31,27 @@ const Signup = ({ header }) => {
     dispatch(signUpUser(body))
       .then(() => {
         setSignupSuccess(true);
+        setSignupError('');
+        navigate('/'); // Navigate to the '/' route
       })
       .catch((error) => {
-        <CustomAlert
-          variant="danger"
-          alertText={error}
-          className="auth-alert"
-        />;
+        setSignupSuccess(false);
+        setSignupError(error.message); // Set the error message
       });
   };
 
   return (
     <div className="">
       <div className="d-flex justify-content-end">
-        {signUpError && (
-          <CustomAlert
-            variant="danger"
-            alertText={signUpMessage}
-            className="auth-alert"
-          />
+        {signupError && (
+          <Alert variant="danger" className="auth-alert">
+            {signupError}
+          </Alert>
         )}
         {signupSuccess && (
-          <CustomAlert
-            variant="success"
-            alertText={signUpMessage}
-            className="auth-alert"
-          />
+          <Alert variant="success" className="auth-alert">
+            {signUpMessage}
+          </Alert>
         )}
       </div>
       <div className="login-rectangle">

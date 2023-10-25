@@ -23,7 +23,6 @@ const ForgotPassword = ({ header }) => {
             btnText="Forgot Password"
             size="default"
             className="w-100"
-            // to="/newPassword"
             onClick={() => navigate('/newPassword')}
           />
         </div>

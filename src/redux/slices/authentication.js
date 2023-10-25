@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+import { notification } from 'antd';
 import axios from 'axios';
 
 export const signUpUser = createAsyncThunk(
@@ -55,6 +57,12 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.signUpMessage = action.payload.message || 'Signup Successful';
       localStorage.setItem('user', JSON.stringify(action.payload));
+      notification.success({
+        message: 'Success',
+        description: state.signUpMessage,
+        type: 'success',
+        duration: 2,
+      });
     },
     [signUpUser.pending]: (state) => {
       state.signUpError = false;

@@ -3,11 +3,15 @@ import axios from 'axios';
 
 export const fetchAllOrders = createAsyncThunk(
   'orders/fetchAll',
-  async (_, { rejectWithValue }) => {
+  async (orderId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        'http://localhost:5000/v1/orders/getOrders',
-      );
+      let url = 'http://localhost:5000/v1/orders/getOrders';
+
+      if (orderId) {
+        url += `?orderId=${orderId}`;
+      }
+      const response = await axios.get(url);
+
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
@@ -34,6 +38,7 @@ const ordersSlice = createSlice({
   name: 'orders',
   initialState: {
     orders: [],
+    searchedOrders: [],
     loading: false,
     ordersError: false,
   },
@@ -45,7 +50,8 @@ const ordersSlice = createSlice({
       .addCase(fetchAllOrders.fulfilled, (state, action) => {
         console.log('In fulfilllllled', action.payload);
         state.orders = action.payload.orders;
-        console.log('Here??????', state.orders);
+        state.searchedOrders = action.payload.searchedOrders;
+        console.log('Here??????', state.searchedOrders);
         state.loading = false;
         state.error = false;
       })

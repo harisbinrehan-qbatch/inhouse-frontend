@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import CustomForm from '../input';
@@ -34,7 +34,6 @@ const Orders = () => {
   }, []);
 
   useEffect(() => {
-    // Calculate total units and total amount
     const units = orders.reduce(
       (total, order) => total + order.products.length,
       0,
@@ -48,11 +47,18 @@ const Orders = () => {
     setTotalAmount(amount);
   }, [orders]);
 
+  const handleSearch = debounce((e) => {
+    dispatch(fetchAllOrders(e.target.value));
+  }, 500);
+
   return (
     <div className="orders-main-div">
       <h2 className="heading d-flex p-4">Orders</h2>
       <div className="d-flex justify-content-around ps-3 pe-3">
-        <OrdersRectangle rectangleText="Total orders: " value={orders.length} />
+        <OrdersRectangle
+          rectangleText="Total orders: "
+          value={orders.length || 0}
+        />
         <OrdersRectangle rectangleText="Total units: " value={totalUnits} />
         <OrdersRectangle
           rectangleText="Total amount: "
@@ -70,6 +76,7 @@ const Orders = () => {
               style={{ marginTop: '-20px' }}
               placeholder="Search by id"
               className="mx-3"
+              onChange={handleSearch}
             />
           </div>
           <Table>
@@ -98,54 +105,52 @@ const Orders = () => {
             </thead>
 
             <tbody>
-              {orders.map((order) => (
-                <tr key={order._id}>
-                  <td className="pt-2">
-                    {new Date(order.date).toLocaleString('en-US', {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </td>
-                  <td className="pt-2" style={{ fontWeight: 'bold' }}>
-                    {order._id}
-                  </td>
-                  <td className="pt-2">{order.username}</td>
-                  <td className="pt-2 ps-4">{order.products.length}</td>
-                  <td className="pt-2 ps-3">{order.total}</td>
-                  <td>
-                    {order.isPaid ? (
-                      <div className="row-paid-div">
-                        Paid
-                      </div>
-                    ) : (
-                      <div className="row-unpaid-div">
-                        Unpaid
-                      </div>
-                    )}
-                  </td>
-                  <td>
-                    <div className="d-flex gap-2 justify-content-end">
-                      <img
-                        src={sideArrow}
-                        alt="arrow"
-                        className="pt-1 mark-delivered-arrow"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => handleSetMarkAsDelivered(order._id)}
-                      />
-                      {order.isDelivered ? (
-                        <div className="d-flex pt-1 ms-4 mark-delivered-div">
-                          Delivered
-                        </div>
+              { orders?.map(
+                (order) => (
+                  <tr key={order._id}>
+                    <td className="pt-2">
+                      {new Date(order.date).toLocaleString('en-US', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </td>
+                    <td className="pt-2" style={{ fontWeight: 'bold' }}>
+                      {order.orderId}
+                    </td>
+                    <td className="pt-2">{order.username}</td>
+                    <td className="pt-2 ps-4">{order.products.length}</td>
+                    <td className="pt-2 ps-3">{order.total}</td>
+                    <td>
+                      {order.isPaid ? (
+                        <div className="row-paid-div">Paid</div>
                       ) : (
-                        <div className="pt-1 ms-4 mark-as-delivered-div">
-                          Mark as Delivered
-                        </div>
+                        <div className="row-unpaid-div">Unpaid</div>
                       )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td>
+                      <div className="d-flex gap-2 justify-content-end">
+                        <img
+                          src={sideArrow}
+                          alt="arrow"
+                          className="pt-1 mark-delivered-arrow"
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleSetMarkAsDelivered(order._id)}
+                        />
+                        {order.isDelivered ? (
+                          <div className="d-flex pt-1 ms-4 mark-delivered-div">
+                            Delivered
+                          </div>
+                        ) : (
+                          <div className="pt-1 ms-4 mark-as-delivered-div">
+                            Mark as Delivered
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ),
+              )}
             </tbody>
           </Table>
           {ordersError && (

@@ -113,14 +113,16 @@ const Orders = () => {
                   <td className="pt-2">{order.username}</td>
                   <td className="pt-2 ps-4">{order.products.length}</td>
                   <td className="pt-2 ps-3">{order.total}</td>
-                  <td
-                    className={`pt-2 ps-2 ${
-                      order.isPaid ? 'paid-bg' : 'unpaid-bg'
-                    }`}
-                  >
-                    <div className="row-paid-div">
-                      {order.isPaid ? 'Paid' : 'Unpaid'}
-                    </div>
+                  <td>
+                    {order.isPaid ? (
+                      <div className="row-paid-div">
+                        Paid
+                      </div>
+                    ) : (
+                      <div className="row-unpaid-div">
+                        Unpaid
+                      </div>
+                    )}
                   </td>
                   <td>
                     <div className="d-flex gap-2 justify-content-end">

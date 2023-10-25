@@ -2,13 +2,17 @@
   background-color: rgba(233, 236, 239, 1);
 }
 .orders-rectangle-main-div {
-  background-color: rgba(255, 255, 255, 1);
   width: 320px;
   height: 80px;
+
+
+
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 4px;
-  border: 1px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #d0d0d0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 0 3px rgba(0, 0, 0, 0.2);
+  padding: 3px;
+  border-radius: 5px;
 }
 
 .orders-rectangle-text {
@@ -32,6 +36,15 @@
 .mark-delivered-arrow{
   height: 30px;
 }
+
+.mark-as-delivered-div {
+    color:rgb(43, 128, 248);
+  border: 1px solid rgb(43, 128, 248);;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .row-paid-div {
   background-color: green;
   border-radius: 25px;
@@ -41,10 +54,13 @@
   text-align: center;
   font-weight: bold;
 }
-.mark-as-delivered-div {
-    color:rgb(43, 128, 248);
-  border: 1px solid rgb(43, 128, 248);;
+
+.row-unpaid-div {
+  background-color: yellow;
+  border-radius: 25px;
   padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  max-width: 65px;
+  color: black;
+  text-align: center;
+  font-weight: bold;
 }

@@ -20,22 +20,31 @@
   letter-spacing: 0px;
   text-align: left;
 }
-.row-paid-div {
-  background-color: green;
-  border-radius: 25px;
-  padding: 5px 10px;
-  max-width: 50px;
-  color: white;
-  font-weight: bold;
-}
+
 .mark-delivered-div {
-    color:rgb(43, 128, 248);
-  border: 1px solid rgb(43, 128, 248);;
+    color: white;
+  /* border: 1px solid rgb(43, 128, 248);; */
+  background-color: green;
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
 }
 .mark-delivered-arrow{
-     /* width: 200px; */
   height: 30px;
+}
+.row-paid-div {
+  background-color: green;
+  border-radius: 25px;
+  padding: 5px 10px;
+  max-width: 65px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+.mark-as-delivered-div {
+    color:rgb(43, 128, 248);
+  border: 1px solid rgb(43, 128, 248);;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }

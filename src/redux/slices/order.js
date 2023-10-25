@@ -15,12 +15,27 @@ export const fetchAllOrders = createAsyncThunk(
   },
 );
 
+export const setOrderAsDelivered = createAsyncThunk(
+  'orders/setOrderAsDelivered',
+  async (orderId, { rejectWithValue }) => {
+    try {
+      console.log('setOrderAsDelivered createAsyncThunk', orderId);
+      const response = await axios.put(
+        `http://localhost:5000/v1/orders/setIsDelivered?orderId=${orderId}`,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
+
 const ordersSlice = createSlice({
   name: 'orders',
   initialState: {
-    orders: [], // Initial state for orders
-    loading: false, // Loading indicator
-    error: null, // Error message
+    orders: [],
+    loading: false,
+    ordersError: false,
   },
   reducers: {
     // Other reducers for your orders slice
@@ -32,18 +47,22 @@ const ordersSlice = createSlice({
         state.orders = action.payload.orders;
         console.log('Here??????', state.orders);
         state.loading = false;
-        state.error = null;
+        state.error = false;
       })
       .addCase(fetchAllOrders.pending, (state) => {
         state.loading = true;
-        state.error = null;
+        state.error = false;
       })
       .addCase(fetchAllOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload
           ? action.payload.message
           : 'An error occurred';
-      });
+      })
+
+      .addCase(setOrderAsDelivered.fulfilled, () => {})
+      .addCase(setOrderAsDelivered.pending, () => {})
+      .addCase(setOrderAsDelivered.rejected, () => {});
   },
 });
 

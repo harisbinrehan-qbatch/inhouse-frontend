@@ -25,6 +25,7 @@ function AddPayment() {
     const user = JSON.parse(localStorage.getItem('user'));
 
     const requestData = {
+      username: user.username,
       userId: user.userId,
       products: userCart.products,
       orderSummary,

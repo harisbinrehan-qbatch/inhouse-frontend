@@ -52,7 +52,6 @@ export const getPaymentDetails = createAsyncThunk(
   'cart/getPaymentDetails',
   async (userId, { rejectWithValue }) => {
     try {
-      // console.log('User id in getPaymentDetails createAsyncThunk', userId);
       const response = await axios.get(
         `http://localhost:5000/v1/orders/getPaymentDetails?userId=${userId}`,
       );
@@ -67,7 +66,6 @@ export const savePaymentDetails = createAsyncThunk(
   'cart/savePaymentDetails',
   async (requestData, { rejectWithValue }) => {
     try {
-      // console.log('Here?', requestData);
       const response = await axios.post(
         'http://localhost:5000/v1/orders/paymentDetails',
         requestData,
@@ -82,7 +80,6 @@ export const savePaymentDetails = createAsyncThunk(
 export const updateDefaultAddress = createAsyncThunk(
   'cart/updateDefaultAddress',
   async (requestData, { rejectWithValue }) => {
-    // console.log('Here?', requestData);
     try {
       const response = await axios.put(
         'http://localhost:5000/v1/orders/updateDefaultAddress',
@@ -128,7 +125,6 @@ const cartSlice = createSlice({
       } else {
         state.userCart = [];
       }
-      console.log('User Cart:', state.userCart);
     },
 
     addToCart: (state, action) => {
@@ -291,7 +287,6 @@ const cartSlice = createSlice({
       })
 
       .addCase(savePaymentDetails.fulfilled, (state, action) => {
-        // console.log('savePaymentDetails fulfilled', action.payload);
         state.paymentDetails = action.payload.paymentDetails;
         state.orderMessage = action.payload.message || 'Payment Details Saved Successfully';
         notification.success({
@@ -303,7 +298,6 @@ const cartSlice = createSlice({
       })
       .addCase(savePaymentDetails.pending, () => {})
       .addCase(savePaymentDetails.rejected, (state) => {
-        // console.log('savePaymentDetails rejected', action.payload);
         state.orderMessage = 'Error saving payment details';
         notification.error({
           message: 'ERROR!',
@@ -320,7 +314,6 @@ const cartSlice = createSlice({
       .addCase(getAddress.rejected, () => {})
 
       .addCase(getPaymentDetails.fulfilled, (state, action) => {
-        // console.log('In getPaymentDetails fulfilled', action.payload);
         state.paymentDetails = action.payload.payments[0];
       })
       .addCase(getPaymentDetails.pending, () => {})

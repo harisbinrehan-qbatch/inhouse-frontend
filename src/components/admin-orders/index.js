@@ -21,7 +21,6 @@ const Orders = () => {
   const handleSetMarkAsDelivered = (orderId) => {
     dispatch(setOrderAsDelivered(orderId))
       .then(() => {
-        // Fetch orders again after marking an order as delivered
         dispatch(fetchAllOrders());
       })
       .catch((error) => {

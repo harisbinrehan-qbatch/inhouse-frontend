@@ -37,7 +37,6 @@ export const addProduct = createAsyncThunk(
   'products/addProduct',
   async (requestData, { rejectWithValue }) => {
     try {
-      // console.log('requestData in addProduct createAsyncThunk', requestData);
       const response = await axios.post(
         'http://localhost:5000/v1/products/addProduct',
         requestData,

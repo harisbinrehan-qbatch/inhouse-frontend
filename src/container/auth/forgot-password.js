@@ -30,7 +30,7 @@ const ForgotPassword = ({ header }) => {
           <CustomLink
             text="No, I remember my password! "
             textLinkable="Login"
-            link="/"
+            link="/login"
           />
         </div>
       </div>

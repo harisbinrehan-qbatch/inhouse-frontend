@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { loginUser } from '../../redux/slices/authentication';
 import CustomLink from '../../components/link';
 import CustomBtn from '../../components/button';
@@ -15,9 +15,13 @@ const Login = ({ header }) => {
   const [password, setPassword] = useState('123456');
   const { loginError } = useSelector((state) => state.authentication);
   const { loginMessage } = useSelector((state) => state.authentication);
+
+  const navigate = useNavigate();
+
   const handleLogin = () => {
     const body = { username, password };
     dispatch(loginUser(body));
+    navigate('/');
   };
   return (
     <div>

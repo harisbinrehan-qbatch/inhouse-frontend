@@ -1,36 +1,36 @@
-.ecom{
-font-family: Inter;
-font-size: 16px;
-font-weight: 700;
-line-height: 24px;
-letter-spacing: 0px;
-text-align: left;
-width: auto;
-height: 24px;
-top: 12px;
-left: 60px;
-color: rgba(52, 58, 64, 1);
+.ecom {
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: left;
+  width: auto;
+  height: 24px;
+  top: 12px;
+  left: 60px;
+  color: rgba(52, 58, 64, 1);
 }
-.user-image{
-width: 30px;
-height: 31px;
-left: -9px;
+.user-image {
+  width: 30px;
+  height: 31px;
+  left: -9px;
 }
-.notification-icon{
-width: 25px;
-height: 25px;
-top: 16px;
-left: 1124px;
-color: green;
-} 
-.user-name{
-color:rgba(0, 123, 255, 1);
-font-family: Inter;
-font-size: 12px;
-font-weight: 500;
-line-height: 12px;
-letter-spacing: 0px;
-text-align: right;
+.notification-icon {
+  width: 25px;
+  height: 25px;
+  top: 16px;
+  left: 1124px;
+  color: green;
+}
+.user-name {
+  color: rgba(0, 123, 255, 1);
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  letter-spacing: 0px;
+  text-align: right;
 }
 .navbar-sticky-section {
   position: sticky;
@@ -38,4 +38,6 @@ text-align: right;
   background-color: rgb(255, 255, 255);
 }
 
-
+.clickable {
+  cursor: pointer;
+}

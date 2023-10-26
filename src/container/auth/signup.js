@@ -106,7 +106,7 @@ const Signup = ({ header }) => {
               <CustomLink
                 text="Already have an account! "
                 textLinkable="Login"
-                link="/"
+                link="/login"
               />
             </div>
           </div>

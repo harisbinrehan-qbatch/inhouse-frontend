@@ -10,12 +10,13 @@ import UserProductsDisplay from '../user-products-display';
 
 const UserProducts = () => {
   const products = useSelector((state) => state.products.data);
-  const [selectedProduct, setSelectedProduct] = useState(products[0]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setSelectedProduct(products[0]);
     dispatch(fetchProducts());
-  }, []);
+  }, [products]);
 
   const showProductDetails = (product) => {
     setSelectedProduct(product);

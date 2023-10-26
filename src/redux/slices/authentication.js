@@ -43,11 +43,14 @@ const authSlice = createSlice({
     loginError: false,
     user: {},
     isAdmin: false,
+    isUser: false,
   },
   reducers: {
     logout: (state) => {
       localStorage.removeItem('user');
       state.user = '';
+      state.isAdmin = false;
+      state.isUser = false;
     },
   },
 
@@ -77,8 +80,10 @@ const authSlice = createSlice({
       state.user = action.payload;
       if (state.user.isAdmin === true) {
         state.isAdmin = true;
+        state.isUser = false;
       } else {
         state.isAdmin = false;
+        state.isUser = true;
       }
       state.loginMessage = action.payload.message || 'Login Successful';
       localStorage.setItem('user', JSON.stringify(action.payload));

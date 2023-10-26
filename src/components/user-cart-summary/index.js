@@ -6,9 +6,7 @@ import { setOrderSummary, setProceedToCheckout } from '../../redux/slices/cart';
 import CustomBtn from '../button';
 
 function UserCartSummary() {
-  const { userCart, orderSummary } = useSelector(
-    (state) => state.cart,
-  );
+  const { userCart, orderSummary } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const handleSetProceedToCheckout = () => {
@@ -16,25 +14,28 @@ function UserCartSummary() {
   };
 
   useEffect(() => {
-    const subTotal = userCart?.products?.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0,
-    ) || 0;
+    if (userCart && userCart.products) {
+      const subTotal = userCart.products.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0,
+      );
 
-    const taxRate = 0.1;
-    const tax = subTotal * taxRate;
+      const taxRate = 0.1;
+      const tax = subTotal * taxRate;
 
-    const total = subTotal + tax;
-    console.log('Order Summary', subTotal, tax, total);
+      const total = subTotal + tax;
+      console.log('Order Summary', subTotal, tax, total);
 
-    dispatch(
-      setOrderSummary({
-        subTotal,
-        tax,
-        total,
-      }),
-    );
-  }, [userCart.products]);
+      dispatch(
+        setOrderSummary({
+          subTotal,
+          tax,
+          total,
+        }),
+      );
+    }
+  }, [userCart]);
+
   return (
     <div className="card-summary-main-div mb-3">
       <div className="p-3">

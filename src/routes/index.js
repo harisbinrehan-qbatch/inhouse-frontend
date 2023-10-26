@@ -12,6 +12,7 @@ import AdminLayout from '../admin-layout';
 import UserLayout from '../user-layout';
 import UserMainPage from '../components/user-main-page';
 import UserCart from '../components/user-cart';
+import MainPageLayout from '../main-page-layout';
 
 const CustomRoutes = () => {
   const { isAdmin } = useSelector((state) => state.authentication);
@@ -40,19 +41,21 @@ const CustomRoutes = () => {
     );
   }
   return (
-    <Routes>
-      <Route path="/" element={<Login header="Login" />} />
-      <Route path="/login" element={<Login header="Login" />} />
-      <Route path="/signup" element={<Signup header="Sign Up" />} />
-      <Route
-        path="/newPassword"
-        element={<NewPassword header="New Password" />}
-      />
-      <Route
-        path="/forgotPassword"
-        element={<ForgotPassword header="Forgot Password" />}
-      />
-    </Routes>
+    <MainPageLayout>
+      <Routes>
+        <Route path="" element={<UserMainPage />} />
+        <Route path="/login" element={<Login header="Login" />} />
+        <Route path="/signup" element={<Signup header="Sign Up" />} />
+        <Route
+          path="/newPassword"
+          element={<NewPassword header="New Password" />}
+        />
+        <Route
+          path="/forgotPassword"
+          element={<ForgotPassword header="Forgot Password" />}
+        />
+      </Routes>
+    </MainPageLayout>
   );
 };
 

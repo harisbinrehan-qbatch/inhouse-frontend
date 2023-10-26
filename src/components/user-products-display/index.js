@@ -1,16 +1,17 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import productImage from '../../assets/images/product.png';
 import { addToCart } from '../../redux/slices/cart';
+import CustomBtn from '../button';
 
 import './style.css';
-import CustomBtn from '../button';
 
 const UserProductsDisplay = ({ product }) => {
   const dispatch = useDispatch();
 
   const user = JSON.parse(localStorage.getItem('user'));
+  const { isUser } = useSelector((state) => state.authentication); // Move it here
 
   if (!product) {
     return null;
@@ -64,9 +65,15 @@ const UserProductsDisplay = ({ product }) => {
           </div>
         </div>
         <div className="d-flex pt-5 justify-content-end">
-          <Link to="/shopping-bag">
-            <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
-          </Link>
+          {isUser ? (
+            <Link to="/shopping-bag">
+              <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
+            </Link>
+          ) : (
+            <Link to="/login">
+              <CustomBtn btnText="Login to continue" />
+            </Link>
+          )}
         </div>
       </div>
     </div>

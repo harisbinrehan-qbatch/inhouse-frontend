@@ -140,7 +140,6 @@ const cartSlice = createSlice({
           products: [{ ...product, quantity: 1 }],
         });
       } else {
-        // Check if the product is already in the cart
         const existingProduct = userCart.products.find(
           (item) => item._id === product._id,
         );

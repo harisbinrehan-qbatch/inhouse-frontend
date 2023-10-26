@@ -6,11 +6,17 @@ import { notification } from 'antd';
 
 export const placeOrder = createAsyncThunk(
   'cart/placeOrder',
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       const response = await axios.post(
         'http://localhost:5000/v1/orders/placeOrder',
         requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -21,11 +27,17 @@ export const placeOrder = createAsyncThunk(
 
 export const addAddress = createAsyncThunk(
   'cart/addAddress',
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       const response = await axios.post(
         'http://localhost:5000/v1/orders/saveAddress',
         requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -36,10 +48,16 @@ export const addAddress = createAsyncThunk(
 
 export const getAddress = createAsyncThunk(
   'cart/getAddress',
-  async (userId, { rejectWithValue }) => {
+  async (userId, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       const response = await axios.get(
         `http://localhost:5000/v1/orders/getAddresses?userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -50,10 +68,16 @@ export const getAddress = createAsyncThunk(
 
 export const getPaymentDetails = createAsyncThunk(
   'cart/getPaymentDetails',
-  async (userId, { rejectWithValue }) => {
+  async (userId, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       const response = await axios.get(
         `http://localhost:5000/v1/orders/getPaymentDetails?userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -64,11 +88,17 @@ export const getPaymentDetails = createAsyncThunk(
 
 export const savePaymentDetails = createAsyncThunk(
   'cart/savePaymentDetails',
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       const response = await axios.post(
         'http://localhost:5000/v1/orders/paymentDetails',
         requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -79,11 +109,17 @@ export const savePaymentDetails = createAsyncThunk(
 
 export const updateDefaultAddress = createAsyncThunk(
   'cart/updateDefaultAddress',
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       const response = await axios.put(
         'http://localhost:5000/v1/orders/updateDefaultAddress',
         requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -258,6 +294,7 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(placeOrder.fulfilled, (state, action) => {
+        state.userCart = null;
         state.orderSuccess = true;
         state.orderMessage = action.payload.message || 'Order Placed Successfully';
         state.cartProducts = state.cartProducts.filter(

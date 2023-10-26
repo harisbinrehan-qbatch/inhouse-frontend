@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import { Table } from 'react-bootstrap';
-import ProductImage from '../../assets/images/product.png';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
 import Pencil from '../../assets/images/Pencil-square.svg';
 import PaginationComponent from '../pagination';
@@ -107,6 +106,7 @@ const Products = () => {
             <Table>
               <thead>
                 <tr className="table-secondary mt-3">
+                  <th>Image</th>
                   <th>
                     Name
                     <img src={Arrow} alt="Arrow Icon" className="ps-2" />
@@ -125,6 +125,7 @@ const Products = () => {
                 </tr>
               </thead>
               <tbody>
+                {console.log({ products })}
                 {products?.map((doc) => (
                   <tr
                     className="product-text"
@@ -133,12 +134,14 @@ const Products = () => {
                   >
                     <td>
                       <img
-                        // src={`http://localhost:5000/${doc.images[0]}`}
-                        src={ProductImage}
+                        className=""
+                        src={`http://localhost:5000/${doc.images[0]}`}
                         alt="thumbnail"
-                        className="product-image mx-2"
+                        height="40px"
                       />
-                      {doc.name}
+                    </td>
+                    <td className="pt-4">
+                      <b>{doc.name}</b>
                     </td>
                     <td className="pt-4">{doc.size}</td>
                     <td className="pt-4">{getColorName(doc.color)}</td>

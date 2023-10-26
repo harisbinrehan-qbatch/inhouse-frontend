@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
@@ -8,7 +8,9 @@ import CustomForm from '../input';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
 import OrdersRectangle from './admin-orders-rectangle';
 import sideArrow from '../../assets/images/Arrow up right.svg';
-import { fetchAllOrders, setOrderAsDelivered } from '../../redux/slices/order';
+import {
+  fetchAllOrders, setOrderAsDelivered, startAgendaJobs,
+} from '../../redux/slices/order';
 import './style.css';
 import CustomAlert from '../alert';
 
@@ -49,6 +51,10 @@ const Orders = () => {
   const handleSearch = debounce((e) => {
     dispatch(fetchAllOrders(e.target.value));
   }, 500);
+
+  useEffect(() => {
+    dispatch(startAgendaJobs());
+  }, []);
 
   return (
     <div className="orders-main-div">

@@ -44,6 +44,7 @@ const authSlice = createSlice({
     user: {},
     isAdmin: false,
     isUser: false,
+    token: '',
   },
   reducers: {
     logout: (state) => {
@@ -57,9 +58,7 @@ const authSlice = createSlice({
   extraReducers: {
     [signUpUser.fulfilled]: (state, action) => {
       state.signUpError = false;
-      state.user = action.payload;
       state.signUpMessage = action.payload.message || 'Signup Successful';
-      localStorage.setItem('user', JSON.stringify(action.payload));
       notification.success({
         message: 'Success',
         description: state.signUpMessage,
@@ -73,11 +72,19 @@ const authSlice = createSlice({
     [signUpUser.rejected]: (state, action) => {
       state.signUpError = true;
       state.signUpMessage = action.payload.message || 'Signup failed';
+      notification.error({
+        message: 'Error',
+        description: state.signUpMessage,
+        type: 'error',
+        duration: 2,
+      });
     },
 
     [loginUser.fulfilled]: (state, action) => {
       state.loginError = false;
       state.user = action.payload;
+      localStorage.setItem('user', JSON.stringify(action.payload));
+
       if (state.user.isAdmin === true) {
         state.isAdmin = true;
         state.isUser = false;
@@ -86,7 +93,11 @@ const authSlice = createSlice({
         state.isUser = true;
       }
       state.loginMessage = action.payload.message || 'Login Successful';
-      localStorage.setItem('user', JSON.stringify(action.payload));
+      notification.success({
+        message: 'Login Success',
+        type: 'success',
+        duration: 2,
+      });
     },
     [loginUser.pending]: (state) => {
       state.loginError = false;
@@ -94,6 +105,12 @@ const authSlice = createSlice({
     [loginUser.rejected]: (state, action) => {
       state.loginError = true;
       state.loginMessage = action.payload.message || 'Login failed';
+      notification.error({
+        message: 'error',
+        description: state.loginMessage,
+        type: 'error',
+        duration: 2,
+      });
     },
   },
 });

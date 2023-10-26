@@ -16,12 +16,15 @@ export const fetchProducts = createAsyncThunk(
         url += `&limit=${limit}`;
       }
 
+      console.log('sasas', state.authentication.user.token || '');
       if (name) {
         url += `&name=${name}`;
       }
-      const response = await axios.get(
-        url,
-      );
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${state.authentication.user.token}`,
+        },
+      });
 
       if (response.data.message) {
         return rejectWithValue({ error: response.data.message });
@@ -35,13 +38,15 @@ export const fetchProducts = createAsyncThunk(
 
 export const addProduct = createAsyncThunk(
   'products/addProduct',
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { getState, rejectWithValue }) => {
+    const state = getState();
     try {
       const response = await axios.post(
         'http://localhost:5000/v1/products/addProduct',
         requestData,
         {
           headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
             'Content-Type': 'multipart/form-data',
           },
         },
@@ -54,10 +59,16 @@ export const addProduct = createAsyncThunk(
 );
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
-  async (_id, { rejectWithValue }) => {
+  async (_id, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       const response = await axios.delete(
         `http://localhost:5000/v1/products/deleteProduct?_id=${_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -68,9 +79,18 @@ export const deleteProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   'products/updateProduct',
-  async (body, { rejectWithValue }) => {
+  async (body, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.put('http://localhost:5000/v1/products/updateProduct', body);
+      const state = getState();
+      const response = await axios.put(
+        'http://localhost:5000/v1/products/updateProduct',
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -124,7 +144,7 @@ const productsSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
-        state.productMessage = action.payload.message || 'Internal Server Error.';
+        state.productMessage = action.payload || 'Internal Server Error.';
         state.data = [];
         state.isProductError = true;
         state.loading = false;
@@ -132,7 +152,7 @@ const productsSlice = createSlice({
 
       .addCase(addProduct.fulfilled, (state, action) => {
         state.addSuccess = true;
-        state.productMessage = action.payload.message || 'Product added Successfully';
+        state.productMessage = action.payload?.message || 'Product added Successfully';
         notification.success({
           message: 'Success',
           description: state.productMessage,

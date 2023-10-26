@@ -1,16 +1,22 @@
+/* eslint-disable prefer-destructuring */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchAllOrders = createAsyncThunk(
   'orders/fetchAll',
-  async (orderId, { rejectWithValue }) => {
+  async (orderId, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       let url = 'http://localhost:5000/v1/orders/getOrders';
 
       if (orderId) {
         url += `?orderId=${orderId}`;
       }
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${state.authentication.user.token}`,
+        },
+      });
 
       return response.data;
     } catch (error) {
@@ -19,12 +25,58 @@ export const fetchAllOrders = createAsyncThunk(
   },
 );
 
+export const startAgendaJobs = createAsyncThunk(
+  'orders/startAgendaJobs',
+  async (orderId, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const response = await axios.get(
+        'http://localhost:5000/v1/script?method=StartDashboardJob',
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const getOrderStats = createAsyncThunk(
+  'orders/getOrderStats',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const response = await axios.get(
+        'http://localhost:5000/v1/orders/getOrderStats',
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message); // Change this to return the error message
+    }
+  },
+);
+
 export const setOrderAsDelivered = createAsyncThunk(
   'orders/setOrderAsDelivered',
-  async (orderId, { rejectWithValue }) => {
+  async (orderId, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
       const response = await axios.put(
         `http://localhost:5000/v1/orders/setIsDelivered?orderId=${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -40,6 +92,8 @@ const ordersSlice = createSlice({
     searchedOrders: [],
     loading: false,
     ordersError: false,
+    orderStats: {},
+    jobMessage: null,
   },
   reducers: {
     // Other reducers for your orders slice
@@ -65,7 +119,20 @@ const ordersSlice = createSlice({
 
       .addCase(setOrderAsDelivered.fulfilled, () => {})
       .addCase(setOrderAsDelivered.pending, () => {})
-      .addCase(setOrderAsDelivered.rejected, () => {});
+      .addCase(setOrderAsDelivered.rejected, () => {})
+
+      .addCase(startAgendaJobs.fulfilled, (state, action) => {
+        state.jobMessage = action.payload;
+      })
+      .addCase(startAgendaJobs.pending, () => {})
+      .addCase(startAgendaJobs.rejected, () => {})
+
+      .addCase(getOrderStats.fulfilled, (state, action) => {
+        state.orderStats = action.payload.data[0];
+        console.log('In fulfilled ', state.orderStats);
+      })
+      .addCase(getOrderStats.pending, () => {})
+      .addCase(getOrderStats.rejected, () => {});
   },
 });
 

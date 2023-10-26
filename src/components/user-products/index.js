@@ -14,9 +14,9 @@ const UserProducts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setSelectedProduct(products[0]);
+    // setSelectedProduct(products[0]);
     dispatch(fetchProducts());
-  }, [products]);
+  }, []);
 
   const showProductDetails = (product) => {
     setSelectedProduct(product);

@@ -1,52 +1,40 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../redux/slices/authentication';
 import CustomLink from '../../components/link';
 import CustomBtn from '../../components/button';
 import CustomForm from '../../components/input';
-import CustomAlert from '../../components/alert';
 
 import './style.css';
 
 const Login = ({ header }) => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState('Haris Bin Rehan');
+  const [email, setEmail] = useState('harisbinrehan@gmail.com');
   const [password, setPassword] = useState('123456');
-  const { loginError } = useSelector((state) => state.authentication);
-  const { loginMessage } = useSelector((state) => state.authentication);
 
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    const body = { username, password };
+    const body = { email, password };
     dispatch(loginUser(body));
     navigate('/');
   };
   return (
     <div>
-      <div className="d-flex justify-content-end">
-        {loginError && (
-          <CustomAlert
-            variant="danger"
-            alertText={loginMessage}
-            className="auth-alert"
-          />
-        )}
-      </div>
 
       <div className="login-rectangle">
         <h2 className="header">{header}</h2>
         <div className="border">
           <div className="login-fields">
             <CustomForm
-              placeholder="Please enter your username"
-              label="Enter Username"
-              type="username"
-              hint="Please enter your username"
-              value={username}
+              placeholder="Please enter your email"
+              label="Enter Email"
+              type="email"
+              hint="Please enter your email"
+              value={email}
               onChange={(e) => {
-                setUsername(e.target.value);
+                setEmail(e.target.value);
               }}
               autocomplete="new-password"
             />

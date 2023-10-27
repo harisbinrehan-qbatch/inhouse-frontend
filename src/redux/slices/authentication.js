@@ -1,7 +1,44 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 import { notification } from 'antd';
 import axios from 'axios';
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async (body, thunkApi) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/v1/auth/resetPassword',
+        body,
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${body.token}`,
+        //   },
+        // },
+      );
+
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue({
+        error: error.response.data.error,
+      });
+    }
+  },
+);
+
+export const sendEmail = createAsyncThunk(
+  'auth/forgotPassword',
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/v1/auth/forgotPassword',
+        email,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 
 export const signUpUser = createAsyncThunk(
   'signUpStatus',
@@ -27,18 +64,6 @@ export const loginUser = createAsyncThunk(
         body,
       );
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
-
-export const forgotPassword = createAsyncThunk(
-  'auth/forgotPassword',
-  async (body, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('http://localhost:5000/v1/auth/forgotPassword', body);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -126,20 +151,25 @@ const authSlice = createSlice({
         });
       })
 
-      .addCase(forgotPassword.fulfilled, (state, action) => {
-        // Handle successful forgotPassword action
+      .addCase(sendEmail.fulfilled, (state, action) => {
         notification.success({
-          message: 'Password Reset',
-          description: action.payload.message || 'Password reset successful',
+          message: action.payload.message || 'Email sent successfully',
           type: 'success',
           duration: 2,
         });
       })
-      .addCase(forgotPassword.pending, () => {})
-      .addCase(forgotPassword.rejected, (state, action) => {
+      .addCase(sendEmail.pending, () => {
+        notification.success({
+          message: 'Sending Email',
+          description: 'Please wait...',
+          type: 'success',
+          duration: 2,
+        });
+      })
+      .addCase(sendEmail.rejected, (state, action) => {
         notification.error({
           message: 'Error',
-          description: action.payload.message || 'Password reset failed',
+          description: action.payload.message || 'Error Sending Email',
           type: 'error',
           duration: 2,
         });

@@ -136,7 +136,7 @@ const Orders = () => {
                         alt="arrow"
                         className="pt-1 mark-delivered-arrow"
                         style={{ cursor: 'pointer' }}
-                        onClick={() => handleSetMarkAsDelivered(order._id)}
+                        onClick={() => { handleSetMarkAsDelivered(order._id); }}
                       />
                       {order.isDelivered ? (
                         <div className="d-flex pt-1 ms-4 mark-delivered-div">

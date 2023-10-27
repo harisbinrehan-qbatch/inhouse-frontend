@@ -300,6 +300,7 @@ const cartSlice = createSlice({
     builder
       .addCase(placeOrder.fulfilled, (state, action) => {
         state.userCart = null;
+        state.orderSummary = null;
         state.orderSuccess = true;
         state.orderMessage = action.payload.message || 'Order Placed Successfully';
 

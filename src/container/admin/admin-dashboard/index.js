@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Products from '../admin-products';
-
 import { getOrderStats } from '../../../redux/slices/order';
 import DashboardCart from '../../../components/dashboard-cart/admin-dashboard-cart';
 
@@ -58,9 +56,6 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <Products />
       </div>
     </div>
   );

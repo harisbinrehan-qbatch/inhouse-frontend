@@ -33,7 +33,9 @@ export const fetchProducts = createAsyncThunk(
           Authorization: `Bearer ${state.authentication.user.token}`,
         },
       });
-
+      if (response.data.products.length === 0) {
+        return rejectWithValue('No Products Found');
+      }
       if (response.data.message) {
         return rejectWithValue({ error: response.data.message });
       }

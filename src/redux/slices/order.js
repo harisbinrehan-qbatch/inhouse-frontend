@@ -84,6 +84,7 @@ export const setOrderAsDelivered = createAsyncThunk(
 
       const response = await axios.put(
         `http://localhost:5000/v1/orders/setIsDelivered?orderId=${orderId}`,
+        null,
         {
           headers: {
             Authorization: `Bearer ${state.authentication.user.token}`,

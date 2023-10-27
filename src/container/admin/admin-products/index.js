@@ -69,7 +69,8 @@ const Products = () => {
   };
   const handleSearch = debounce((e) => {
     handleSetPageOne();
-    dispatch(fetchProducts(e.target.value));
+    const search = e.target.value;
+    dispatch(fetchProducts({ search }));
   }, 500);
 
   return (

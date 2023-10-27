@@ -1,5 +1,4 @@
-import Cart from '../../../assets/images/shopping_cart.svg';
-import './style.css';
+import Cart from '../../assets/images/shopping_cart.svg';
 
 const DashboardCart = ({
   cartText, totalOrders, totalUnits, totalSale,

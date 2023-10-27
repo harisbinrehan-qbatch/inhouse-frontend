@@ -15,7 +15,7 @@ const UserModuleHeader = () => {
   const dropdownArray = [
     {
       heading: 'Size',
-      items: ['XS', 'S', 'M', 'L'],
+      items: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
     },
     {
       heading: 'Color',

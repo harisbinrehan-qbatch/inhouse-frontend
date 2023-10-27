@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable react/button-has-type */
 import { useRef } from 'react';
+
 import cloudImage from '../../assets/images/cloud-arrow-up.svg';
 import CustomBtn from '../button';
-import './style.css';
 
 const CloudBox = ({ selectedImages, setSelectedImages }) => {
   const fileInputRef = useRef(null);

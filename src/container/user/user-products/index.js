@@ -34,7 +34,7 @@ const UserProducts = () => {
       </div>
       <div className="d-flex ps-1">
         <p>Size:</p>
-        <p>{product.size}</p>
+        <p className="ps-2">{product.size}</p>
       </div>
       <div className="d-flex justify-content-end">
         <CustomBtn

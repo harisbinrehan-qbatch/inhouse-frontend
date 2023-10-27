@@ -6,10 +6,8 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts';
-import OrdersPaid from '../../../assets/images/orders-paid.svg';
-import OrdersUnpaid from '../../../assets/images/orders-unpaid.svg';
-
-import './style.css';
+import OrdersPaid from '../../assets/images/orders-paid.svg';
+import OrdersUnpaid from '../../assets/images/orders-unpaid.svg';
 
 const data = [
   {

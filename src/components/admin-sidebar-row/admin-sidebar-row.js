@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Menu, MenuItem } from 'react-pro-sidebar';
-import Arrow from '../../../assets/images/arrow-right.svg';
 
-import './style.css';
+import Arrow from '../../assets/images/arrow-right.svg';
 
 const SidebarRow = ({ link, text }) => (
   <>

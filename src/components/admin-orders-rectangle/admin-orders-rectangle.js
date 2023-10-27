@@ -1,5 +1,3 @@
-import './style.css';
-
 const OrdersRectangle = ({ rectangleText, value }) => (
   <div className="orders-rectangle-main-div">
     <div className="m-2">

@@ -6,7 +6,6 @@ export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async (body, thunkApi) => {
     try {
-      console.log('first', body);
       const response = await axios.post(
         'http://localhost:5000/v1/auth/resetPassword',
         body,
@@ -98,6 +97,7 @@ const authSlice = createSlice({
       .addCase(signUpUser.fulfilled, (state, action) => {
         state.signUpError = false;
         state.signUpMessage = action.payload.message || 'Signup Successful';
+
         notification.success({
           message: 'Success',
           description: state.signUpMessage,
@@ -111,6 +111,7 @@ const authSlice = createSlice({
       .addCase(signUpUser.rejected, (state, action) => {
         state.signUpError = true;
         state.signUpMessage = action.payload.message || 'Signup failed';
+
         notification.error({
           message: 'Error',
           description: state.signUpMessage,
@@ -144,6 +145,7 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loginError = true;
         state.loginMessage = action.payload?.message || 'Login failed';
+
         notification.error({
           message: 'error',
           description: state.loginMessage,
@@ -159,14 +161,7 @@ const authSlice = createSlice({
           duration: 2,
         });
       })
-      .addCase(sendEmail.pending, () => {
-        notification.success({
-          message: 'Sending Email',
-          description: 'Please wait...',
-          type: 'success',
-          duration: 2,
-        });
-      })
+      .addCase(sendEmail.pending, () => {})
       .addCase(sendEmail.rejected, (state, action) => {
         notification.error({
           message: 'Error',
@@ -179,6 +174,7 @@ const authSlice = createSlice({
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.resetPasswordError = false;
         state.resetPasswordMessage = action.payload.message || 'Password reset successful';
+
         notification.success({
           message: 'Password Reset Success',
           description: state.resetPasswordMessage,

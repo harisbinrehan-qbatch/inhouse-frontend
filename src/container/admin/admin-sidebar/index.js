@@ -1,5 +1,4 @@
-import SidebarRow from './admin-sidebar-row';
-
+import SidebarRow from '../../../components/admin-sidebar-row/admin-sidebar-row';
 import './style.css';
 
 const CustomSidebar = () => (

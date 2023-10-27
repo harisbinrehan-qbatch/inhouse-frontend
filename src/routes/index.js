@@ -16,6 +16,7 @@ import UserCart from '../container/user/user-cart';
 
 const CustomRoutes = () => {
   const { isAdmin } = useSelector((state) => state.authentication);
+
   const user = JSON.parse(localStorage.getItem('user'));
 
   if (user?.token) {

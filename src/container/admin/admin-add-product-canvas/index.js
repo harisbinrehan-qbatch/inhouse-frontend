@@ -1,22 +1,22 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from 'react-redux';
 
-import CustomForm from '../input';
-import CustomBtn from '../button';
-import CloudBox from './cloud-box';
-import arrowLeft from '../../assets/images/Arrow left.svg';
+import CustomForm from '../../../components/input';
+import CustomBtn from '../../../components/button';
+import arrowLeft from '../../../assets/images/Arrow left.svg';
+import CloudBox from '../../../components/cloud-box/cloud-box';
 import {
   setShow,
   addProduct,
   updateProduct,
   setUpdateCanvasShow,
-} from '../../redux/slices/products';
+} from '../../../redux/slices/products';
 
 import './style.css';
 
-const CustomCanvas = ({ header, btnText, _id }) => {
+const AddProductCustomCanvas = ({ header, btnText, _id }) => {
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [selectedImages, setSelectedImages] = useState([]);
@@ -163,4 +163,4 @@ const CustomCanvas = ({ header, btnText, _id }) => {
   );
 };
 
-export default CustomCanvas;
+export default AddProductCustomCanvas;

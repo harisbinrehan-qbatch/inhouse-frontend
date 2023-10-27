@@ -6,13 +6,14 @@ import { Table } from 'react-bootstrap';
 
 import CustomForm from '../../../components/input';
 import Arrow from '../../../assets/images/Arrow-up-down.svg';
-import OrdersRectangle from './admin-orders-rectangle';
 import sideArrow from '../../../assets/images/Arrow up right.svg';
 import {
   fetchAllOrders, getAdminOrderStats, setOrderAsDelivered, startAgendaJobs,
 } from '../../../redux/slices/order';
-import './style.css';
 import CustomAlert from '../../../components/alert';
+
+import './style.css';
+import OrdersRectangle from '../../../components/admin-orders-rectangle/admin-orders-rectangle';
 
 const Orders = () => {
   const dispatch = useDispatch();

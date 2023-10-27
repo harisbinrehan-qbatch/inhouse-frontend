@@ -7,6 +7,7 @@ export const fetchAllOrders = createAsyncThunk(
   async (orderId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       let url = 'http://localhost:5000/v1/orders/getOrders';
 
       if (orderId) {
@@ -30,6 +31,7 @@ export const startAgendaJobs = createAsyncThunk(
   async (orderId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.get(
         'http://localhost:5000/v1/script?method=StartDashboardJob',
         {
@@ -49,7 +51,6 @@ export const getOrderStats = createAsyncThunk(
   'orders/getOrderStats',
   async (_, { rejectWithValue }) => {
     try {
-      console.log('Here????????');
       const response = await axios.get(
         'http://localhost:5000/v1/orders/getOrderStats',
       );
@@ -80,6 +81,7 @@ export const setOrderAsDelivered = createAsyncThunk(
   async (orderId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.put(
         `http://localhost:5000/v1/orders/setIsDelivered?orderId=${orderId}`,
         {
@@ -107,12 +109,12 @@ const ordersSlice = createSlice({
     jobMessage: null,
   },
   reducers: {
-    // Other reducers for your orders slice
+    // None
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllOrders.fulfilled, (state, action) => {
-        state.orders = action.payload.orders;
+        state.orders = action.payload.orders || [];
         state.searchedOrders = action.payload.searchedOrders;
         state.loading = false;
         state.error = false;
@@ -145,16 +147,13 @@ const ordersSlice = createSlice({
       .addCase(getOrderStats.rejected, () => {})
 
       .addCase(getAdminOrderStats.fulfilled, (state, action) => {
-        console.log('Here in fulfilled', action.payload);
         state.adminOrderStats = action.payload;
         state.loading = false;
         state.error = false;
       })
-      .addCase(getAdminOrderStats.pending, () => { })
+      .addCase(getAdminOrderStats.pending, () => {})
       .addCase(getAdminOrderStats.rejected, () => {});
   },
 });
-
-// export const {} = ordersSlice.actions; // after adding reducers
 
 export default ordersSlice;

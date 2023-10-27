@@ -9,6 +9,7 @@ export const placeOrder = createAsyncThunk(
   async (requestData, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.post(
         'http://localhost:5000/v1/orders/placeOrder',
         requestData,
@@ -30,6 +31,7 @@ export const addAddress = createAsyncThunk(
   async (requestData, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.post(
         'http://localhost:5000/v1/orders/saveAddress',
         requestData,
@@ -51,6 +53,7 @@ export const getAddress = createAsyncThunk(
   async (userId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.get(
         `http://localhost:5000/v1/orders/getAddresses?userId=${userId}`,
         {
@@ -71,6 +74,7 @@ export const getPaymentDetails = createAsyncThunk(
   async (userId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.get(
         `http://localhost:5000/v1/orders/getPaymentDetails?userId=${userId}`,
         {
@@ -91,6 +95,7 @@ export const savePaymentDetails = createAsyncThunk(
   async (requestData, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.post(
         'http://localhost:5000/v1/orders/paymentDetails',
         requestData,
@@ -112,6 +117,7 @@ export const updateDefaultAddress = createAsyncThunk(
   async (requestData, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.put(
         'http://localhost:5000/v1/orders/updateDefaultAddress',
         requestData,
@@ -181,10 +187,8 @@ const cartSlice = createSlice({
         );
 
         if (existingProduct) {
-          // If the product is already in the cart, increase its quantity
           existingProduct.quantity += 1;
         } else {
-          // If the product is not in the cart, add it with quantity 1
           userCart.products.push({ ...product, quantity: 1 });
         }
       }
@@ -281,6 +285,7 @@ const cartSlice = createSlice({
     const product = state.cartProducts.find((item) => item._id === productId);
     if (product) {
       product.selected = !product.selected;
+
       if (product.selected) {
         state.selectedCartProducts.push(product);
       } else {
@@ -294,17 +299,17 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(placeOrder.fulfilled, (state, action) => {
-        state.userCart = null; // Clear the userCart
+        state.userCart = null;
         state.orderSuccess = true;
         state.orderMessage = action.payload.message || 'Order Placed Successfully';
 
-        // Remove the userCart from cartProducts
         const user = JSON.parse(localStorage.getItem('user'));
         state.cartProducts = state.cartProducts.filter(
           (cartItem) => cartItem.userId !== user.userId,
         );
 
         state.selectedCartProducts = [];
+
         notification.success({
           message: 'Success',
           description: state.orderMessage,
@@ -318,6 +323,7 @@ const cartSlice = createSlice({
       .addCase(placeOrder.rejected, (state) => {
         state.orderSuccess = false;
         state.orderMessage = 'Error placing order';
+
         notification.error({
           message: 'ERROR!',
           description: state.orderMessage,
@@ -329,6 +335,7 @@ const cartSlice = createSlice({
       .addCase(savePaymentDetails.fulfilled, (state, action) => {
         state.paymentDetails = action.payload.paymentDetails;
         state.orderMessage = action.payload.message || 'Payment Details Saved Successfully';
+
         notification.success({
           message: 'Success',
           description: state.orderMessage,
@@ -339,6 +346,7 @@ const cartSlice = createSlice({
       .addCase(savePaymentDetails.pending, () => {})
       .addCase(savePaymentDetails.rejected, (state) => {
         state.orderMessage = 'Error saving payment details';
+
         notification.error({
           message: 'ERROR!',
           description: state.orderMessage,
@@ -362,6 +370,7 @@ const cartSlice = createSlice({
       .addCase(addAddress.fulfilled, (state, action) => {
         state.addAddressSuccess = true;
         state.orderMessage = action.payload.message;
+
         notification.success({
           message: 'Success',
           description: state.addAddressSuccess,
@@ -375,6 +384,7 @@ const cartSlice = createSlice({
       .addCase(addAddress.rejected, (state, action) => {
         state.orderSuccess = false;
         state.orderMessage = action.payload.message;
+
         notification.error({
           message: 'ERROR!',
           description: state.orderMessage,
@@ -385,6 +395,7 @@ const cartSlice = createSlice({
 
       .addCase(updateDefaultAddress.fulfilled, (state) => {
         state.updateAddressSuccess = true;
+
         notification.success({
           message: 'Success',
           description: 'Default address updated successfully.',
@@ -398,6 +409,7 @@ const cartSlice = createSlice({
       .addCase(updateDefaultAddress.rejected, (state) => {
         state.updateAddressSuccess = false;
         state.orderMessage = 'Error updating default address';
+
         notification.error({
           message: 'ERROR!',
           description: state.orderMessage,

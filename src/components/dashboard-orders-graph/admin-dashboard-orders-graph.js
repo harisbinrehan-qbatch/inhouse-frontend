@@ -1,10 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import { PieChart, Pie, Cell } from 'recharts';
 
-import OrdersPaid from '../../../assets/images/orders-paid.svg';
-import OrdersUnpaid from '../../../assets/images/orders-unpaid.svg';
-
-import './style.css';
+import OrdersPaid from '../../assets/images/orders-paid.svg';
+import OrdersUnpaid from '../../assets/images/orders-unpaid.svg';
 
 const data = [
   { name: 'Group A', value: 600 },

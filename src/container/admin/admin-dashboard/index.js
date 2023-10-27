@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import DashboardCart from './admin-dashboard-cart';
-import DashboardLineChart from './admin-dashboard-linechart';
-import DashboardOrdersGraph from './admin-dashboard-orders-graph';
 import Products from '../admin-products';
 
-import './style.css';
 import { getOrderStats } from '../../../redux/slices/order';
+import DashboardCart from '../../../components/dashboard-cart/admin-dashboard-cart';
+
+import DashboardOrdersGraph from '../../../components/dashboard-orders-graph/admin-dashboard-orders-graph';
+import DashboardLineChart from '../../../components/dashboard-line-chart/admin-dashboard-linechart';
+
+import './style.css';
 
 const Dashboard = () => {
   const { orderStats } = useSelector((state) => state.order);

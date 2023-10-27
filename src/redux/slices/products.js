@@ -7,10 +7,15 @@ export const fetchProducts = createAsyncThunk(
   async (name, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const { isAdmin } = state.authentication;
+
       const { page } = state.products;
+
       const limit = 7;
+
       let url = 'http://localhost:5000/v1/products/fetchProducts?';
+
       if (isAdmin) {
         url += `skip=${(page - 1) * limit}`;
         url += `&limit=${limit}`;
@@ -43,6 +48,7 @@ export const addProduct = createAsyncThunk(
   'products/addProduct',
   async (requestData, { getState, rejectWithValue }) => {
     const state = getState();
+
     try {
       const response = await axios.post(
         'http://localhost:5000/v1/products/addProduct',
@@ -65,6 +71,7 @@ export const deleteProduct = createAsyncThunk(
   async (_id, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.delete(
         `http://localhost:5000/v1/products/deleteProduct?_id=${_id}`,
         {
@@ -85,6 +92,7 @@ export const updateProduct = createAsyncThunk(
   async (body, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
       const response = await axios.put(
         'http://localhost:5000/v1/products/updateProduct',
         body,

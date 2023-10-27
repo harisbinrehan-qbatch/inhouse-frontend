@@ -20,10 +20,11 @@ import {
 import CustomAlert from '../../../components/alert';
 import Loading from '../../../components/loading';
 import CustomForm from '../../../components/input';
-import CustomCanvas from '../../../components/canvas';
+
 import CustomBtn from '../../../components/button';
 
 import './style.css';
+import AddProductCustomCanvas from '../admin-add-product-canvas';
 
 const colorMap = {
   '#155724': 'green',
@@ -178,9 +179,11 @@ const Products = () => {
           </div>
         )}
       </div>
-      {show && <CustomCanvas header="Add Product" btnText="Add Product" />}
+      {show && (
+        <AddProductCustomCanvas header="Add Product" btnText="Add Product" />
+      )}
       {updateCanvasShow && (
-        <CustomCanvas
+        <AddProductCustomCanvas
           header="Update Product"
           btnText="Update Product"
           _id={currentProductId}

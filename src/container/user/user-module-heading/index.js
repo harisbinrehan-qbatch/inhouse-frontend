@@ -23,7 +23,7 @@ const UserModuleHeader = () => {
     },
     {
       heading: 'Price',
-      items: ['0 - 200', '200 - 400', '400 - 1000'],
+      items: ['$0 - $200', '$200 - $400', '$400 - $1000'],
     },
   ];
 
@@ -57,12 +57,14 @@ const UserModuleHeader = () => {
   }, [filterObject]);
 
   return (
-    <div style={{ zIndex: '0' }} className="container d-flex justify-content-between user-header-main-div navbar-sticky-section pe-5 ps-5">
+    <div
+      style={{ zIndex: '0' }}
+      className="container d-flex justify-content-between user-header-main-div navbar-sticky-section pe-5 ps-5"
+    >
       <h4 className="header-heading pt-3 ps-4">Heading</h4>
       <div className="d-flex gap-4 pt-3 pb-3">
         <h5 className="pt-2 header-text">Filters:</h5>
         {dropdownArray.map((singleFilter, index) => (
-
           <CustomDropdown
             key={index}
             handleFilter={handleFilters}

@@ -6,14 +6,15 @@ export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async (body, thunkApi) => {
     try {
+      console.log('first', body);
       const response = await axios.post(
         'http://localhost:5000/v1/auth/resetPassword',
         body,
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${body.token}`,
-        //   },
-        // },
+        {
+          headers: {
+            Authorization: `Bearer ${body.token}`,
+          },
+        },
       );
 
       return response.data;
@@ -30,7 +31,7 @@ export const sendEmail = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        'http://localhost:5000/v1/auth/forgotPassword',
+        'http://localhost:5000/v1/auth/sendEmail',
         email,
       );
       return response.data;
@@ -132,7 +133,7 @@ const authSlice = createSlice({
         }
         state.loginMessage = action.payload.message || 'Login Successful';
         notification.success({
-          message: 'Login Success',
+          message: 'Login Successful',
           type: 'success',
           duration: 2,
         });
@@ -170,6 +171,30 @@ const authSlice = createSlice({
         notification.error({
           message: 'Error',
           description: action.payload.message || 'Error Sending Email',
+          type: 'error',
+          duration: 2,
+        });
+      })
+
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.resetPasswordError = false;
+        state.resetPasswordMessage = action.payload.message || 'Password reset successful';
+        notification.success({
+          message: 'Password Reset Success',
+          description: state.resetPasswordMessage,
+          type: 'success',
+          duration: 2,
+        });
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.resetPasswordError = false;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.resetPasswordError = true;
+        state.resetPasswordMessage = action.payload.error || 'Password reset failed';
+        notification.error({
+          message: 'Password Reset Error',
+          description: state.resetPasswordMessage,
           type: 'error',
           duration: 2,
         });

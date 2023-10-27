@@ -7,8 +7,10 @@
 }
 
 .product-image {
-  width: 73px;
-  height: auto;
+  width: 140px;
+  height: 140px;
+  padding: 5px;
+  margin-left: 20px;
 }
 .cart-counter-view {
   border-radius: 10%;

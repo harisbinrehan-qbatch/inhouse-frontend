@@ -60,6 +60,21 @@ export const getOrderStats = createAsyncThunk(
   },
 );
 
+export const getAdminOrderStats = createAsyncThunk(
+  'orders/getAdminOrderStats',
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log('Here????????');
+      const response = await axios.get(
+        'http://localhost:5000/v1/orders/getAdminOrderStats',
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const setOrderAsDelivered = createAsyncThunk(
   'orders/setOrderAsDelivered',
   async (orderId, { getState, rejectWithValue }) => {
@@ -88,6 +103,7 @@ const ordersSlice = createSlice({
     loading: false,
     ordersError: false,
     orderStats: {},
+    adminOrderStats: {},
     jobMessage: null,
   },
   reducers: {
@@ -126,7 +142,16 @@ const ordersSlice = createSlice({
         state.orderStats = action.payload.data[0];
       })
       .addCase(getOrderStats.pending, () => {})
-      .addCase(getOrderStats.rejected, () => {});
+      .addCase(getOrderStats.rejected, () => {})
+
+      .addCase(getAdminOrderStats.fulfilled, (state, action) => {
+        console.log('Here in fulfilled', action.payload);
+        state.adminOrderStats = action.payload;
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(getAdminOrderStats.pending, () => { })
+      .addCase(getAdminOrderStats.rejected, () => {});
   },
 });
 

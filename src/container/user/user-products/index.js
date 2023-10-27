@@ -32,6 +32,10 @@ const UserProducts = () => {
         <p>Price:</p>
         <p>{product.price}</p>
       </div>
+      <div className="d-flex ps-1">
+        <p>Size:</p>
+        <p>{product.size}</p>
+      </div>
       <div className="d-flex justify-content-end">
         <CustomBtn
           btnText="Details"

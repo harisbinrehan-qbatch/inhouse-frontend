@@ -16,11 +16,14 @@ export const fetchProducts = createAsyncThunk(
         url += `&limit=${limit}`;
       }
 
-      console.log('sasas', state.authentication.user.token || '');
       if (name) {
         url += `&name=${name}`;
       }
       const response = await axios.get(url, {
+        params: {
+          search: name?.search || '',
+          filterObject: name?.filterObject ? name.filterObject : {},
+        },
         headers: {
           Authorization: `Bearer ${state.authentication.user.token}`,
         },
@@ -227,7 +230,11 @@ const productsSlice = createSlice({
 });
 
 export const {
-  incrementPage, decrementPage, setPageOne, setShow, setUpdateCanvasShow,
+  incrementPage,
+  decrementPage,
+  setPageOne,
+  setShow,
+  setUpdateCanvasShow,
 } = productsSlice.actions;
 
 export default productsSlice;

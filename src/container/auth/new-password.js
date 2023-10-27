@@ -12,13 +12,11 @@ const NewPassword = ({ header }) => (
           placeholder="enter new password"
           label="Enter New Password"
           type="email"
-          hint="Password must contain Capital, small letter, number and symbols"
         />
         <Form
           placeholder="confirm password"
           label="Confirm Password"
           type="email"
-          hint="Both passwords must be same"
         />
       </div>
       <div className="login-fields">

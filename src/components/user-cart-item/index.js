@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import ProductImage from '../../assets/images/product.png';
 import CustomBtn from '../button';
 import Trash from '../../assets/images/Trash.svg';
 import {
@@ -63,7 +62,11 @@ function CartItem({ cartItem }) {
           onChange={handleCheckboxChange}
           className="checkbox pe-3"
         />
-        <img src={ProductImage} alt="product" className="product-image" />
+        <img
+          src={`http://localhost:5000/${cartItem.images[0]}`}
+          alt="product"
+          className="product-image"
+        />
         <div>
           <div className="container d-flex ps-3 px-2">{cartItem.name}</div>
           <div className="d-flex gap-5 ps-3">

@@ -1,11 +1,26 @@
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch
+import { forgotPassword } from '../../redux/slices/authentication';
+
 import CustomBtn from '../../components/button';
 import Form from '../../components/input';
 import CustomLink from '../../components/link';
+
 import './style.css';
 
 const ForgotPassword = ({ header }) => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.authentication);
+
+  // Create a state variable to capture the email
+  const [email, setEmail] = useState('');
+
+  const handleForgotPassword = () => {
+    // Call the handleForgotPassword function and pass the email
+    dispatch(forgotPassword({ email, token: user.token }));
+  };
+
   return (
     <div className="login-rectangle">
       <h2 className="header">{header}</h2>
@@ -15,7 +30,8 @@ const ForgotPassword = ({ header }) => {
             placeholder="Please enter your email"
             label="Enter Email Address"
             type="email"
-            hint="Enter a valid email address"
+            // Update the email state when the input changes
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="login-fields">
@@ -23,7 +39,8 @@ const ForgotPassword = ({ header }) => {
             btnText="Forgot Password"
             size="default"
             className="w-100"
-            onClick={() => navigate('/newPassword')}
+            // Pass the email to handleForgotPassword
+            onClick={handleForgotPassword}
           />
         </div>
         <div className="login-fields text-center login-links">
@@ -37,4 +54,5 @@ const ForgotPassword = ({ header }) => {
     </div>
   );
 };
+
 export default ForgotPassword;

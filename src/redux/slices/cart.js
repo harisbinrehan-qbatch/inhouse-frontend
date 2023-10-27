@@ -294,12 +294,16 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(placeOrder.fulfilled, (state, action) => {
-        state.userCart = null;
+        state.userCart = null; // Clear the userCart
         state.orderSuccess = true;
         state.orderMessage = action.payload.message || 'Order Placed Successfully';
+
+        // Remove the userCart from cartProducts
+        const user = JSON.parse(localStorage.getItem('user'));
         state.cartProducts = state.cartProducts.filter(
-          (product) => !product.selected,
+          (cartItem) => cartItem.userId !== user.userId,
         );
+
         state.selectedCartProducts = [];
         notification.success({
           message: 'Success',

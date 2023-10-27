@@ -1,18 +1,18 @@
 import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import Products from '../components/admin-products';
 import Login from '../container/auth/login';
 import Signup from '../container/auth/signup';
 import ForgotPassword from '../container/auth/forgot-password';
 import NewPassword from '../container/auth/new-password';
-import Orders from '../components/admin-orders';
-import Dashboard from '../components/admin-dashboard';
 import AdminLayout from '../admin-layout';
 import UserLayout from '../user-layout';
-import UserMainPage from '../components/user-main-page';
-import UserCart from '../components/user-cart';
 import MainPageLayout from '../main-page-layout';
+import Dashboard from '../container/admin/admin-dashboard';
+import Products from '../container/admin/admin-products';
+import Orders from '../container/admin/admin-orders';
+import UserMainPage from '../container/user/user-main-page';
+import UserCart from '../container/user/user-cart';
 
 const CustomRoutes = () => {
   const { isAdmin } = useSelector((state) => state.authentication);

@@ -45,7 +45,7 @@ function CustomNavbar() {
             className="justify-content-end"
           >
             {isUser || isAdmin ? (
-              isAdmin ? (
+              isUser ? (
                 <Link to="/shopping-bag">
                   <img
                     src={CartIcon}

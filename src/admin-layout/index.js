@@ -1,5 +1,5 @@
 // import { Route, Routes } from 'react-router-dom';
-import CustomSidebar from '../components/admin-sidebar';
+import CustomSidebar from '../container/admin/admin-sidebar';
 import CustomNavbar from '../components/navbar';
 
 const AdminLayout = ({ children, setIsLoggedIn }) => (

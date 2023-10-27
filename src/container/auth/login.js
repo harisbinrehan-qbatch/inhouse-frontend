@@ -31,7 +31,6 @@ const Login = ({ header }) => {
               placeholder="Please enter your email"
               label="Enter Email"
               type="email"
-              hint="Please enter your email"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -44,7 +43,6 @@ const Login = ({ header }) => {
               placeholder="Please enter password"
               label="Password"
               type="password"
-              hint="Please enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

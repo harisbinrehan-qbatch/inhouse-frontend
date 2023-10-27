@@ -47,20 +47,15 @@ export const startAgendaJobs = createAsyncThunk(
 
 export const getOrderStats = createAsyncThunk(
   'orders/getOrderStats',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state = getState();
+      console.log('Here????????');
       const response = await axios.get(
         'http://localhost:5000/v1/orders/getOrderStats',
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message); // Change this to return the error message
+      return rejectWithValue(error.message);
     }
   },
 );
@@ -129,7 +124,6 @@ const ordersSlice = createSlice({
 
       .addCase(getOrderStats.fulfilled, (state, action) => {
         state.orderStats = action.payload.data[0];
-        console.log('In fulfilled ', state.orderStats);
       })
       .addCase(getOrderStats.pending, () => {})
       .addCase(getOrderStats.rejected, () => {});

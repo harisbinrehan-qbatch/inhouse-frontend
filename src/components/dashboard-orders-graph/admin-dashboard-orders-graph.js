@@ -1,40 +1,74 @@
 /* eslint-disable react/no-array-index-key */
+import React from 'react'; // Make sure to import React
 import { PieChart, Pie, Cell } from 'recharts';
-
 import OrdersPaid from '../../assets/images/orders-paid.svg';
 import OrdersUnpaid from '../../assets/images/orders-unpaid.svg';
 
-const data = [
-  { name: 'Group A', value: 600 },
-  { name: 'Group B', value: 300 },
-];
-const COLORS = ['#0088FE', '#00C49F'];
+const COLORS = ['#00C49F', '#0088FE'];
 
-const DashboardOrdersGraph = () => (
-  <div className="dashboard-orders-graph-main-div ">
-    <PieChart width={250} height={250}>
-      <Pie
-        data={data}
-        cx={120}
-        cy={120}
-        innerRadius={70}
-        outerRadius={100}
-        fill="#8884d8"
-        paddingAngle={0}
-        dataKey="value"
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-    </PieChart>
-    <div className="p-2 dashboard-orders-graph-text">
-      <img src={OrdersPaid} alt="Orders Paid Icon" />
-      <span className="m-2">Orders Paid</span>
-      <img src={OrdersUnpaid} alt="Orders Unpaid Icon" />
-      <span className="m-2">Orders Unpaid</span>
+const DashboardOrdersGraph = ({ paidOrders, unpaidOrders }) => {
+  // Calculate the total (sum of paidOrders and unpaidOrders)
+  const total = paidOrders + unpaidOrders;
+
+  // Calculate the percentages for paid and unpaid orders
+  const paidPercentage = total > 0 ? (paidOrders / total) * 100 : 0;
+  const unpaidPercentage = total > 0 ? (unpaidOrders / total) * 100 : 0;
+
+  const data = [
+    { name: 'Orders Paid', value: paidOrders || 0 },
+    { name: 'Orders Unpaid', value: unpaidOrders || 0 },
+  ];
+
+  return (
+    <div className="dashboard-orders-graph-main-div">
+      <PieChart width={250} height={246}>
+        <Pie
+          data={data}
+          cx={120}
+          cy={120}
+          innerRadius={70}
+          outerRadius={100}
+          fill="#8884d8"
+          paddingAngle={0}
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      </PieChart>
+      <div className="ps-2 dashboard-orders-graph-text">
+        <div>
+          <img src={OrdersPaid} alt="Orders Paid Icon" />
+          <span className="ms-2">
+            <strong>Orders Paid:</strong>
+            {' '}
+            {paidOrders}
+            {' '}
+            <span style={{ color: 'green' }}>
+              (
+              {paidPercentage.toFixed(2)}
+              %)
+            </span>
+          </span>
+        </div>
+        <div>
+          <img src={OrdersUnpaid} alt="Orders Unpaid Icon" />
+          <span className="ms-2">
+            <strong>Orders Unpaid:</strong>
+            {' '}
+            {unpaidOrders}
+            {' '}
+            <span style={{ color: 'green' }}>
+              (
+              {unpaidPercentage.toFixed(2)}
+              %)
+            </span>
+          </span>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default DashboardOrdersGraph;

@@ -8,9 +8,13 @@ import DashboardOrdersGraph from '../../../components/dashboard-orders-graph/adm
 import DashboardLineChart from '../../../components/dashboard-line-chart/admin-dashboard-linechart';
 
 import './style.css';
+import TopSelling from '../admin-top-selling';
 
 const Dashboard = () => {
   const { orderStats } = useSelector((state) => state.order);
+
+  console.log('totalPaidOrders', orderStats?.totalPaidOrders || 0);
+  console.log('totalUnPaidOrders', orderStats?.totalUnpaidOrders || 0);
 
   const dispatch = useDispatch();
 
@@ -24,21 +28,21 @@ const Dashboard = () => {
       <div className="d-flex justify-content-around gap-4 ms-4 me-3">
         <DashboardCart
           cartText="Today"
-          totalOrders={orderStats?.todayStats?.totalOrders}
-          totalUnits={orderStats?.todayStats?.totalUnits}
-          totalSale={orderStats?.todayStats?.totalSales}
+          totalOrders={orderStats?.todayStats?.totalOrders || 'Nil'}
+          totalUnits={orderStats?.todayStats?.totalUnits || 'Nil'}
+          totalSale={orderStats?.todayStats?.totalSales || 'Nil'}
         />
         <DashboardCart
           cartText="7 Days"
-          totalOrders={orderStats?.sevenDayStats?.totalOrders}
-          totalUnits={orderStats?.sevenDayStats?.totalUnits}
-          totalSale={orderStats?.sevenDayStats?.totalSales}
+          totalOrders={orderStats?.sevenDayStats?.totalOrders || 'Nil'}
+          totalUnits={orderStats?.sevenDayStats?.totalUnits || 'Nil'}
+          totalSale={orderStats?.sevenDayStats?.totalSales || 'Nil'}
         />
         <DashboardCart
           cartText="30 Days"
-          totalOrders={orderStats?.thirtyDayStats?.totalOrders}
-          totalUnits={orderStats?.thirtyDayStats?.totalUnits}
-          totalSale={orderStats?.thirtyDayStats?.totalSales}
+          totalOrders={orderStats?.thirtyDayStats?.totalOrders || 'Nil'}
+          totalUnits={orderStats?.thirtyDayStats?.totalUnits || 'Nil'}
+          totalSale={orderStats?.thirtyDayStats?.totalSales || 'Nil'}
         />
       </div>
       <div>
@@ -46,15 +50,21 @@ const Dashboard = () => {
           <div className="">
             <span className="p-3 m-3">Orders Overview</span>
             <div className="pt-3 ps-2">
-              <DashboardOrdersGraph />
+              <DashboardOrdersGraph
+                paidOrders={orderStats?.totalPaidOrders || 0}
+                unpaidOrders={orderStats?.totalUnpaidOrders || 0}
+              />
             </div>
           </div>
           <div className="ps-3">
             <span className="p-3 mb-3">Sales & Orders Report</span>
             <div className="pt-3">
-              <DashboardLineChart />
+              <DashboardLineChart oneYearStats={orderStats?.oneYearStats || {}} />
             </div>
           </div>
+        </div>
+        <div>
+          <TopSelling />
         </div>
       </div>
     </div>

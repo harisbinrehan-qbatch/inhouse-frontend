@@ -15,29 +15,51 @@ const UserModuleHeader = () => {
   const dropdownArray = [
     {
       heading: 'Size',
-      items: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
+      items: ['none', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
     },
     {
       heading: 'Color',
-      items: ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'],
+      items: ['none', '#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'],
     },
     {
       heading: 'Price',
-      items: ['$0 - $200', '$200 - $400', '$400 - $1000'],
+      items: ['none', '$0 - $200', '$200 - $400', '$400 - $1000'],
+    },
+    {
+      heading: 'Sorting',
+      items: [
+        'none',
+        'Price low to high',
+        'Price high to low',
+        'Newest products',
+      ],
     },
   ];
 
   const handleSearch = debounce((e) => {
     const search = e.target.value;
-    dispatch(fetchProducts({ search }));
+    setFilterObject({
+      ...filterObject,
+      search,
+    });
   }, 500);
+
+  useEffect(() => {
+    dispatch(fetchProducts(filterObject));
+  }, [filterObject]);
 
   const handleFilters = (filter) => {
     let filterName = Object.keys(filter)[0];
-    const { filterAction } = filter;
+    const filterAction = filter[filterName];
     filterName = filterName.toLowerCase();
 
-    if (filterName === 'price') {
+    if (filterName === 'price' && filterAction === 'none') {
+      // Handle the case where 'Price' filter is set to 'none'
+      setFilterObject({
+        ...filterObject,
+        [filterName]: undefined, // Remove the 'price' filter
+      });
+    } else if (filterName === 'price') {
       const splittedValue = filterAction.split('-');
       const startValue = splittedValue[0].split('$')[1];
       const endValue = splittedValue[1].split('$')[1];
@@ -52,13 +74,10 @@ const UserModuleHeader = () => {
       });
     }
   };
-  useEffect(() => {
-    dispatch(fetchProducts({ filterObject }));
-  }, [filterObject]);
 
   return (
     <div
-      style={{ zIndex: '0' }}
+      style={{ zIndex: '1' }}
       className="container d-flex justify-content-between user-header-main-div navbar-sticky-section pe-5 ps-5"
     >
       <h4 className="header-heading pt-3 ps-4">Heading</h4>
@@ -72,7 +91,6 @@ const UserModuleHeader = () => {
             items={singleFilter.items}
           />
         ))}
-        <h5 className="pt-2 header-text">Sorting:</h5>
         <h5 className="pt-2 header-text">Search:</h5>
         <CustomForm
           style={{ marginTop: '-24px' }}

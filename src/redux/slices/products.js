@@ -4,44 +4,40 @@ import { notification } from 'antd';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async (name, { getState, rejectWithValue }) => {
+  async (filterObject, { getState, rejectWithValue }) => {
     try {
       const state = getState();
-
       const { isAdmin } = state.authentication;
-
       const { page } = state.products;
-
       const limit = 7;
 
       let url = 'http://localhost:5000/v1/products/fetchProducts?';
 
       if (isAdmin) {
-        url += `skip=${(page - 1) * limit}`;
-        url += `&limit=${limit}`;
+        url += `skip=${(page - 1) * limit}&limit=${limit}`;
       }
 
-      if (name) {
-        url += `&name=${name}`;
-      }
       const response = await axios.get(url, {
         params: {
-          search: name?.search || '',
-          filterObject: name?.filterObject ? name.filterObject : {},
+          filterObject,
         },
         headers: {
           Authorization: `Bearer ${state.authentication.user.token}`,
         },
       });
+
       if (response.data.products.length === 0) {
-        return rejectWithValue('No Products Found');
+        return rejectWithValue({ error: 'No Products Found' });
       }
+
       if (response.data.message) {
         return rejectWithValue({ error: response.data.message });
       }
+
       return response.data.products;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      // Handle network errors, timeouts, and other issues
+      return rejectWithValue({ error: 'Network Error', originalError: error });
     }
   },
 );

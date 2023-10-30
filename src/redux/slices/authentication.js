@@ -89,6 +89,7 @@ const authSlice = createSlice({
       state.user = '';
       state.isAdmin = false;
       state.isUser = false;
+      state.loginError = true;
     },
   },
 
@@ -139,15 +140,15 @@ const authSlice = createSlice({
           duration: 2,
         });
       })
-      .addCase(loginUser.pending, (state) => {
-        state.loginError = false;
+      .addCase(loginUser.pending, () => {
+        // state.loginError = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginError = true;
         state.loginMessage = action.payload?.message || 'Login failed';
 
         notification.error({
-          message: 'error',
+          message: 'Error',
           description: state.loginMessage,
           type: 'error',
           duration: 2,

@@ -47,8 +47,6 @@ const Orders = () => {
     dispatch(startAgendaJobs());
   }, []);
 
-  console.log('bjsdkbfkjsdnlkgnskldmgkl', adminOrderStats);
-
   return (
     <div className="orders-main-div">
       <h2 className="heading d-flex p-4">Orders</h2>

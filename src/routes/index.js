@@ -1,6 +1,7 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { useEffect } from 'react';
 import Login from '../container/auth/login';
 import Signup from '../container/auth/signup';
 import ForgotPassword from '../container/auth/forgot-password';
@@ -15,9 +16,14 @@ import UserMainPage from '../container/user/user-main-page';
 import UserCart from '../container/user/user-cart';
 
 const CustomRoutes = () => {
-  const { isAdmin } = useSelector((state) => state.authentication);
+  const { isAdmin, loginError } = useSelector((state) => state.authentication);
+  const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (!loginError) { navigate('/'); }
+  }, [loginError]);
 
   if (user?.token) {
     if (isAdmin) {

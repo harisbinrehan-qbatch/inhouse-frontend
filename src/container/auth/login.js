@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+
 import { loginUser } from '../../redux/slices/authentication';
 import CustomLink from '../../components/link';
 import CustomBtn from '../../components/button';
@@ -13,16 +13,13 @@ const Login = ({ header }) => {
   const [email, setEmail] = useState('harisbinrehan@gmail.com');
   const [password, setPassword] = useState('123456');
 
-  const navigate = useNavigate();
-
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const body = { email, password };
-    dispatch(loginUser(body));
-    navigate('/');
+    await dispatch(loginUser(body));
   };
+
   return (
     <div>
-
       <div className="login-rectangle">
         <h2 className="header">{header}</h2>
         <div className="border">
@@ -35,7 +32,7 @@ const Login = ({ header }) => {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
-              autocomplete="new-password"
+              autoComplete="new-password"
             />
           </div>
           <div className="login-fields">
@@ -49,7 +46,6 @@ const Login = ({ header }) => {
           </div>
           <div className="login-fields">
             <CustomBtn
-              to="/"
               btnText="Login"
               size="default"
               className="w-100"
@@ -77,4 +73,5 @@ const Login = ({ header }) => {
     </div>
   );
 };
+
 export default Login;

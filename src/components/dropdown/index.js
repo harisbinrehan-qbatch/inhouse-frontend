@@ -28,7 +28,7 @@ function CustomDropdown({ heading, items, handleFilter }) {
 
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
 
-      <Dropdown.Menu>
+      <Dropdown.Menu className="dropdown-menu">
         {items.map((item, index) => (
           <Dropdown.Item
             className="drop-down-item"

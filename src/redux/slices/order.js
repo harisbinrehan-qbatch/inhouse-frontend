@@ -65,7 +65,6 @@ export const getAdminOrderStats = createAsyncThunk(
   'orders/getAdminOrderStats',
   async (_, { rejectWithValue }) => {
     try {
-      console.log('Here????????');
       const response = await axios.get(
         'http://localhost:5000/v1/orders/getAdminOrderStats',
       );

@@ -35,7 +35,6 @@ const NewPassword = ({ header }) => {
         token,
         newPassword: password,
       };
-      // console.log('Body here', body);
       dispatch(resetPassword(body));
     } else {
       notification.error({

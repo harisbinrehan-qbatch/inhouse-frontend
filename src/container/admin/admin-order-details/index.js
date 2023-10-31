@@ -16,8 +16,6 @@ function OrderDetails() {
 
   const orderData = orders.find((order) => order._id === orderId);
 
-  console.log('here id and data is ', orderId, orderData);
-
   if (!orderData) {
     return <div>No order data found.</div>;
   }
@@ -27,33 +25,52 @@ function OrderDetails() {
         <Link to="/orders">
           <img src={arrowLeft} alt="Cloud" className="img-large" />
         </Link>
-        <h2 className="d-flex ps-4 pt-1 heading">Order Details</h2>
+        <h2 className="d-flex ps-3 pt-1">Order Details</h2>
       </div>
       <div className="container d-flex mt-5 justify-content-between">
         <p>
-          <strong>Date:</strong>
+          <strong style={{ color: 'green' }}>Date:</strong>
           {' '}
-          {orderData.date}
+          <strong className="ps-1">
+            {new Date(orderData.date).toLocaleString('en-US', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric',
+            })}
+          </strong>
         </p>
         <p>
-          <strong>Order #:</strong>
+          <strong style={{ color: 'green' }}>Order #:</strong>
           {' '}
-          {orderData.orderId}
+          <strong className="ps-1">{orderData.orderId}</strong>
         </p>
         <p>
-          <strong>User:</strong>
+          <strong style={{ color: 'green' }}>User:</strong>
           {' '}
-          {orderData.username}
+          <strong className="ps-1">{orderData.username}</strong>
         </p>
         <p>
-          <strong>Products:</strong>
+          <strong style={{ color: 'green' }}>Products:</strong>
           {' '}
-          {orderData.products.length}
+          <strong className="ps-1">{orderData.products.length}</strong>
         </p>
         <p>
-          <strong>Amount:</strong>
+          <strong style={{ color: 'green' }}>Amount:</strong>
           {' '}
-          {orderData.total}
+          <strong className="ps-1">{orderData.total}</strong>
+        </p>
+        <p className="d-flex">
+          <strong style={{ color: 'green' }}>Status:</strong>
+          {' '}
+          {orderData.isPaid ? (
+            <div className="row-paid-div ms-2" style={{ marginTop: '-5px' }}>
+              Paid
+            </div>
+          ) : (
+            <div className="row-unpaid-div ms-2" style={{ marginTop: '-5px' }}>
+              Unpaid
+            </div>
+          )}
         </p>
       </div>
       <div>

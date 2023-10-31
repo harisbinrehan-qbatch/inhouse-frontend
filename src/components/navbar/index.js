@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container, Image, Navbar, NavDropdown, Button,
@@ -59,17 +58,30 @@ function CustomNavbar() {
                 Login
               </Button>
             )}
-            {isUser || isAdmin ? (
+            {isUser ? (
               <NavDropdown
                 title={user?.username}
                 id="basic-nav-dropdown"
-                className="user-name"
+                className="user-name ps-4"
+              >
+                <NavDropdown.Item onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+                <NavDropdown.Item className="pt-3">
+                  Orders
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <NavDropdown
+                title={user?.username}
+                id="basic-nav-dropdown"
+                className="user-name ps-4"
               >
                 <NavDropdown.Item onClick={handleLogout}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
-            ) : null}
+            )}
             {isUser || isAdmin ? (
               <Image
                 src={userImage}

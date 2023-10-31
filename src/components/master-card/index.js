@@ -1,3 +1,4 @@
+import React from 'react';
 import { useSelector } from 'react-redux';
 import MasterCardImage from '../../assets/images/mastercard.svg';
 import CardBack from '../../assets/images/card-background.png';

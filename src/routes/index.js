@@ -1,4 +1,6 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import {
+  Route, Routes, useNavigate, useLocation,
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { useEffect } from 'react';
@@ -19,10 +21,16 @@ const CustomRoutes = () => {
   const { isAdmin, loginError } = useSelector((state) => state.authentication);
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const user = JSON.parse(localStorage.getItem('user'));
 
+  const { pathname } = location;
+
   useEffect(() => {
-    if (!loginError) { navigate('/'); }
+    if (!loginError && pathname === '/login') {
+      navigate('/');
+    }
   }, [loginError]);
 
   if (user?.token) {

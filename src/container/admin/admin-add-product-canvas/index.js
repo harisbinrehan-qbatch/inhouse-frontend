@@ -16,17 +16,19 @@ import {
 
 import './style.css';
 
-const AddProductCustomCanvas = ({ header, btnText, _id }) => {
+const AddProductCustomCanvas = ({
+  header, btnText, _id, selectedProduct,
+}) => {
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [selectedImages, setSelectedImages] = useState([]);
   const [formData, setFormData] = useState({
     _id,
-    name: 'Haris',
-    price: '23',
-    size: 'M',
-    color: 'Black',
-    quantity: '34',
+    name: selectedProduct?.name || '',
+    price: selectedProduct?.price || 0,
+    size: selectedProduct?.size || '',
+    color: selectedProduct?.color || '',
+    quantity: selectedProduct?.quantity || 0,
   });
 
   const handleClose = () => {

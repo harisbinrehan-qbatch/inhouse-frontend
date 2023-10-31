@@ -1,10 +1,13 @@
+import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
-
 import Arrow from '../../../assets/images/Arrow-up-down.svg';
-import productImage from '../../../assets/images/product.png';
 
 const TopSelling = () => {
-  console.log('Implementing top selling products');
+  const { orderStats } = useSelector((state) => state.order);
+  console.log('Now here', orderStats.topSelling);
+  if (!orderStats || !orderStats.topSelling) {
+    return null;
+  }
 
   return (
     <div>
@@ -23,7 +26,7 @@ const TopSelling = () => {
                   <img src={Arrow} alt="Arrow Icon" className="ps-2" />
                 </th>
                 <th>Stock</th>
-                <th>units</th>
+                <th>Units</th>
                 <th>
                   Amount
                   <img src={Arrow} alt="Arrow Icon" className="ps-1" />
@@ -35,23 +38,37 @@ const TopSelling = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="product-text">
-                <td>
-                  <img
-                    className=""
-                    src={productImage}
-                    alt="thumbnail"
-                    height="40px"
-                  />
-                </td>
-                <td className="pt-3">
-                  <b>Haris</b>
-                </td>
-                <td className="pt-3">34</td>
-                <td className="pt-3">69(sold)</td>
-                <td className="pt-3">1200</td>
-                <td className="pt-3">21 July 1947</td>
-              </tr>
+              {orderStats.topSelling.map((product, index) => (
+                <tr className="" key={index}>
+                  <td>
+                    <img
+                      className=""
+                      src={`http://localhost:5000/${product.images[0]}`}
+                      alt="thumbnail"
+                      height="50px"
+                      width="70px"
+                    />
+                  </td>
+
+                  <td className="pt-4">
+                    <b>{product.name}</b>
+                  </td>
+                  <td className="pt-4">{product.quantity}</td>
+                  <td className="pt-4">
+                    {product.sold}
+                    {' '}
+                    (sold)
+                  </td>
+                  <td className="pt-4">{product.price}</td>
+                  <td className="pt-4">
+                    {new Date(product.date).toLocaleString('en-US', {
+                      day: '2-digit',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </div>

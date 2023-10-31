@@ -17,7 +17,6 @@ import {
   setUpdateCanvasShow,
 } from '../../../redux/slices/products';
 
-import CustomAlert from '../../../components/alert';
 import Loading from '../../../components/loading';
 import CustomForm from '../../../components/input';
 
@@ -34,15 +33,19 @@ const colorMap = {
   '#740F0F': 'red',
 };
 function getColorName(hexCode) {
-  return colorMap[hexCode] || hexCode;
+  if (hexCode) {
+    const color = colorMap[hexCode];
+    return color || '';
+  }
+  return '';
 }
+
 const Products = () => {
   const products = useSelector((state) => state.products.data);
   const [currentProductId, setCurrentProductId] = useState();
-  const { productMessage } = useSelector((state) => state.products);
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const {
-    page, isProductError, loading, editSuccess, deleteSuccess, addSuccess,
+    page, loading, editSuccess, deleteSuccess, addSuccess,
   } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
@@ -169,11 +172,6 @@ const Products = () => {
                 ))}
               </tbody>
             </Table>
-            {isProductError && (
-              <div>
-                <CustomAlert variant="danger" alertText={productMessage} />
-              </div>
-            )}
             <div className="d-flex justify-content-end pe-3">
               <PaginationComponent />
             </div>
@@ -188,6 +186,9 @@ const Products = () => {
           header="Update Product"
           btnText="Update Product"
           _id={currentProductId}
+          selectedProduct={products.find(
+            (product) => product._id === currentProductId,
+          )}
         />
       )}
     </div>

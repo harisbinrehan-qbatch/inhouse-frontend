@@ -47,14 +47,23 @@ function AddPayment() {
       </div>
       <div>
         <MasterCard
-          bankName="HBL"
-          cardNumber="02857900455603"
-          cardholderName="Haris Bin Rehan"
-          expirationDate="07/23"
-          cvc="123"
+          bankName=""
+          cardNumber=""
+          cardholderName=""
+          expirationDate=""
+          cvc=""
         />
       </div>
-      {mastercardShow && <MastercardCanvas header="Add Payment Method" />}
+      {mastercardShow && (
+        <MastercardCanvas
+          header={
+            isEmpty(paymentDetails)
+              ? 'Add Payment Details'
+              : 'Update Payment Details'
+          }
+        />
+      )}
+
       {!isEmpty(paymentDetails) && !isEmpty(userCart) && (
         <CustomBtn
           className="d-flex my-4"

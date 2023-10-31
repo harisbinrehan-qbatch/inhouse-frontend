@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from 'react-redux';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 import { savePaymentDetails, setMastercardShow } from '../../../redux/slices/cart';
 import arrowLeft from '../../../assets/images/Arrow left.svg';
@@ -10,13 +10,19 @@ import CustomBtn from '../../../components/button';
 import './style.css';
 
 const MastercardCanvas = ({ header }) => {
-  const { mastercardShow } = useSelector((state) => state.cart);
+  const { mastercardShow, paymentDetails } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const [cardholderName, setCardholderName] = useState('Haris Bin Rehan');
-  const [cardNumber, setCardNumber] = useState('02857900455603');
-  const [expiryDate, setExpiryDate] = useState('07/25');
-  const [cvc, setCvc] = useState('123');
+  const [cardholderName, setCardholderName] = useState(
+    paymentDetails?.cardholderName,
+  );
+  const [cardNumber, setCardNumber] = useState(
+    paymentDetails?.cardNumber,
+  );
+  const [expiryDate, setExpiryDate] = useState(
+    paymentDetails?.expiryDate,
+  );
+  const [cvc, setCvc] = useState(paymentDetails?.cvc);
 
   const handleClose = () => {
     dispatch(setMastercardShow());
@@ -25,15 +31,22 @@ const MastercardCanvas = ({ header }) => {
   const handleSavePaymentDetails = () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
-    const paymentDetails = {
+    const paymentDetailsUpdated = {
       cardNumber,
       expiryDate,
       cvc,
       cardholderName,
     };
 
-    dispatch(savePaymentDetails({ userId: user.userId, paymentDetails }));
-    handleClose();
+    if (user) {
+      dispatch(
+        savePaymentDetails({
+          userId: user.userId,
+          paymentDetails: paymentDetailsUpdated,
+        }),
+      );
+      handleClose();
+    }
   };
 
   return (

@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+/* eslint-disable no-underscore-dangle */
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { notification } from 'antd';
+
 import CustomBtn from '../button';
 import Trash from '../../assets/images/Trash.svg';
 import {
@@ -23,6 +26,8 @@ function getColorName(hexCode) {
 }
 
 function CartItem({ cartItem }) {
+  const { data } = useSelector((state) => state.products);
+
   const dispatch = useDispatch();
 
   const [isSelected, setIsSelected] = useState(false);
@@ -32,7 +37,19 @@ function CartItem({ cartItem }) {
   };
 
   const handleIncrementQuantity = () => {
-    dispatch(incrementQuantity(cartItem));
+    const matchingProduct = data.find(
+      (product) => product._id === cartItem._id,
+    );
+
+    if (matchingProduct && cartItem.quantity < matchingProduct.quantity) {
+      dispatch(incrementQuantity(cartItem));
+    } else {
+      notification.warning({
+        message: 'No more products available',
+        type: 'success',
+        duration: 2,
+      });
+    }
   };
 
   const handleDecrementQuantity = () => {

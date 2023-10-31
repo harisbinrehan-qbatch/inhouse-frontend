@@ -37,10 +37,29 @@ const UserProducts = () => {
         <p className="ps-2">{product.size}</p>
       </div>
       <div className="d-flex justify-content-end">
-        <CustomBtn
-          btnText="Details"
-          onClick={() => showProductDetails(product)}
-        />
+        {product.quantity === 0 ? (
+          <div
+            className=""
+            style={{
+              color: 'white',
+              background: 'red',
+              height: '35px',
+              borderRadius: '3px',
+            }}
+          >
+            <strong
+              style={{ fontStyle: 'italic' }}
+              className="d-flex ps-2 pe-2 pt-1 justify-content-around"
+            >
+              Out of Stock
+            </strong>
+          </div>
+        ) : (
+          <CustomBtn
+            btnText="Details"
+            onClick={() => showProductDetails(product)}
+          />
+        )}
       </div>
     </div>
   ));

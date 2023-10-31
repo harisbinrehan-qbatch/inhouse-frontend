@@ -1,25 +1,27 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getOrderStats } from '../../../redux/slices/order';
+import { getOrderStats, startAgendaJobs } from '../../../redux/slices/order';
 import DashboardCart from '../../../components/dashboard-cart/admin-dashboard-cart';
 
 import DashboardOrdersGraph from '../../../components/dashboard-orders-graph/admin-dashboard-orders-graph';
 import DashboardLineChart from '../../../components/dashboard-line-chart/admin-dashboard-linechart';
 
-import './style.css';
 import TopSelling from '../admin-top-selling';
+
+import './style.css';
 
 const Dashboard = () => {
   const { orderStats } = useSelector((state) => state.order);
-
-  console.log('totalPaidOrders', orderStats?.totalPaidOrders || 0);
-  console.log('totalUnPaidOrders', orderStats?.totalUnpaidOrders || 0);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getOrderStats());
+  }, []);
+
+  useEffect(() => {
+    dispatch(startAgendaJobs());
   }, []);
 
   return (

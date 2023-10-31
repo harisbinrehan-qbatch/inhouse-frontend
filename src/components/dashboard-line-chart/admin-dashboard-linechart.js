@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts';
-import ordersEllipse from '../../assets/images/orders-paid.svg';
+import ordersEllipse from '../../assets/images/orders-unpaid.svg';
 import salesEllipse from '../../assets/images/salesEllipse.svg';
 
 const DashboardLineChart = ({ oneYearStats }) => {
@@ -66,13 +66,13 @@ const DashboardLineChart = ({ oneYearStats }) => {
           yAxisId="left"
           type="monotone"
           dataKey="sales"
-          stroke="rgba(0, 123, 255, 1)"
+          stroke="rgba(230, 86, 0, 1)"
         />
         <Line
           yAxisId="right"
           type="monotone"
           dataKey="orders"
-          stroke="rgba(230, 86, 0, 1)"
+          stroke="rgba(0, 123, 255, 1)"
         />
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />

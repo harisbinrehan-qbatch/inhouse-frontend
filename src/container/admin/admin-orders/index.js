@@ -8,7 +8,7 @@ import CustomForm from '../../../components/input';
 import Arrow from '../../../assets/images/Arrow-up-down.svg';
 import sideArrow from '../../../assets/images/Arrow up right.svg';
 import {
-  fetchAllOrders, getAdminOrderStats, setOrderAsDelivered, startAgendaJobs,
+  fetchAllOrders, getAdminOrderStats, setOrderAsDelivered,
 } from '../../../redux/slices/order';
 import CustomAlert from '../../../components/alert';
 
@@ -42,10 +42,6 @@ const Orders = () => {
   const handleSearch = debounce((e) => {
     dispatch(fetchAllOrders(e.target.value));
   }, 500);
-
-  useEffect(() => {
-    dispatch(startAgendaJobs());
-  }, []);
 
   return (
     <div className="orders-main-div">

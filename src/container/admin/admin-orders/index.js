@@ -1,22 +1,26 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-underscore-dangle */
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { debounce } from 'lodash';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
-
 import CustomForm from '../../../components/input';
 import Arrow from '../../../assets/images/Arrow-up-down.svg';
 import sideArrow from '../../../assets/images/Arrow up right.svg';
 import {
-  fetchAllOrders, getAdminOrderStats, setOrderAsDelivered,
+  fetchAllOrders,
+  getAdminOrderStats,
+  setOrderAsDelivered,
 } from '../../../redux/slices/order';
 import CustomAlert from '../../../components/alert';
+import OrdersRectangle from '../../../components/admin-orders-rectangle/admin-orders-rectangle';
 
 import './style.css';
-import OrdersRectangle from '../../../components/admin-orders-rectangle/admin-orders-rectangle';
 
 const Orders = () => {
   const dispatch = useDispatch();
+
   const { orders, ordersError, adminOrderStats } = useSelector(
     (state) => state.order,
   );
@@ -33,11 +37,8 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(fetchAllOrders());
-  }, []);
-
-  useEffect(() => {
     dispatch(getAdminOrderStats());
-  }, []);
+  }, [dispatch]);
 
   const handleSearch = debounce((e) => {
     dispatch(fetchAllOrders(e.target.value));
@@ -125,19 +126,31 @@ const Orders = () => {
                   </td>
                   <td>
                     <div className="d-flex gap-2 justify-content-end">
-                      <img
-                        src={sideArrow}
-                        alt="arrow"
-                        className="pt-1 mark-delivered-arrow"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => { handleSetMarkAsDelivered(order._id); }}
-                      />
+                      <Link
+                        to={{
+                          pathname: '/orderDetails',
+                          search: `?orderId=${order._id}`,
+                        }}
+                      >
+                        <img
+                          src={sideArrow}
+                          alt="arrow"
+                          className="pt-1 mark-delivered-arrow"
+                          style={{ cursor: 'pointer' }}
+                        />
+                      </Link>
                       {order.isDelivered ? (
                         <div className="d-flex pt-1 ms-4 mark-delivered-div">
                           Delivered
                         </div>
                       ) : (
-                        <div className="pt-1 ms-4 mark-as-delivered-div">
+                        <div
+                          className="pt-1 ms-4 mark-as-delivered-div"
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            handleSetMarkAsDelivered(order._id);
+                          }}
+                        >
                           Mark as Delivered
                         </div>
                       )}

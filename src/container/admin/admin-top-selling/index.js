@@ -4,7 +4,7 @@ import Arrow from '../../../assets/images/Arrow-up-down.svg';
 
 const TopSelling = () => {
   const { orderStats } = useSelector((state) => state.order);
-  console.log('Now here', orderStats.topSelling);
+  //   console.log('Now here', orderStats.topSelling);
   if (!orderStats || !orderStats.topSelling) {
     return null;
   }

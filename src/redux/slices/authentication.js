@@ -162,7 +162,8 @@ const authSlice = createSlice({
           duration: 2,
         });
       })
-      .addCase(sendEmail.pending, () => {})
+      .addCase(sendEmail.pending, () => {
+      })
       .addCase(sendEmail.rejected, (state, action) => {
         notification.error({
           message: 'Error',

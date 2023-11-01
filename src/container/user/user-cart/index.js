@@ -10,14 +10,13 @@ import CartItem from '../../../components/user-cart-item';
 import Trash from '../../../assets/images/Trash.svg';
 import CustomBtn from '../../../components/button';
 import {
-  deselectAllCartItems,
+  deleteSelectedAll,
   getAddress,
   getCartOfSpecificUser,
   getPaymentDetails,
-  selectAllCartItems,
   setAddressShow,
   setChangeAddressShow,
-  toggleCartProductSelection,
+  setProceedToCheckout,
 } from '../../../redux/slices/cart';
 import AddAddress from '../user-add-address-canvas';
 import AddPayment from '../user-add-payment';
@@ -42,17 +41,17 @@ function UserCart() {
 
   const dispatch = useDispatch();
 
-  const [selectAll, setSelectAll] = useState(false);
+  const [select, setSelect] = useState(false);
 
   const toggleSelectAll = () => {
-    setSelectAll(() => !selectAll);
-
-    if (selectAll) {
-      dispatch(deselectAllCartItems());
-    } else {
-      dispatch(selectAllCartItems());
-    }
+    setSelect(() => !select);
   };
+
+  const toggleDeleteAll = () => {
+    console.log('Here?');
+    dispatch(deleteSelectedAll());
+  };
+
   useEffect(() => {
     dispatch(getAddress(user.userId));
     dispatch(getPaymentDetails(user.userId));
@@ -72,15 +71,31 @@ function UserCart() {
     dispatch(setChangeAddressShow());
   };
 
+  const handleSetProceedToCheckout = () => {
+    dispatch(setProceedToCheckout());
+  };
+
   return (
     <div className="container">
       <div className="row">
         <div className="d-flex p-2 pt-3">
-          <Link to="/">
-            <img className="ms-3 pt-2 arrow-size" src={Arrow} alt="<--" />
-          </Link>
-          <h2 className="heading pt-2 ps-2">Shopping Bag</h2>
+          {proceedToCheckout ? (
+            <img
+              className="ms-3 arrow-size"
+              src={Arrow}
+              alt="<--"
+              onClick={handleSetProceedToCheckout}
+            />
+          ) : (
+            <Link to="/">
+              <img className="ms-3 pt-2 arrow-size" src={Arrow} alt="<--" />
+            </Link>
+          )}
+          <h2 className="heading pt-2 ps-2">
+            {proceedToCheckout ? 'Checkout' : 'Shopping Bag'}
+          </h2>
         </div>
+
         <div className="col-md-9">
           <div className="container pt1 ms-4 me-5 select-all-main-div">
             {proceedToCheckout ? (
@@ -109,7 +124,7 @@ function UserCart() {
               <>
                 <input
                   type="checkbox"
-                  checked={selectAll}
+                  checked={select}
                   onChange={toggleSelectAll}
                 />
                 <span className="container">
@@ -121,10 +136,11 @@ function UserCart() {
                 </span>
                 <img
                   className={
-                    selectAll ? 'cart-trash-enabled' : 'cart-trash-disabled'
+                    select ? 'cart-trash-enabled' : 'cart-trash-disabled'
                   }
                   src={Trash}
                   alt="trash"
+                  onClick={select ? toggleDeleteAll : undefined}
                 />
               </>
             )}
@@ -132,13 +148,7 @@ function UserCart() {
 
           {userCart && userCart.products && userCart.products.length > 0 ? (
             userCart.products.map((cartItem, index) => (
-              <CartItem
-                key={index}
-                cartItem={cartItem}
-                onToggleSelect={() => dispatch(
-                  toggleCartProductSelection({ productId: cartItem._id }),
-                )}
-              />
+              <CartItem key={index} cartItem={cartItem} />
             ))
           ) : (
             <h2 className="d-flex heading pt-2 ps-2 justify-content-around pt-5">

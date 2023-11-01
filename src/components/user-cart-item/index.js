@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'antd';
 
@@ -30,12 +30,6 @@ function CartItem({ cartItem }) {
 
   const dispatch = useDispatch();
 
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleCheckboxChange = () => {
-    setIsSelected(!isSelected);
-  };
-
   const handleIncrementQuantity = () => {
     const matchingProduct = data.find(
       (product) => product._id === cartItem._id,
@@ -57,9 +51,7 @@ function CartItem({ cartItem }) {
   };
 
   const handleRemoveFromCart = () => {
-    if (isSelected) {
-      dispatch(removeFromCart(cartItem));
-    }
+    dispatch(removeFromCart(cartItem));
   };
 
   useEffect(() => {
@@ -68,17 +60,9 @@ function CartItem({ cartItem }) {
 
   return (
     <div
-      className={`d-flex cart-item-main-div my-3 ms-4 me-3 ${
-        isSelected ? 'selected' : ''
-      }`}
+      className="d-flex cart-item-main-div my-3 ms-4 me-3 selected"
     >
       <div className="container d-flex align-items-center px-4">
-        <input
-          type="checkbox"
-          checked={isSelected}
-          onChange={handleCheckboxChange}
-          className="checkbox pe-3"
-        />
         <img
           src={`http://localhost:5000/${cartItem.images[0]}`}
           alt="product"
@@ -119,9 +103,7 @@ function CartItem({ cartItem }) {
             src={Trash}
             alt="trash"
             onClick={handleRemoveFromCart}
-            className={
-              isSelected ? 'cart-trash-enabled' : 'cart-trash-disabled'
-            }
+            className="cart-trash-enabled"
           />
         </div>
       </div>

@@ -11,7 +11,7 @@ import './style.css';
 const Login = ({ header }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('harisbinrehan@gmail.com');
-  const [password, setPassword] = useState('1234567890');
+  const [password, setPassword] = useState('123456');
 
   const handleLogin = async () => {
     const body = { email, password };

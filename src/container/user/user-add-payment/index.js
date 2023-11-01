@@ -68,7 +68,7 @@ function AddPayment() {
         <CustomBtn
           className="d-flex my-4"
           btnText="Place Order"
-          variant="success"
+          variant="primary"
           onClick={handlePlaceOrder}
         />
       )}

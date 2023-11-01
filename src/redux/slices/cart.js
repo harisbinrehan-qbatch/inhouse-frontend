@@ -139,7 +139,6 @@ const cartSlice = createSlice({
   initialState: {
     cartProducts: [],
     userCart: [],
-    selectedCartProducts: [],
     addresses: {},
     paymentDetails: null,
     orderSummary: null,
@@ -150,6 +149,7 @@ const cartSlice = createSlice({
     changeAddressShow: false,
     addressShow: false,
     proceedToCheckout: false,
+    userOrderDetailsShow: false,
   },
   reducers: {
     setCartSummaryNull: (state) => {
@@ -159,11 +159,15 @@ const cartSlice = createSlice({
     getCartOfSpecificUser: (state) => {
       const user = JSON.parse(localStorage.getItem('user'));
 
-      const userCart = state.cartProducts.find(
-        (cartItem) => cartItem.userId === user.userId,
-      );
-      if (userCart) {
-        state.userCart = userCart;
+      if (state.cartProducts) {
+        const userCart = state.cartProducts.find(
+          (cartItem) => cartItem.userId === user.userId,
+        );
+        if (userCart) {
+          state.userCart = userCart;
+        } else {
+          state.userCart = [];
+        }
       } else {
         state.userCart = [];
       }
@@ -172,50 +176,66 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const { userId, product } = action.payload;
 
-      const userCart = state.cartProducts.find(
-        (cart) => cart.userId === userId,
-      );
-
-      if (!userCart) {
-        state.cartProducts.push({
-          userId,
-          products: [{ ...product, quantity: 1 }],
-        });
-      } else {
-        const existingProduct = userCart.products.find(
-          (item) => item._id === product._id,
+      if (state.cartProducts) { // Check if state.cartProducts is not null or undefined
+        const userCart = state.cartProducts.find(
+          (cart) => cart.userId === userId,
         );
 
-        if (existingProduct) {
-          existingProduct.quantity += 1;
+        if (!userCart) {
+          state.cartProducts.push({
+            userId,
+            products: [{ ...product, quantity: 1 }],
+          });
         } else {
-          userCart.products.push({ ...product, quantity: 1 });
-        }
-      }
+          const existingProduct = userCart.products.find(
+            (item) => item._id === product._id,
+          );
 
-      notification.success({
-        message: 'Success',
-        description: 'Product added to the cart.',
-        type: 'success',
-        duration: 2,
-      });
+          if (existingProduct) {
+            existingProduct.quantity += 1;
+          } else {
+            userCart.products.push({ ...product, quantity: 1 });
+          }
+        }
+
+        notification.success({
+          message: 'Success',
+          description: 'Product added to the cart.',
+          type: 'success',
+          duration: 2,
+        });
+      } else {
+        state.cartProducts = [{
+          userId,
+          products: [{ ...product, quantity: 1 }],
+        }];
+      }
     },
 
     setOrderSummary: (state, action) => {
       state.orderSummary = action.payload;
     },
+
     setMastercardShow(state) {
       state.mastercardShow = !state.mastercardShow;
     },
+
+    setUserOrderDetailsShow(state) {
+      state.userOrderDetailsShow = !state.userOrderDetailsShow;
+    },
+
     setChangeAddressShow(state) {
       state.changeAddressShow = !state.changeAddressShow;
     },
+
     setAddressShow(state) {
       state.addressShow = !state.addressShow;
     },
+
     setProceedToCheckout: (state) => {
       state.proceedToCheckout = !state.proceedToCheckout;
     },
+
     removeFromCart: (state, action) => {
       const itemIdToRemove = action.payload._id;
       const user = JSON.parse(localStorage.getItem('user'));
@@ -234,6 +254,7 @@ const cartSlice = createSlice({
         duration: 2,
       });
     },
+
     incrementQuantity: (state, action) => {
       const itemIdToIncrement = action.payload._id;
       const user = JSON.parse(localStorage.getItem('user'));
@@ -268,32 +289,20 @@ const cartSlice = createSlice({
       });
     },
 
-    selectAllCartItems: (state) => {
-      state.cartProducts.forEach((item) => {
-        item.selected = true;
-      });
-    },
-    deselectAllCartItems: (state) => {
-      state.cartProducts.forEach((item) => {
-        item.selected = false;
-      });
-    },
-  },
-
-  toggleCartProductSelection: (state, action) => {
-    const { productId } = action.payload;
-    const product = state.cartProducts.find((item) => item._id === productId);
-    if (product) {
-      product.selected = !product.selected;
-
-      if (product.selected) {
-        state.selectedCartProducts.push(product);
+    deleteSelectedAll: (state) => {
+      if (state.cartProducts) {
+        state.cartProducts = null;
+        notification.success({
+          message: 'All products removed from cart',
+          duration: 2,
+        });
       } else {
-        state.selectedCartProducts = state.selectedCartProducts.filter(
-          (item) => item._id !== productId,
-        );
+        notification.warning({
+          message: 'Cart is already empty',
+          duration: 2,
+        });
       }
-    }
+    },
   },
 
   extraReducers: (builder) => {
@@ -431,11 +440,10 @@ export const {
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
-  toggleCartProductSelection,
-  selectAllCartItems,
-  deselectAllCartItems,
   getCartOfSpecificUser,
   setCartSummaryNull,
+  setUserOrderDetailsShow,
+  deleteSelectedAll,
 } = cartSlice.actions;
 
 export default cartSlice;

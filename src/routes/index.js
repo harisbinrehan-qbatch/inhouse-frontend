@@ -17,6 +17,7 @@ import Orders from '../container/admin/admin-orders';
 import UserMainPage from '../container/user/user-main-page';
 import UserCart from '../container/user/user-cart';
 import OrderDetails from '../container/admin/admin-order-details';
+import UserOrders from '../container/user/user-orders';
 
 const CustomRoutes = () => {
   const { isAdmin, loginError } = useSelector((state) => state.authentication);
@@ -54,6 +55,7 @@ const CustomRoutes = () => {
         <Routes>
           <Route path="" element={<UserMainPage />} />
           <Route path="/shopping-bag" element={<UserCart />} />
+          <Route path="/userOrders" element={<UserOrders />} />
         </Routes>
       </UserLayout>
     );

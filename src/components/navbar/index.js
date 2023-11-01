@@ -64,24 +64,23 @@ function CustomNavbar() {
                 id="basic-nav-dropdown"
                 className="user-name ps-4"
               >
-                <NavDropdown.Item onClick={handleLogout}>
+                <NavDropdown.Item>
+                  <Link
+                    to={{
+                      pathname: '/userOrders',
+                      search: `?userId=${user?.userId}`,
+                    }}
+                    style={{ textDecoration: 'none', color: 'black' }}
+                  >
+                    Orders
+                  </Link>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item onClick={handleLogout} className="pt-3">
                   Logout
                 </NavDropdown.Item>
-                <NavDropdown.Item className="pt-3">
-                  Orders
-                </NavDropdown.Item>
               </NavDropdown>
-            ) : (
-              <NavDropdown
-                title={user?.username}
-                id="basic-nav-dropdown"
-                className="user-name ps-4"
-              >
-                <NavDropdown.Item onClick={handleLogout}>
-                  Logout
-                </NavDropdown.Item>
-              </NavDropdown>
-            )}
+            ) : null}
             {isUser || isAdmin ? (
               <Image
                 src={userImage}

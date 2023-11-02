@@ -166,7 +166,7 @@ const productsSlice = createSlice({
           message: 'Success',
           description: state.productMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(addProduct.pending, (state) => {
@@ -179,7 +179,7 @@ const productsSlice = createSlice({
           message: 'ERROR!',
           description: state.productMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
 
@@ -191,7 +191,7 @@ const productsSlice = createSlice({
           message: 'Success',
           description: state.productMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(deleteProduct.pending, (state) => {
@@ -204,7 +204,7 @@ const productsSlice = createSlice({
           message: 'ERROR!',
           description: state.productMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
 
@@ -216,7 +216,7 @@ const productsSlice = createSlice({
           message: 'Success',
           description: state.productMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(updateProduct.pending, (state) => {
@@ -229,7 +229,7 @@ const productsSlice = createSlice({
           message: 'ERROR!',
           description: state.productMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       });
   },

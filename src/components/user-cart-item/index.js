@@ -27,6 +27,7 @@ function getColorName(hexCode) {
 
 function CartItem({ cartItem }) {
   const { data } = useSelector((state) => state.products);
+  const { proceedToCheckout } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
@@ -41,7 +42,7 @@ function CartItem({ cartItem }) {
       notification.warning({
         message: 'No more products available',
         type: 'success',
-        duration: 2,
+        duration: 1,
       });
     }
   };
@@ -59,9 +60,7 @@ function CartItem({ cartItem }) {
   }, [cartItem]);
 
   return (
-    <div
-      className="d-flex cart-item-main-div my-3 ms-4 me-3 selected"
-    >
+    <div className="d-flex cart-item-main-div my-3 ms-4 me-3 selected">
       <div className="container d-flex align-items-center px-4">
         <img
           src={`http://localhost:5000/${cartItem.images[0]}`}
@@ -99,12 +98,16 @@ function CartItem({ cartItem }) {
           {cartItem.price}
         </div>
         <div className="cart-trash">
-          <img
-            src={Trash}
-            alt="trash"
-            onClick={handleRemoveFromCart}
-            className="cart-trash-enabled"
-          />
+          {!proceedToCheckout ? (
+            <img
+              src={Trash}
+              alt="trash"
+              onClick={handleRemoveFromCart}
+              className="cart-trash-enabled"
+            />
+          ) : (
+            <img src={Trash} alt="trash" className="cart-trash-disabled" />
+          )}
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ function AddressBox({
           <div className="m-3">
             <CustomBtn
               btnText="Default"
-              variant={isDefault ? 'outline-primary disabled' : 'outline-primary'}
+              variant={isDefault ? 'secondary disabled' : 'outline-primary'}
               onClick={handleSetDefaultAddress}
             />
           </div>

@@ -40,7 +40,7 @@ const NewPassword = ({ header }) => {
       notification.error({
         message: 'Passwords must be same',
         type: 'error',
-        duration: 2,
+        duration: 1,
       });
     }
   };

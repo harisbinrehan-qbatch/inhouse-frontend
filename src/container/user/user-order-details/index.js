@@ -33,7 +33,7 @@ const UserOrderDetailsCanvas = ({ orderData }) => {
             onClick={handleClose}
           />
         </div>
-        <div className="offcanvas-header custom-offcanvas-header">
+        <div className="">
           <Offcanvas.Header>
             <Offcanvas.Title>Order Details</Offcanvas.Title>
           </Offcanvas.Header>

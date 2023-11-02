@@ -103,7 +103,7 @@ const authSlice = createSlice({
           message: 'Success',
           description: state.signUpMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(signUpUser.pending, (state) => {
@@ -117,7 +117,7 @@ const authSlice = createSlice({
           message: 'Error',
           description: state.signUpMessage,
           type: 'error',
-          duration: 2,
+          duration: 1,
         });
       })
 
@@ -137,7 +137,7 @@ const authSlice = createSlice({
         notification.success({
           message: 'Login Successful',
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(loginUser.pending, () => {
@@ -151,7 +151,7 @@ const authSlice = createSlice({
           message: 'Error',
           description: state.loginMessage,
           type: 'error',
-          duration: 2,
+          duration: 1,
         });
       })
 
@@ -159,7 +159,7 @@ const authSlice = createSlice({
         notification.success({
           message: action.payload.message || 'Email sent successfully',
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(sendEmail.pending, () => {
@@ -169,7 +169,7 @@ const authSlice = createSlice({
           message: 'Error',
           description: action.payload.message || 'Error Sending Email',
           type: 'error',
-          duration: 2,
+          duration: 1,
         });
       })
 
@@ -181,7 +181,7 @@ const authSlice = createSlice({
           message: 'Password Reset Success',
           description: state.resetPasswordMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(resetPassword.pending, (state) => {
@@ -194,7 +194,7 @@ const authSlice = createSlice({
           message: 'Password Reset Error',
           description: state.resetPasswordMessage,
           type: 'error',
-          duration: 2,
+          duration: 1,
         });
       });
   },

@@ -43,7 +43,7 @@ function UserOrders() {
         <Link to="/">
           <img src={arrowLeft} alt="Cloud" className="img-large" />
         </Link>
-        <h2 className="d-flex ps-3 pt-1">Order Details</h2>
+        <h2 className="d-flex ps-3 pt-1">Orders</h2>
       </div>
       <div className="container">
         <Table>

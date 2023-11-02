@@ -4,7 +4,7 @@ import { decrementPage, incrementPage } from '../../redux/slices/products';
 
 function PaginationComponent() {
   const currentPage = useSelector((state) => state.products.page);
-  const { isProductError } = useSelector((state) => state.products);
+  const { isProductError, data } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const handleNextClick = () => {
     dispatch(incrementPage());
@@ -38,7 +38,7 @@ function PaginationComponent() {
           {currentPage + 1}
         </Pagination.Item>
       )}
-      {isProductError ? (
+      {isProductError || data.length < 7 ? (
         <Pagination.Next disabled>Next</Pagination.Next>
       ) : (
         <Pagination.Next onClick={() => handleNextClick()}>

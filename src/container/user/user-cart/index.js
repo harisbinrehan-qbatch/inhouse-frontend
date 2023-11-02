@@ -48,7 +48,7 @@ function UserCart() {
   };
 
   const toggleDeleteAll = () => {
-    console.log('Here?');
+    setSelect(() => !select);
     dispatch(deleteSelectedAll());
   };
 
@@ -152,7 +152,9 @@ function UserCart() {
             ))
           ) : (
             <h2 className="d-flex heading pt-2 ps-2 justify-content-around pt-5">
-              No products in the cart 🥺
+              {proceedToCheckout
+                ? 'Please add products in cart to checkout ☝'
+                : 'No products in the cart 🥺'}
             </h2>
           )}
         </div>

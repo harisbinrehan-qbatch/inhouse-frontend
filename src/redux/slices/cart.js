@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
@@ -175,8 +176,8 @@ const cartSlice = createSlice({
 
     addToCart: (state, action) => {
       const { userId, product } = action.payload;
-
-      if (state.cartProducts) { // Check if state.cartProducts is not null or undefined
+      state.proceedToCheckout = false;
+      if (state.cartProducts) {
         const userCart = state.cartProducts.find(
           (cart) => cart.userId === userId,
         );
@@ -202,13 +203,15 @@ const cartSlice = createSlice({
           message: 'Success',
           description: 'Product added to the cart.',
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       } else {
-        state.cartProducts = [{
-          userId,
-          products: [{ ...product, quantity: 1 }],
-        }];
+        state.cartProducts = [
+          {
+            userId,
+            products: [{ ...product, quantity: 1 }],
+          },
+        ];
       }
     },
 
@@ -251,7 +254,7 @@ const cartSlice = createSlice({
         message: 'Success',
         description: 'Product removed from cart.',
         type: 'success',
-        duration: 2,
+        duration: 1,
       });
     },
 
@@ -290,16 +293,19 @@ const cartSlice = createSlice({
     },
 
     deleteSelectedAll: (state) => {
-      if (state.cartProducts) {
-        state.cartProducts = null;
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      if (state.cartProducts.some((cartItem) => cartItem.userId === user.userId)) {
+        state.cartProducts = state.cartProducts.filter((cartItem) => cartItem.userId !== user.userId);
+
         notification.success({
           message: 'All products removed from cart',
-          duration: 2,
+          duration: 1,
         });
       } else {
         notification.warning({
           message: 'Cart is already empty',
-          duration: 2,
+          duration: 1,
         });
       }
     },
@@ -324,7 +330,7 @@ const cartSlice = createSlice({
           message: 'Success',
           description: state.orderMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(placeOrder.pending, (state) => {
@@ -338,7 +344,7 @@ const cartSlice = createSlice({
           message: 'ERROR!',
           description: state.orderMessage,
           type: 'error',
-          duration: 2,
+          duration: 1,
         });
       })
 
@@ -350,7 +356,7 @@ const cartSlice = createSlice({
           message: 'Success',
           description: state.orderMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(savePaymentDetails.pending, () => {})
@@ -361,7 +367,7 @@ const cartSlice = createSlice({
           message: 'ERROR!',
           description: state.orderMessage,
           type: 'error',
-          duration: 2,
+          duration: 1,
         });
       })
 
@@ -383,9 +389,9 @@ const cartSlice = createSlice({
 
         notification.success({
           message: 'Success',
-          description: state.addAddressSuccess,
+          description: state.orderMessage,
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(addAddress.pending, (state) => {
@@ -399,7 +405,7 @@ const cartSlice = createSlice({
           message: 'ERROR!',
           description: state.orderMessage,
           type: 'error',
-          duration: 2,
+          duration: 1,
         });
       })
 
@@ -407,10 +413,9 @@ const cartSlice = createSlice({
         state.updateAddressSuccess = true;
 
         notification.success({
-          message: 'Success',
-          description: 'Default address updated successfully.',
+          message: 'Default address updated successfully.',
           type: 'success',
-          duration: 2,
+          duration: 1,
         });
       })
       .addCase(updateDefaultAddress.pending, (state) => {
@@ -424,7 +429,7 @@ const cartSlice = createSlice({
           message: 'ERROR!',
           description: state.orderMessage,
           type: 'error',
-          duration: 2,
+          duration: 1,
         });
       });
   },

@@ -2,7 +2,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import { setAddressShow, setChangeAddressShow } from '../../../redux/slices/cart';
+import {
+  setAddressShow,
+  setChangeAddressShow,
+} from '../../../redux/slices/cart';
 import arrowLeft from '../../../assets/images/Arrow left.svg';
 import AddressBox from '../../../components/user-address-box';
 import CustomBtn from '../../../components/button';
@@ -11,6 +14,7 @@ import './style.css';
 
 const ChangeAddressCanvas = ({ header }) => {
   const { changeAddressShow, addresses } = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -19,6 +23,7 @@ const ChangeAddressCanvas = ({ header }) => {
 
   const handleAddAddressClick = () => {
     dispatch(setAddressShow());
+    dispatch(setChangeAddressShow());
   };
 
   return (
@@ -27,7 +32,7 @@ const ChangeAddressCanvas = ({ header }) => {
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"
-      height={600}
+      style={{ height: '100vh' }}
     >
       <div className="d-flex add-product-header">
         <div>

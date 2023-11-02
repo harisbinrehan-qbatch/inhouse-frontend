@@ -64,7 +64,7 @@ function AddPayment() {
         />
       )}
 
-      {!isEmpty(paymentDetails) && !isEmpty(userCart) && (
+      {!isEmpty(paymentDetails) && !isEmpty(userCart.products) && (
         <CustomBtn
           className="d-flex my-4"
           btnText="Place Order"

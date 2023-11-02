@@ -64,7 +64,10 @@ function CustomNavbar() {
                 id="basic-nav-dropdown"
                 className="user-name ps-4"
               >
-                <NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+                <NavDropdown.Item className="pt-3">
                   <Link
                     to={{
                       pathname: '/userOrders',
@@ -75,8 +78,14 @@ function CustomNavbar() {
                     Orders
                   </Link>
                 </NavDropdown.Item>
-
-                <NavDropdown.Item onClick={handleLogout} className="pt-3">
+              </NavDropdown>
+            ) : isUser || isAdmin ? (
+              <NavDropdown
+                title={user?.username}
+                id="basic-nav-dropdown"
+                className="user-name ps-4"
+              >
+                <NavDropdown.Item onClick={handleLogout}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>

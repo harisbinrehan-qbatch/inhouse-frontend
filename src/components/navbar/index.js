@@ -1,14 +1,19 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-nested-ternary */
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container, Image, Navbar, NavDropdown, Button,
 } from 'react-bootstrap';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import userImage from '../../assets/images/userImage.jpeg';
-import CartIcon from '../../assets/images/Bag.svg';
 import { logout } from '../../redux/slices/authentication';
-import { moveToCartFromNavbar, setCartSummaryNull, setOrderSuccess } from '../../redux/slices/cart';
+import {
+  moveToCartFromNavbar,
+  setCartSummaryNull,
+  setOrderSuccess,
+} from '../../redux/slices/cart';
 
 import './style.css';
 
@@ -24,6 +29,8 @@ function CustomNavbar() {
   const { isAdmin, isUser, user } = useSelector(
     (state) => state.authentication,
   );
+
+  const { userCart } = useSelector((state) => state.cart);
 
   const handleMoveToCart = () => {
     dispatch(setOrderSuccess());
@@ -56,14 +63,26 @@ function CustomNavbar() {
           >
             {isUser || isAdmin ? (
               isUser ? (
-                <Link to="/shopping-bag">
-                  <img
-                    src={CartIcon}
-                    alt="Cart Icon"
-                    className="notification-icon pb-1 pe-2"
-                    onClick={handleMoveToCart}
-                  />
-                </Link>
+                <>
+                  <div className="d-flex pe-3">
+                    {/* <NavDropdown
+                      title={(
+                        <i className="bi bi-bell" style={{ color: '#007BFF' }}>
+                          <span className="badge bg-primary">5</span>
+                        </i>
+                      )}
+                      id="notification-dropdown"
+                    /> */}
+                  </div>
+
+                  <Link to="/shopping-bag">
+                    <i className="bi bi-cart" onClick={handleMoveToCart}>
+                      <span className="badge bg-primary">
+                        {userCart?.products?.length || 0}
+                      </span>
+                    </i>
+                  </Link>
+                </>
               ) : null
             ) : pathname !== '/login' ? (
               <Button as={Link} to="/login" variant="primary">

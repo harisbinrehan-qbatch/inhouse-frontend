@@ -16,13 +16,7 @@
   height: 31px;
   left: -9px;
 }
-.notification-icon {
-  width: 25px;
-  height: 25px;
-  top: 16px;
-  left: 1124px;
-  color: green;
-}
+
 .user-name {
   color: rgba(0, 123, 255, 1);
   font-family: Inter;
@@ -41,3 +35,14 @@
 .clickable {
   cursor: pointer;
 }
+
+
+
+.badge {
+  position: relative;
+  top: -12px;
+  right: 2px;
+  font-size: 9px;
+  border-radius: 50%;
+}
+

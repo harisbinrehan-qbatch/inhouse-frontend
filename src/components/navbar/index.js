@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container, Image, Navbar, NavDropdown, Button,
@@ -8,16 +8,27 @@ import {
 import userImage from '../../assets/images/userImage.jpeg';
 import CartIcon from '../../assets/images/Bag.svg';
 import { logout } from '../../redux/slices/authentication';
-import { setCartSummaryNull } from '../../redux/slices/cart';
+import { moveToCartFromNavbar, setCartSummaryNull, setOrderSuccess } from '../../redux/slices/cart';
 
 import './style.css';
 
 function CustomNavbar() {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const { pathname } = location;
+
   const { isAdmin, isUser, user } = useSelector(
     (state) => state.authentication,
   );
-  const navigate = useNavigate();
+
+  const handleMoveToCart = () => {
+    dispatch(setOrderSuccess());
+    dispatch(moveToCartFromNavbar());
+  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -50,24 +61,23 @@ function CustomNavbar() {
                     src={CartIcon}
                     alt="Cart Icon"
                     className="notification-icon pb-1 pe-2"
+                    onClick={handleMoveToCart}
                   />
                 </Link>
               ) : null
-            ) : (
+            ) : pathname !== '/login' ? (
               <Button as={Link} to="/login" variant="primary">
                 Login
               </Button>
-            )}
+            ) : null}
+
             {isUser ? (
               <NavDropdown
                 title={user?.username}
                 id="basic-nav-dropdown"
                 className="user-name ps-4"
               >
-                <NavDropdown.Item onClick={handleLogout}>
-                  Logout
-                </NavDropdown.Item>
-                <NavDropdown.Item className="pt-3">
+                <NavDropdown.Item>
                   <Link
                     to={{
                       pathname: '/userOrders',
@@ -77,6 +87,9 @@ function CustomNavbar() {
                   >
                     Orders
                   </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout} className="pt-3">
+                  Logout
                 </NavDropdown.Item>
               </NavDropdown>
             ) : isUser || isAdmin ? (

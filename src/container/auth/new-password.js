@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Import React and useState
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { notification } from 'antd';
 
@@ -13,10 +13,11 @@ const NewPassword = ({ header }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true); // Initially, assume passwords match
 
+  const dispatch = useDispatch();
+
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
-    setPasswordsMatch(newPassword === confirmPassword);
   };
 
   const handleConfirmPasswordChange = (e) => {
@@ -24,8 +25,6 @@ const NewPassword = ({ header }) => {
     setConfirmPassword(newConfirmPassword);
     setPasswordsMatch(newConfirmPassword === password);
   };
-
-  const dispatch = useDispatch();
 
   const handleResetPassword = () => {
     if (passwordsMatch) {
@@ -38,7 +37,7 @@ const NewPassword = ({ header }) => {
       dispatch(resetPassword(body));
     } else {
       notification.error({
-        message: 'Passwords must be same',
+        message: 'Passwords must be the same',
         type: 'error',
         duration: 1,
       });

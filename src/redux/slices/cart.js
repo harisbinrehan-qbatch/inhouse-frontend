@@ -157,6 +157,10 @@ const cartSlice = createSlice({
       state.orderSummary = null;
     },
 
+    setOrderSuccess: (state) => {
+      state.orderSuccess = false;
+    },
+
     getCartOfSpecificUser: (state) => {
       const user = JSON.parse(localStorage.getItem('user'));
 
@@ -239,6 +243,10 @@ const cartSlice = createSlice({
       state.proceedToCheckout = !state.proceedToCheckout;
     },
 
+    moveToCartFromNavbar: (state) => {
+      state.proceedToCheckout = false;
+    },
+
     removeFromCart: (state, action) => {
       const itemIdToRemove = action.payload._id;
       const user = JSON.parse(localStorage.getItem('user'));
@@ -295,8 +303,12 @@ const cartSlice = createSlice({
     deleteSelectedAll: (state) => {
       const user = JSON.parse(localStorage.getItem('user'));
 
-      if (state.cartProducts.some((cartItem) => cartItem.userId === user.userId)) {
-        state.cartProducts = state.cartProducts.filter((cartItem) => cartItem.userId !== user.userId);
+      if (
+        state.cartProducts.some((cartItem) => cartItem.userId === user.userId)
+      ) {
+        state.cartProducts = state.cartProducts.filter(
+          (cartItem) => cartItem.userId !== user.userId,
+        );
 
         notification.success({
           message: 'All products removed from cart',
@@ -317,6 +329,7 @@ const cartSlice = createSlice({
         state.userCart = null;
         state.orderSummary = null;
         state.orderSuccess = true;
+        state.proceedToCheckout = false;
         state.orderMessage = action.payload.message || 'Order Placed Successfully';
 
         const user = JSON.parse(localStorage.getItem('user'));
@@ -442,6 +455,7 @@ export const {
   setChangeAddressShow,
   setAddressShow,
   setProceedToCheckout,
+  moveToCartFromNavbar,
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
@@ -449,6 +463,7 @@ export const {
   setCartSummaryNull,
   setUserOrderDetailsShow,
   deleteSelectedAll,
+  setOrderSuccess,
 } = cartSlice.actions;
 
 export default cartSlice;

@@ -1,10 +1,11 @@
 // import { useNavigate } from 'react-router';
 import { useState } from 'react';
+import { isEmpty } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch
 
 import CustomBtn from '../../components/button';
-import Form from '../../components/input';
 import CustomLink from '../../components/link';
+import CustomForm from '../../components/input';
 import { sendEmail } from '../../redux/slices/authentication';
 
 import './style.css';
@@ -13,8 +14,27 @@ const ForgotPassword = ({ header }) => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.authentication);
-
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailSuggestions, setEmailSuggestions] = useState([]);
   const [email, setEmail] = useState('');
+
+  const validateEmail = (inputEmail) => {
+    if (isEmpty(inputEmail)) {
+      setEmailSuggestions(['Email field cannot be empty.']);
+      setIsEmailValid(false);
+    } else {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const isValidEmail = emailRegex.test(inputEmail);
+
+      if (isValidEmail) {
+        setEmailSuggestions(['']);
+      } else {
+        setEmailSuggestions(['Invalid email format']);
+      }
+
+      setIsEmailValid(isValidEmail);
+    }
+  };
 
   const handleForgotPassword = () => {
     dispatch(sendEmail({ email, token: user.token }));
@@ -25,12 +45,21 @@ const ForgotPassword = ({ header }) => {
       <h2 className="header">{header}</h2>
       <div className="border">
         <div className="login-fields">
-          <Form
+          <CustomForm
             placeholder="Please enter your email"
-            label="Enter Email Address"
+            label="Enter Email"
             type="email"
-            // Update the email state when the input changes
-            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            hint={(
+              <span className={isEmailValid ? 'success-hint' : ''}>
+                {emailSuggestions.join(' ')}
+              </span>
+            )}
+            onChange={(e) => {
+              const newEmail = e.target.value;
+              setEmail(newEmail);
+              validateEmail(newEmail);
+            }}
           />
         </div>
         <div className="login-fields">
@@ -38,7 +67,7 @@ const ForgotPassword = ({ header }) => {
             btnText="Forgot Password"
             size="default"
             className="w-100"
-            // Pass the email to handleForgotPassword
+            disabled={!isEmailValid}
             onClick={handleForgotPassword}
           />
         </div>

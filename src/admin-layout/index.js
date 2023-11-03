@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router';
-import CustomSidebar from '../container/admin/admin-sidebar';
+import CustomSidebar from '../components/admin-sidebar';
 import CustomNavbar from '../components/navbar';
 
 const AdminLayout = ({ children, setIsLoggedIn }) => {

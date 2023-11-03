@@ -11,13 +11,13 @@ import NewPassword from '../container/auth/new-password';
 import AdminLayout from '../admin-layout';
 import UserLayout from '../user-layout';
 import MainPageLayout from '../main-page-layout';
-import Dashboard from '../container/admin/admin-dashboard';
-import Products from '../container/admin/admin-products';
-import Orders from '../container/admin/admin-orders';
-import UserMainPage from '../container/user/user-main-page';
-import UserCart from '../container/user/user-cart';
-import OrderDetails from '../container/admin/admin-order-details';
-import UserOrders from '../container/user/user-orders';
+import Dashboard from '../container/admin/dashboard';
+import Products from '../container/admin/products';
+import Orders from '../container/admin/orders';
+import OrderDetails from '../container/admin/order-details';
+import UserMainPage from '../container/user/main-page';
+import UserCart from '../container/user/cart';
+import UserOrders from '../container/user/orders';
 
 const CustomRoutes = () => {
   const { isAdmin, loginError } = useSelector((state) => state.authentication);

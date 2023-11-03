@@ -1,9 +1,8 @@
 .login-rectangle {
   background: var(--global-09-white, #FFF);
   max-width: 50%;
-  padding-top: 7%;
+  padding-top: 4%;
   margin-left: 25%;
-  /* justify-content: center; */
 }
 .border{
   
@@ -45,4 +44,8 @@ text-align: center;
     right: 0;
     transform: translate(-30px, 10px);
     min-width: 25%;
+}
+
+.success-hint{
+  color: green;
 }

@@ -11,12 +11,12 @@ const CustomForm = (props) => {
     value,
     onChange,
     style,
-    onKeyDown,
+    // onKeyDown,
   } = props;
 
   return (
     <div>
-      <Form style={style}>
+      <Form style={style} onSubmit={(e) => e.preventDefault()}>
         <Form.Group className={className}>
           <Form.Label>{label}</Form.Label>
           <Form.Control
@@ -24,9 +24,9 @@ const CustomForm = (props) => {
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            onKeyDown={onKeyDown}
+            // onKeyDown={onKeyDown}
           />
-          <Form.Text style={{ color: 'rgba(220, 53, 69, 1)' }}>
+          <Form.Text className="d-flex ps-1 pt-1" style={{ color: 'rgba(220, 53, 69, 1)' }}>
             {hint}
           </Form.Text>
         </Form.Group>

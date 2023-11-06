@@ -8,6 +8,22 @@ import arrowLeft from '../../assets/images/Arrow left.svg';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
 import { setUserOrderDetailsShow } from '../../redux/slices/cart';
 
+const colorMap = {
+  '#155724': 'green',
+  '#AAA': 'grey',
+  '#1B1E21': 'black',
+  '#231579': 'blue',
+  '#740F0F': 'red',
+};
+
+function getColorName(hexCode) {
+  if (hexCode) {
+    const color = colorMap[hexCode];
+    return color || '';
+  }
+  return '';
+}
+
 const UserOrderDetailsCanvas = ({ orderData }) => {
   const { userOrderDetailsShow } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -78,7 +94,7 @@ const UserOrderDetailsCanvas = ({ orderData }) => {
                       <b>{product.name}</b>
                     </td>
                     <td className="pt-4">{product.size}</td>
-                    <td className="pt-4">{product.color}</td>
+                    <td className="pt-4">{getColorName(product.color)}</td>
                     <td className="pt-4">{product.price}</td>
                     <td className="pt-4 ps-5">{product.quantity}</td>
                   </tr>

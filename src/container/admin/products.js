@@ -11,15 +11,17 @@ import PaginationComponent from '../../components/pagination';
 import Trash from '../../assets/images/Trash.svg';
 import {
   deleteProduct,
-  fetchProducts,
+  fetchAdminProducts,
   setPageOne,
   setShow,
   setUpdateCanvasShow,
+  incrementPage,
+  decrementPage,
+  setLimit,
+  setAnyPage,
 } from '../../redux/slices/products';
 
-import Loading from '../../components/loading';
 import CustomForm from '../../components/input';
-
 import CustomBtn from '../../components/button';
 import AddProductCustomCanvas from '../../components/admin-add-product-canvas';
 
@@ -32,6 +34,7 @@ const colorMap = {
   '#231579': 'blue',
   '#740F0F': 'red',
 };
+
 function getColorName(hexCode) {
   if (hexCode) {
     const color = colorMap[hexCode];
@@ -45,7 +48,7 @@ const Products = () => {
   const [currentProductId, setCurrentProductId] = useState();
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const {
-    page, loading, editSuccess, deleteSuccess, addSuccess,
+    page, editSuccess, deleteSuccess, addSuccess, limit, totalCount,
   } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
@@ -63,17 +66,22 @@ const Products = () => {
     dispatch(deleteProduct(productId));
   };
 
-  useEffect(() => {
-    dispatch(fetchProducts({}));
-  }, [page, addSuccess, editSuccess, deleteSuccess]);
-
   const handleSetPageOne = () => {
     dispatch(setPageOne());
   };
+
+  const PageChangeFunction = (newPage) => {
+    dispatch(setAnyPage(newPage));
+  };
+
+  useEffect(() => {
+    dispatch(fetchAdminProducts());
+  }, [page, limit, addSuccess, editSuccess, deleteSuccess]);
+
   const handleSearch = debounce((e) => {
     handleSetPageOne();
     const search = e.target.value;
-    dispatch(fetchProducts({ search }));
+    dispatch(fetchAdminProducts({ search }));
   }, 500);
 
   return (
@@ -100,83 +108,85 @@ const Products = () => {
           />
         </div>
 
-        {loading ? (
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ minHeight: '500px' }}
-          >
-            <Loading />
-          </div>
-        ) : (
-          <div>
-            <Table>
-              <thead>
-                <tr className="table-secondary mt-3">
-                  <th>Image</th>
-                  <th>
-                    Name
-                    <img src={Arrow} alt="Arrow Icon" className="ps-2" />
-                  </th>
-                  <th>Size</th>
-                  <th>Color</th>
-                  <th>
-                    Price
-                    <img src={Arrow} alt="Arrow Icon" className="ps-1" />
-                  </th>
-                  <th>
-                    Quantity
-                    <img src={Arrow} alt="Arrow Icon" className="ps-1" />
-                  </th>
-                  <th>Actions</th>
+        <div>
+          <Table>
+            <thead>
+              <tr className="table-secondary mt-3">
+                <th>Image</th>
+                <th>
+                  Name
+                  <img src={Arrow} alt="Arrow Icon" className="ps-2" />
+                </th>
+                <th>Size</th>
+                <th>Color</th>
+                <th>
+                  Price
+                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
+                </th>
+                <th>
+                  Quantity
+                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
+                </th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products?.map((doc) => (
+                <tr
+                  className="product-text"
+                  key={doc.id}
+                  style={{ backgroundColor: getColorName(doc.color) }}
+                >
+                  <td>
+                    <img
+                      className=""
+                      src={`http://localhost:5000/${doc.images[0]}`}
+                      alt="thumbnail"
+                      height="40px"
+                    />
+                  </td>
+                  <td className="pt-4">
+                    <b>{doc.name}</b>
+                  </td>
+                  <td className="pt-4">{doc.size}</td>
+                  <td className="pt-4">{getColorName(doc.color)}</td>
+                  <td className="pt-4">{doc.price || 0}</td>
+                  <td className="pt-4">{doc.quantity}</td>
+                  <td>
+                    <img
+                      src={Pencil}
+                      alt="pen"
+                      className="mx-2 pt-4"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => handleUpdateClick(doc._id)}
+                    />
+                    <img
+                      src={Trash}
+                      alt="trash"
+                      className="mx-2 pt-4"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => handleDeleteProduct(doc._id)}
+                    />
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {products?.map((doc) => (
-                  <tr
-                    className="product-text"
-                    key={doc.id}
-                    style={{ backgroundColor: getColorName(doc.color) }}
-                  >
-                    <td>
-                      <img
-                        className=""
-                        src={`http://localhost:5000/${doc.images[0]}`}
-                        alt="thumbnail"
-                        height="40px"
-                      />
-                    </td>
-                    <td className="pt-4">
-                      <b>{doc.name}</b>
-                    </td>
-                    <td className="pt-4">{doc.size}</td>
-                    <td className="pt-4">{getColorName(doc.color)}</td>
-                    <td className="pt-4">{doc.price || 0}</td>
-                    <td className="pt-4">{doc.quantity}</td>
-                    <td>
-                      <img
-                        src={Pencil}
-                        alt="pen"
-                        className="mx-2 pt-4"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => handleUpdateClick(doc._id)}
-                      />
-                      <img
-                        src={Trash}
-                        alt="trash"
-                        className="mx-2 pt-4"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => handleDeleteProduct(doc._id)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            <div className="d-flex justify-content-end pe-3">
-              <PaginationComponent />
-            </div>
+              ))}
+            </tbody>
+          </Table>
+          <div className="d-flex justify-content-end pe-3">
+            <PaginationComponent
+              page={page}
+              limit={limit}
+              totalCount={totalCount}
+              onNextPage={() => dispatch(incrementPage())}
+              onPrevPage={() => dispatch(decrementPage())}
+              onPageChange={PageChangeFunction}
+              onLimitChange={(newLimit) => {
+                dispatch(setLimit(newLimit));
+                handleSetPageOne();
+              }}
+            />
           </div>
-        )}
+        </div>
       </div>
       {show && (
         <AddProductCustomCanvas header="Add Product" btnText="Add Product" />

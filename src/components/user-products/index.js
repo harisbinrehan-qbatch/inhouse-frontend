@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+import {
+  useEffect, useState, Suspense, lazy,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchProducts } from '../../redux/slices/products';
+import { fetchUserProducts } from '../../redux/slices/products';
 import CustomBtn from '../button';
-import UserProductsDisplay from '../user-products-display';
 
 import './style.css';
+import Loading from '../loading';
+
+const UserProductsDisplay = lazy(() => import('../user-products-display'));
 
 const UserProducts = () => {
   const products = useSelector((state) => state.products.data);
@@ -13,7 +17,7 @@ const UserProducts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchUserProducts());
   }, []);
 
   const showProductDetails = (product) => {
@@ -67,7 +71,7 @@ const UserProducts = () => {
   return (
     <div className="d-flex ps-5 pt-3">
       {products.length === 0 ? (
-        <div className="empty-state-page">
+        <div className="d-flex ps-5 justify-content-end empty-state-page">
           No products found.
         </div>
       ) : (
@@ -75,7 +79,10 @@ const UserProducts = () => {
           <div className="d-flex gap-5 p-4 flex-wrap user-products-main-div">
             {productComponents}
           </div>
-          <UserProductsDisplay product={selectedProduct} />
+
+          <Suspense fallback={<Loading />}>
+            <UserProductsDisplay product={selectedProduct} />
+          </Suspense>
         </>
       )}
     </div>

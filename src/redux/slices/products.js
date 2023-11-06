@@ -2,29 +2,23 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { notification } from 'antd';
 
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async (filterObject, { getState, rejectWithValue }) => {
+export const fetchUserProducts = createAsyncThunk(
+  'products/fetchUserProducts',
+  async ({ filterObject }, { getState, rejectWithValue }) => {
     try {
       const state = getState();
-      const { isAdmin } = state.authentication;
-      const { page } = state.products;
-      const limit = 7;
 
-      let url = 'http://localhost:5000/v1/products/fetchProducts?';
-
-      if (isAdmin) {
-        url += `skip=${(page - 1) * limit}&limit=${limit}`;
-      }
-
-      const response = await axios.get(url, {
-        params: {
-          filterObject,
+      const response = await axios.get(
+        'http://localhost:5000/v1/products/fetchUserProducts',
+        {
+          params: {
+            ...filterObject,
+          },
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
         },
-        headers: {
-          Authorization: `Bearer ${state.authentication.user.token}`,
-        },
-      });
+      );
 
       if (response.data.products.length === 0) {
         return rejectWithValue({ error: 'No Products Found' });
@@ -36,7 +30,42 @@ export const fetchProducts = createAsyncThunk(
 
       return response.data.products;
     } catch (error) {
-      // Handle network errors, timeouts, and other issues
+      return rejectWithValue({ error: 'Network Error', originalError: error });
+    }
+  },
+);
+
+export const fetchAdminProducts = createAsyncThunk(
+  'products/fetchAdminProducts',
+  async (filterObject, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const { limit } = state.products;
+      const { page } = state.products;
+      const response = await axios.get(
+        `http://localhost:5000/v1/products/fetchAdminProducts?skip=${
+          (page - 1) * limit
+        }&limit=${limit}`,
+        {
+          params: {
+            filterObject,
+          },
+          headers: {
+            Authorization: `Bearer ${getState().authentication.user.token}`,
+          },
+        },
+      );
+
+      if (response.data.products.length === 0) {
+        return rejectWithValue({ error: 'No Products Found' });
+      }
+
+      if (response.data.message) {
+        return rejectWithValue({ error: response.data.message });
+      }
+
+      return response.data;
+    } catch (error) {
       return rejectWithValue({ error: 'Network Error', originalError: error });
     }
   },
@@ -114,6 +143,8 @@ const productsSlice = createSlice({
     updateCanvasShow: false,
     data: [],
     page: 1,
+    limit: 7,
+    totalCount: 0,
     isProductError: false,
     productMessage: null,
     loading: false,
@@ -140,19 +171,51 @@ const productsSlice = createSlice({
     setPageOne(state) {
       state.page = 1;
     },
+    setPage(state, action) {
+      state.page = action.payload;
+    },
+
+    setLimit(state, action) {
+      state.limit = action.payload;
+    },
+
+    setTotalCount(state, action) {
+      state.totalCount = action.payload;
+    },
+    setAnyPage(state, action) {
+      state.page = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProducts.fulfilled, (state, action) => {
+      .addCase(fetchUserProducts.fulfilled, (state, action) => {
         state.data = action.payload;
         state.isProductError = false;
         state.loading = false;
       })
-      .addCase(fetchProducts.pending, (state) => {
+      .addCase(fetchUserProducts.pending, (state) => {
         state.isProductError = false;
         state.loading = true;
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
+      .addCase(fetchUserProducts.rejected, (state, action) => {
+        state.productMessage = action.payload || 'Internal Server Error.';
+        state.data = [];
+        state.isProductError = true;
+        state.loading = false;
+      })
+
+      .addCase(fetchAdminProducts.fulfilled, (state, action) => {
+        console.log('Here action.payload is ', action.payload);
+        state.data = action.payload.products;
+        state.totalCount = action.payload.totalCount;
+        state.isProductError = false;
+        state.loading = false;
+      })
+      .addCase(fetchAdminProducts.pending, (state) => {
+        state.isProductError = false;
+        state.loading = true;
+      })
+      .addCase(fetchAdminProducts.rejected, (state, action) => {
         state.productMessage = action.payload || 'Internal Server Error.';
         state.data = [];
         state.isProductError = true;
@@ -241,6 +304,10 @@ export const {
   setPageOne,
   setShow,
   setUpdateCanvasShow,
+  setPage,
+  setLimit,
+  setTotalCount,
+  setAnyPage,
 } = productsSlice.actions;
 
 export default productsSlice;

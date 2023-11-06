@@ -12,7 +12,6 @@ const MainRoutes = () => {
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
-    console.log('Coming here?');
     if (user?.token) {
       if (isAdmin) {
         navigate('/admin');

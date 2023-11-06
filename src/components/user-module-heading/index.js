@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 
 import CustomDropdown from '../dropdown';
 import CustomForm from '../input';
-import { fetchProducts } from '../../redux/slices/products';
+import { fetchUserProducts } from '../../redux/slices/products';
 
 import './style.css';
 
@@ -47,8 +47,7 @@ const UserModuleHeader = () => {
   }, 500);
 
   useEffect(() => {
-    console.log('In Use Effect');
-    dispatch(fetchProducts(filterObject));
+    dispatch(fetchUserProducts(filterObject));
   }, [filterObject]);
 
   const handleFilters = (filter) => {

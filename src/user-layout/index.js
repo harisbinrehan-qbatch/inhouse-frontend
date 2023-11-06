@@ -9,7 +9,7 @@ const UserLayout = ({ children, setIsLoggedIn }) => {
 
   return (
     <div>
-      {pathname !== '/userOrders' ? (
+      {pathname !== '/user/user-orders' ? (
         <>
           <div className="">
             <CustomNavbar

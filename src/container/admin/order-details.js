@@ -22,7 +22,7 @@ function OrderDetails() {
   return (
     <div>
       <div className="d-flex">
-        <Link to="/orders">
+        <Link to="/admin/orders">
           <img src={arrowLeft} alt="Cloud" className="img-large" />
         </Link>
         <h2 className="d-flex ps-3 pt-1">Order Details</h2>

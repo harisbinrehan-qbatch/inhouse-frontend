@@ -128,7 +128,7 @@ const Orders = () => {
                     <div className="d-flex gap-2 justify-content-end">
                       <Link
                         to={{
-                          pathname: '/orderDetails',
+                          pathname: '/admin/order-details',
                           search: `?orderId=${order._id}`,
                         }}
                       >

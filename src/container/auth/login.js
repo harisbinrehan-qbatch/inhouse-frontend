@@ -87,14 +87,14 @@ const Login = ({ header }) => {
               <CustomLink
                 text="Forgot Password! "
                 textLinkable="Reset"
-                link="/forgotPassword"
+                link="/auth/forgotPassword"
               />
             </div>
             <div className="login-links">
               <CustomLink
                 text="I don't have an account! "
                 textLinkable="Signup"
-                link="/signup"
+                link="/auth/signup"
               />
             </div>
           </div>

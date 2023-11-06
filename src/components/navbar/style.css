@@ -36,13 +36,11 @@
   cursor: pointer;
 }
 
-
-
 .badge {
   position: relative;
-  top: -12px;
-  right: 2px;
+  top: -14px;
+  right: 4px;
   font-size: 9px;
-  border-radius: 50%;
+  border-radius: 100% !important;
+  padding: 3px 6px 3px 6px !important;
 }
-

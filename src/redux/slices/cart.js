@@ -10,7 +10,7 @@ export const placeOrder = createAsyncThunk(
   async (requestData, { getState, rejectWithValue }) => {
     try {
       const state = getState();
-
+      console.log('In async thunk', requestData);
       const response = await axios.post(
         'http://localhost:5000/v1/orders/placeOrder',
         requestData,
@@ -181,10 +181,9 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const { userId, product } = action.payload;
       state.proceedToCheckout = false;
+
       if (state.cartProducts) {
-        const userCart = state.cartProducts.find(
-          (cart) => cart.userId === userId,
-        );
+        const userCart = state.cartProducts.find((cart) => cart.userId === userId);
 
         if (!userCart) {
           state.cartProducts.push({
@@ -197,7 +196,20 @@ const cartSlice = createSlice({
           );
 
           if (existingProduct) {
-            existingProduct.quantity += 1;
+            if (userCart.products) {
+              const matchingProduct = userCart.products.find(
+                (singleProduct) => product._id === singleProduct._id,
+              );
+
+              if (matchingProduct) {
+                console.log('First product quantity:', product.quantity);
+                console.log('Matching product quantity:', matchingProduct.quantity);
+
+                if (matchingProduct.quantity < product.quantity) {
+                  existingProduct.quantity += 1;
+                }
+              }
+            }
           } else {
             userCart.products.push({ ...product, quantity: 1 });
           }

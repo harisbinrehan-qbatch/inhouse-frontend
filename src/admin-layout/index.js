@@ -8,7 +8,7 @@ const AdminLayout = ({ children, setIsLoggedIn }) => {
 
   return (
     <div>
-      {pathname !== '/orderDetails' ? (
+      {pathname !== '/admin/order-details' ? (
         <div>
           <CustomNavbar
             name="Haris Bin Rehan"

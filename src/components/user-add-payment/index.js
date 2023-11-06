@@ -29,6 +29,8 @@ function AddPayment() {
         orderSummary,
       };
 
+      console.log('request data is', requestData);
+
       dispatch(placeOrder(requestData));
     } else {
       // Handle the case where userCart or userCart.products is null or undefined

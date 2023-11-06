@@ -12,19 +12,13 @@ const UserProductsDisplay = ({ product }) => {
 
   const user = JSON.parse(localStorage.getItem('user'));
 
-  const { data } = useSelector((state) => state.products);
-
   const { isUser } = useSelector((state) => state.authentication);
   if (!product) {
     return null;
   }
 
   const handleAddToCart = () => {
-    const matchingProduct = data.find(
-      (singleProduct) => product._id === singleProduct._id,
-    );
-    console.log('first', product, 'Second', matchingProduct);
-    dispatch(addToCart({ userId: user.userId, product }));
+    dispatch(addToCart({ userId: user?.userId, product }));
   };
 
   const colorMap = {
@@ -76,11 +70,11 @@ const UserProductsDisplay = ({ product }) => {
         </div>
         <div className="d-flex pt-5 justify-content-end">
           {isUser ? (
-            <Link to="/shopping-bag">
+            <Link to="user/shopping-bag">
               <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
             </Link>
           ) : (
-            <Link to="/login">
+            <Link to="/auth/login">
               <CustomBtn btnText="Login to continue" />
             </Link>
           )}

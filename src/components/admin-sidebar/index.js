@@ -3,9 +3,9 @@ import './style.css';
 
 const CustomSidebar = () => (
   <div className="sidebar">
-    <SidebarRow link="/dashboard" text="Dashboard" />
-    <SidebarRow link="/products" text="Products" />
-    <SidebarRow link="./orders" text="Orders" />
+    <SidebarRow link="/admin/dashboard" text="Dashboard" />
+    <SidebarRow link="/admin/products" text="Products" />
+    <SidebarRow link="/admin/orders" text="Orders" />
   </div>
 );
 

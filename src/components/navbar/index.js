@@ -75,17 +75,17 @@ function CustomNavbar() {
                     /> */}
                   </div>
 
-                  <Link to="/shopping-bag">
+                  <Link to="/user/shopping-bag">
                     <i className="bi bi-cart" onClick={handleMoveToCart}>
-                      <span className="badge bg-primary">
+                      <span className="badge temp bg-primary">
                         {userCart?.products?.length || 0}
                       </span>
                     </i>
                   </Link>
                 </>
               ) : null
-            ) : pathname !== '/login' ? (
-              <Button as={Link} to="/login" variant="primary">
+            ) : pathname !== '/auth/login' ? (
+              <Button as={Link} to="/auth/login" variant="primary">
                 Login
               </Button>
             ) : null}
@@ -99,7 +99,7 @@ function CustomNavbar() {
                 <NavDropdown.Item>
                   <Link
                     to={{
-                      pathname: '/userOrders',
+                      pathname: '/user/user-orders',
                       search: `?userId=${user?.userId}`,
                     }}
                     style={{ textDecoration: 'none', color: 'black' }}

@@ -10,7 +10,10 @@ const CustomRoutes = () => (
     <Route path="/auth/*" element={<AuthRoutes />} />
     <Route path="/admin/*" element={<AdminRoutes />} />
     <Route path="/user/*" element={<UserRoutes />} />
-    <Route path="*" element={<>Page Not Found</>} />
+    <Route
+      path="*"
+      element={<div className="empty-state-page">Page Not Found</div>}
+    />
   </Routes>
 );
 

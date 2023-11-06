@@ -64,20 +64,20 @@ const UserProducts = () => {
     </div>
   ));
 
-  if (products.length === 0) {
-    return (
-      <div className="d-flex ps-5 pt-3 ms-4">
-        <h2 className="heading">No products found.</h2>
-      </div>
-    );
-  }
-
   return (
     <div className="d-flex ps-5 pt-3">
-      <div className="d-flex gap-5 p-4 flex-wrap user-products-main-div">
-        {productComponents}
-      </div>
-      <UserProductsDisplay product={selectedProduct} />
+      {products.length === 0 ? (
+        <div className="empty-state-page">
+          No products found.
+        </div>
+      ) : (
+        <>
+          <div className="d-flex gap-5 p-4 flex-wrap user-products-main-div">
+            {productComponents}
+          </div>
+          <UserProductsDisplay product={selectedProduct} />
+        </>
+      )}
     </div>
   );
 };

@@ -70,7 +70,7 @@ const UserProductsDisplay = ({ product }) => {
         </div>
         <div className="d-flex pt-5 justify-content-end">
           {isUser ? (
-            <Link to="user/shopping-bag">
+            <Link to="./shopping-bag">
               <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
             </Link>
           ) : (

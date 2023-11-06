@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 import axios from 'axios';
 
 export const resetPassword = createAsyncThunk(
@@ -99,12 +99,7 @@ const authSlice = createSlice({
         state.signUpError = false;
         state.signUpMessage = action.payload.message || 'Signup Successful';
 
-        notification.success({
-          message: 'Success',
-          description: state.signUpMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.success(state.signUpMessage, 2);
       })
       .addCase(signUpUser.pending, (state) => {
         state.signUpError = false;
@@ -134,14 +129,9 @@ const authSlice = createSlice({
           state.isUser = true;
         }
         state.loginMessage = action.payload.message || 'Login Successful';
-        notification.success({
-          message: 'Login Successful',
-          type: 'success',
-          duration: 1,
-        });
+        message.success('Login Successful', 2);
       })
       .addCase(loginUser.pending, () => {
-        // state.loginError = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginError = true;

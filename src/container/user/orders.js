@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import arrowLeft from '../../assets/images/Arrow left.svg';
 import sideArrow from '../../assets/images/Arrow up right.svg';
 import { setUserOrderDetailsShow } from '../../redux/slices/cart';
 import UserOrderDetailsCanvas from '../../components/user-order-details';
+import { fetchAllOrders } from '../../redux/slices/order';
 
 function UserOrders() {
   const location = useLocation();
@@ -28,8 +29,12 @@ function UserOrders() {
 
   const userOrders = orders.filter((order) => order.userId === userId);
 
+  useEffect(() => {
+    dispatch(fetchAllOrders());
+  }, []);
+
   if (userOrders.length === 0) {
-    return <div>No orders found for this user.</div>;
+    return <div className="empty-state-page">No orders found for this user.</div>;
   }
 
   const handleOrderDetailsCanvas = (order) => {

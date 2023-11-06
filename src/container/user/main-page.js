@@ -1,19 +1,10 @@
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-
-import './style.css';
-import { fetchAllOrders } from '../../redux/slices/order';
 import UserModuleHeader from '../../components/user-module-heading';
 import UserProducts from '../../components/user-products';
 import UserProductsDisplay from '../../components/user-products-display';
 
+import './style.css';
+
 function UserMainPage() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllOrders());
-  });
-
   return (
     <div className="user-main-page">
       <UserModuleHeader />

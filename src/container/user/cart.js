@@ -38,7 +38,9 @@ function UserCart() {
     proceedToCheckout,
     addresses,
   } = useSelector((state) => state.cart);
+
   const user = JSON.parse(localStorage.getItem('user'));
+
   const [defaultAddress, setDefaultAddress] = useState({});
 
   const dispatch = useDispatch();

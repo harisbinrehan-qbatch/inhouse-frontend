@@ -38,6 +38,10 @@ const AuthRoutes = () => {
           path="/forgotPassword"
           element={<ForgotPassword header="Forgot Password" />}
         />
+        <Route
+          path="*"
+          element={<div className="empty-state-page">Page Not Found</div>}
+        />
       </Routes>
     </MainPageLayout>
   );

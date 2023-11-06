@@ -1,17 +1,18 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'; // Assuming you are using Redux for state management
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+
 import UserMainPage from '../container/user/main-page';
 import MainPageLayout from '../main-page-layout';
 
 const MainRoutes = () => {
-  console.log('Coming here??????');
-  const { isAdmin } = useSelector((state) => state.authentication);
+  const { isAdmin, loginError } = useSelector((state) => state.authentication);
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
+    console.log('Coming here?');
     if (user?.token) {
       if (isAdmin) {
         navigate('/admin');
@@ -19,15 +20,18 @@ const MainRoutes = () => {
         navigate('/user');
       }
     }
-  }, [user, isAdmin, navigate]);
+  }, [user, loginError]);
 
-  return (
-    <MainPageLayout>
-      <Routes>
-        <Route path="/" element={<UserMainPage />} />
-      </Routes>
-    </MainPageLayout>
-  );
+  if (!user?.token) {
+    return (
+      <MainPageLayout>
+        <Routes>
+          <Route path="/" element={<UserMainPage />} />
+        </Routes>
+      </MainPageLayout>
+    );
+  }
+  return null;
 };
 
 export default MainRoutes;

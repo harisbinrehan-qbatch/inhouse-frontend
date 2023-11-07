@@ -4,15 +4,19 @@ import { notification } from 'antd';
 
 export const fetchUserProducts = createAsyncThunk(
   'products/fetchUserProducts',
-  async ({ filterObject }, { getState, rejectWithValue }) => {
+  async ({ skip, limit, filterObject }, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+
+      console.log('Filter object in createAsyncThunk', skip);
 
       const response = await axios.get(
         'http://localhost:5000/v1/products/fetchUserProducts',
         {
           params: {
-            ...filterObject,
+            skip,
+            limit,
+            filterObject,
           },
           headers: {
             Authorization: `Bearer ${state.authentication.user.token}`,
@@ -28,7 +32,7 @@ export const fetchUserProducts = createAsyncThunk(
         return rejectWithValue({ error: response.data.message });
       }
 
-      return response.data.products;
+      return response.data;
     } catch (error) {
       return rejectWithValue({ error: 'Network Error', originalError: error });
     }
@@ -143,7 +147,7 @@ const productsSlice = createSlice({
     updateCanvasShow: false,
     data: [],
     page: 1,
-    limit: 7,
+    limit: 5,
     totalCount: 0,
     isProductError: false,
     productMessage: null,
@@ -189,7 +193,9 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserProducts.fulfilled, (state, action) => {
-        state.data = action.payload;
+        console.log('In Fulfilled', action.payload);
+        state.totalCount = action.payload.totalCount;
+        state.data = [...state.data, ...action.payload.products];
         state.isProductError = false;
         state.loading = false;
       })

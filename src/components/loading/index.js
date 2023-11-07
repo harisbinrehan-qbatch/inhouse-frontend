@@ -1,17 +1,19 @@
 import { Button, Spinner } from 'react-bootstrap';
 
-function Loading() {
+function Loading(className) {
   return (
-    <Button variant="primary" disabled>
-      <Spinner
-        as="span"
-        animation="grow"
-        size="sm"
-        role="status"
-        aria-hidden="true"
-      />
-      Loading...
-    </Button>
+    <div className={className}>
+      <Button variant="primary" disabled>
+        <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+        Loading...
+      </Button>
+    </div>
   );
 }
 

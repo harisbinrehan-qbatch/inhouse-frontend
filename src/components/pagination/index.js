@@ -45,7 +45,7 @@ const PaginationComponent = ({
         ) : null}
         <Pagination.Item active>{page}</Pagination.Item>
 
-        {page !== totalPages ? (
+        {page < totalPages ? (
           <Pagination.Item
             onClick={() => handleNextClick()}
             disabled={page === totalPages}

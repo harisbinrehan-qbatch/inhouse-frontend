@@ -1,15 +1,15 @@
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
 import CustomDropdown from '../dropdown';
 import CustomForm from '../input';
-import { fetchUserProducts } from '../../redux/slices/products';
+// import { fetchUserProducts } from '../../redux/slices/products';
 
 import './style.css';
 
 const UserModuleHeader = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [filterObject, setFilterObject] = useState({});
 
   const dropdownArray = [
@@ -47,7 +47,8 @@ const UserModuleHeader = () => {
   }, 500);
 
   useEffect(() => {
-    dispatch(fetchUserProducts(filterObject));
+    console.log('Here in use effect', filterObject);
+    // dispatch(fetchUserProducts({ filterObject }));
   }, [filterObject]);
 
   const handleFilters = (filter) => {

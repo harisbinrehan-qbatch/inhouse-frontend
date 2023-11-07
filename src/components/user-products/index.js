@@ -1,11 +1,9 @@
-import {
+import React, {
   useEffect, useState, Suspense, lazy,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { fetchUserProducts } from '../../redux/slices/products';
 import CustomBtn from '../button';
-
 import './style.css';
 import Loading from '../loading';
 
@@ -13,12 +11,15 @@ const UserProductsDisplay = lazy(() => import('../user-products-display'));
 
 const UserProducts = () => {
   const products = useSelector((state) => state.products.data);
+  // const { totalCount } = useSelector((state) => state.products);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const dispatch = useDispatch();
+  const [skip, setSkip] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUserProducts());
-  }, []);
+    dispatch(fetchUserProducts({ skip, limit: 4 }));
+  }, [skip]);
 
   const showProductDetails = (product) => {
     setSelectedProduct(product);
@@ -68,6 +69,26 @@ const UserProducts = () => {
     </div>
   ));
 
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop
+      === document.documentElement.offsetHeight
+    ) {
+      if (!loadingMore) {
+        setLoadingMore(true);
+        setSkip((prevSkip) => prevSkip + 4);
+      }
+    }
+    console.log('Here SKIP is :', skip);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className="d-flex ps-5 pt-3">
       {products.length === 0 ? (
@@ -78,6 +99,12 @@ const UserProducts = () => {
         <>
           <div className="d-flex gap-5 p-4 flex-wrap user-products-main-div">
             {productComponents}
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ width: '100%', minHeight: '200px' }}
+            >
+              {loadingMore && <Loading />}
+            </div>
           </div>
 
           <Suspense fallback={<Loading />}>

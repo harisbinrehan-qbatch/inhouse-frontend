@@ -109,7 +109,6 @@ const Signup = ({ header }) => {
       }
     }
   };
-  console.log(isEmailValid, isMobileValid, isUsernameValid, isPasswordValid);
 
   return (
     <div className="">

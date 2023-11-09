@@ -1,15 +1,15 @@
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { debounce } from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 
 import CustomDropdown from '../dropdown';
 import CustomForm from '../input';
-// import { fetchUserProducts } from '../../redux/slices/products';
+import { fetchUserProducts, setIsFilter } from '../../redux/slices/products';
 
 import './style.css';
 
 const UserModuleHeader = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [filterObject, setFilterObject] = useState({});
 
   const dropdownArray = [
@@ -38,18 +38,32 @@ const UserModuleHeader = () => {
 
   const handleSearch = debounce((e) => {
     e.preventDefault();
-    console.log('ON _ CHANGE ***************************', { e });
     const search = e.target.value;
-    setFilterObject({
-      ...filterObject,
-      search,
+    setFilterObject((prevFilterObject) => {
+      const latestFilterObject = {
+        ...prevFilterObject,
+        search,
+      };
+      if (isEmpty(prevFilterObject)) {
+        dispatch(setIsFilter(false));
+      } else {
+        dispatch(setIsFilter(true));
+      }
+      return latestFilterObject;
     });
   }, 500);
 
   useEffect(() => {
-    console.log('Here in use effect', filterObject);
-    // dispatch(fetchUserProducts({ filterObject }));
-  }, [filterObject]);
+    if (isEmpty(filterObject)) {
+      dispatch(setIsFilter(false));
+    } else {
+      dispatch(setIsFilter(true));
+    }
+
+    if (!isEmpty(filterObject)) {
+      dispatch(fetchUserProducts({ filterObject }));
+    }
+  }, [() => filterObject]);
 
   const handleFilters = (filter) => {
     let filterName = Object.keys(filter)[0];
@@ -75,6 +89,8 @@ const UserModuleHeader = () => {
         [filterName]: filterAction,
       });
     }
+
+    // dispatch(fetchUserProducts({ filterObject }));
   };
 
   return (

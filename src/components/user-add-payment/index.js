@@ -33,7 +33,6 @@ function AddPayment() {
 
       dispatch(placeOrder(requestData));
     } else {
-      // Handle the case where userCart or userCart.products is null or undefined
       console.error('User cart or products are missing.');
     }
   };

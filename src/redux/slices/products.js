@@ -8,8 +8,6 @@ export const fetchUserProducts = createAsyncThunk(
     try {
       const state = getState();
 
-      console.log('Filter object in createAsyncThunk', skip);
-
       const response = await axios.get(
         'http://localhost:5000/v1/products/fetchUserProducts',
         {
@@ -145,9 +143,10 @@ const productsSlice = createSlice({
   initialState: {
     show: false,
     updateCanvasShow: false,
+    isFilter: false,
     data: [],
     page: 1,
-    limit: 5,
+    limit: 4,
     totalCount: 0,
     isProductError: false,
     productMessage: null,
@@ -189,13 +188,22 @@ const productsSlice = createSlice({
     setAnyPage(state, action) {
       state.page = action.payload;
     },
+    setSkip(state, action) {
+      state.skip = action.payload;
+    },
+    setIsFilter(state, { payload }) {
+      state.isFilter = payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserProducts.fulfilled, (state, action) => {
-        console.log('In Fulfilled', action.payload);
-        state.totalCount = action.payload.totalCount;
-        state.data = [...state.data, ...action.payload.products];
+        if (state.isFilter) {
+          state.data = action.payload.products;
+        } else {
+          state.data = [...state.data, ...action.payload.products];
+          state.totalCount = action.payload.totalCount;
+        }
         state.isProductError = false;
         state.loading = false;
       })
@@ -211,7 +219,6 @@ const productsSlice = createSlice({
       })
 
       .addCase(fetchAdminProducts.fulfilled, (state, action) => {
-        console.log('Here action.payload is ', action.payload);
         state.data = action.payload.products;
         state.totalCount = action.payload.totalCount;
         state.isProductError = false;
@@ -314,6 +321,8 @@ export const {
   setLimit,
   setTotalCount,
   setAnyPage,
+  setSkip,
+  setIsFilter,
 } = productsSlice.actions;
 
 export default productsSlice;

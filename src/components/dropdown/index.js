@@ -24,7 +24,7 @@ function CustomDropdown({ heading, items, handleFilter }) {
 
   return (
     <Dropdown as={ButtonGroup}>
-      <Button variant="light">{selectedFilterText}</Button>
+      <Button variant="light">{selectedFilterText.split(':')[1] === ' none' ? selectedFilterText.split(':')[0] : selectedFilterText}</Button>
 
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
 

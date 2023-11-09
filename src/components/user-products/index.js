@@ -11,83 +11,62 @@ const UserProductsDisplay = lazy(() => import('../user-products-display'));
 
 const UserProducts = () => {
   const products = useSelector((state) => state.products.data);
-  // const { totalCount } = useSelector((state) => state.products);
+  const { totalCount, isFilter } = useSelector((state) => state.products);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const dispatch = useDispatch();
-  const [skip, setSkip] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [skip, setSkip] = useState(0);
+  const [limit, setLimit] = useState(4);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
+
+  const dispatch = useDispatch();
+
+  const handleScroll = () => {
+    if (scrollEnabled && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (!loadingMore) {
+        setLoadingMore(true);
+      }
+    }
+  };
 
   useEffect(() => {
-    dispatch(fetchUserProducts({ skip, limit: 4 }));
-  }, [skip]);
+    let updatedSkip = skip;
+    let updatedLimit = limit;
+    if (totalCount === 0) {
+      if (isFilter === false) {
+        dispatch(fetchUserProducts({ skip: 0, limit: 4 }));
+        setLoadingMore(false);
+      }
+    } else if ((loadingMore && skip + limit !== totalCount)) {
+      if (skip + 4 < totalCount) {
+        updatedSkip = skip + 4;
+        updatedLimit = updatedSkip + 4 > totalCount ? updatedSkip + 4 - totalCount : 4;
+        setSkip(updatedSkip);
+        setLimit(updatedLimit);
+        setLoadingMore(false);
+      } else {
+        updatedLimit = totalCount - skip;
+        updatedSkip = skip;
+        setSkip(updatedSkip);
+        setLimit(updatedLimit);
+        setScrollEnabled(false);
+        setLoadingMore(false);
+      }
+      if (isFilter === false) {
+        dispatch(fetchUserProducts({ skip: updatedSkip, limit: updatedLimit }));
+        setLoadingMore(false);
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [loadingMore]);
 
   const showProductDetails = (product) => {
     setSelectedProduct(product);
   };
-
-  const productComponents = products.map((product) => (
-    <div className="product-div p-3" key={product.id}>
-      <img
-        src={`http://localhost:5000/${product.images[0]}`}
-        alt="product"
-        className="user-product-image p-2"
-      />
-      <p className="p-1 flex-wrap w-100">{product.name}</p>
-      <div className="d-flex ps-1">
-        <p>Price:</p>
-        <p>{product.price}</p>
-      </div>
-      <div className="d-flex ps-1">
-        <p>Size:</p>
-        <p className="ps-2">{product.size}</p>
-      </div>
-      <div className="d-flex justify-content-end">
-        {product.quantity === 0 ? (
-          <div
-            className=""
-            style={{
-              color: 'white',
-              background: 'red',
-              height: '35px',
-              borderRadius: '3px',
-            }}
-          >
-            <strong
-              style={{ fontStyle: 'italic' }}
-              className="d-flex ps-2 pe-2 pt-1 justify-content-around"
-            >
-              Out of Stock
-            </strong>
-          </div>
-        ) : (
-          <CustomBtn
-            btnText="Details"
-            onClick={() => showProductDetails(product)}
-          />
-        )}
-      </div>
-    </div>
-  ));
-
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop
-      === document.documentElement.offsetHeight
-    ) {
-      if (!loadingMore) {
-        setLoadingMore(true);
-        setSkip((prevSkip) => prevSkip + 4);
-      }
-    }
-    console.log('Here SKIP is :', skip);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   return (
     <div className="d-flex ps-5 pt-3">
@@ -98,12 +77,54 @@ const UserProducts = () => {
       ) : (
         <>
           <div className="d-flex gap-5 p-4 flex-wrap user-products-main-div">
-            {productComponents}
+            {products.map((product) => (
+              <div className="product-div p-3" key={product.id}>
+                <img
+                  src={`http://localhost:5000/${product.images[0]}`}
+                  alt="product"
+                  className="user-product-image p-2"
+                />
+                <p className="p-1 flex-wrap w-100">{product.name}</p>
+                <div className="d-flex ps-1">
+                  <p>Price:</p>
+                  <p>{product.price}</p>
+                </div>
+                <div className="d-flex ps-1">
+                  <p>Size:</p>
+                  <p className="ps-2">{product.size}</p>
+                </div>
+                <div className="d-flex justify-content-end">
+                  {product.quantity === 0 ? (
+                    <div
+                      className=""
+                      style={{
+                        color: 'white',
+                        background: 'red',
+                        height: '35px',
+                        borderRadius: '3px',
+                      }}
+                    >
+                      <strong
+                        style={{ fontStyle: 'italic' }}
+                        className="d-flex ps-2 pe-2 pt-1 justify-content-around"
+                      >
+                        Out of Stock
+                      </strong>
+                    </div>
+                  ) : (
+                    <CustomBtn
+                      btnText="Details"
+                      onClick={() => showProductDetails(product)}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
             <div
               className="d-flex justify-content-center align-items-center"
               style={{ width: '100%', minHeight: '200px' }}
             >
-              {loadingMore && <Loading />}
+              {!loadingMore && <Loading />}
             </div>
           </div>
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable radix */
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -45,23 +46,17 @@ const PaginationComponent = ({
         ) : null}
         <Pagination.Item active>{page}</Pagination.Item>
 
-        {page < totalPages ? (
-          <Pagination.Item
-            onClick={() => handleNextClick()}
-            disabled={page === totalPages}
-          >
-            {page + 1}
-          </Pagination.Item>
-        ) : null}
-        {page !== totalPages ? (
-          <Pagination.Item disabled={page === totalPages}>...</Pagination.Item>
+        {page !== totalPages && page !== totalPages - 1 ? (
+          <>
+            <Pagination.Item onClick={() => handleNextClick()}>
+              {page + 1}
+            </Pagination.Item>
+            <Pagination.Item>...</Pagination.Item>
+          </>
         ) : null}
 
         {page !== totalPages ? (
-          <Pagination.Item
-            onClick={() => handleLastPageClick()}
-            disabled={page === totalPages}
-          >
+          <Pagination.Item onClick={() => handleLastPageClick()}>
             {totalPages}
           </Pagination.Item>
         ) : null}

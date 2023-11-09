@@ -10,7 +10,6 @@ export const placeOrder = createAsyncThunk(
   async (requestData, { getState, rejectWithValue }) => {
     try {
       const state = getState();
-      console.log('In async thunk', requestData);
       const response = await axios.post(
         'http://localhost:5000/v1/orders/placeOrder',
         requestData,
@@ -202,9 +201,6 @@ const cartSlice = createSlice({
               );
 
               if (matchingProduct) {
-                console.log('First product quantity:', product.quantity);
-                console.log('Matching product quantity:', matchingProduct.quantity);
-
                 if (matchingProduct.quantity < product.quantity) {
                   existingProduct.quantity += 1;
                 }

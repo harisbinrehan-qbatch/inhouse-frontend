@@ -9,7 +9,7 @@ const AdminLayout = ({ children, setIsLoggedIn }) => {
   return (
     <div>
       {pathname !== '/admin/order-details' ? (
-        <div>
+        <>
           <CustomNavbar
             name="Haris Bin Rehan"
             userImage="/Users/qbatch/Desktop/project/src/assets/Bell.png"
@@ -19,7 +19,7 @@ const AdminLayout = ({ children, setIsLoggedIn }) => {
             <CustomSidebar />
             <div className="w-100 p-4">{children}</div>
           </div>
-        </div>
+        </>
       ) : (
         <div className="d-flex">
           <div className="w-100 p-4">{children}</div>

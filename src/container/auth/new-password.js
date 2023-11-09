@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { notification } from 'antd';
+import { message } from 'antd';
 
 import CustomBtn from '../../components/button';
 import CustomForm from '../../components/input';
@@ -36,23 +36,20 @@ const NewPassword = ({ header }) => {
       };
       dispatch(resetPassword(body));
     } else {
-      notification.error({
-        message: 'Passwords must be the same',
-        type: 'error',
-        duration: 1,
-      });
+      message.error('Passwords must be the same', 2);
     }
   };
 
   return (
     <div>
-      <div className="login-rectangle">
-        <h2 className="header">{header}</h2>
+      <div className="container login-rectangle">
+        <h2 className="pb-3 header">{header}</h2>
         <div className="border">
           <div className="login-fields">
             <CustomForm
               placeholder="Enter New Password"
               label="Enter New Password"
+              className="pt-2"
               type="password"
               value={password}
               onChange={handlePasswordChange}

@@ -50,7 +50,7 @@ function CustomNavbar() {
   };
 
   return (
-    <div style={{ zIndex: '3' }} className="navbar-sticky-section">
+    <div style={{ zIndex: '3', position: 'fixed', width: '100%' }} className="navbar-sticky-section">
       <Navbar expand="lg">
         <Container>
           <h2 className="ecom clickable" onClick={handleNavigateHome}>

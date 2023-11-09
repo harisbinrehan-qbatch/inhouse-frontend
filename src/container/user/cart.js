@@ -85,7 +85,7 @@ function UserCart() {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ marginTop: '54px' }}>
       <div className="row">
         <div className="d-flex p-2 pt-3">
           {proceedToCheckout ? (

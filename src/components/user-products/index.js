@@ -29,6 +29,7 @@ const UserProducts = () => {
   };
 
   useEffect(() => {
+    console.log('IN USE EFFECT __________*********___________');
     let updatedSkip = skip;
     let updatedLimit = limit;
     if (totalCount === 0) {
@@ -69,13 +70,13 @@ const UserProducts = () => {
   };
 
   return (
-    <div className="d-flex ps-5 pt-3">
+    <div style={{ paddingTop: '115px' }}>
       {products.length === 0 ? (
-        <div className="d-flex ps-5 justify-content-end empty-state-page">
+        <div className="d-flex justify-content-center empty-state-page product-empty-status">
           No products found.
         </div>
       ) : (
-        <>
+        <div className="d-flex ps-5 pt-3">
           <div className="d-flex gap-5 p-4 flex-wrap user-products-main-div">
             {products.map((product) => (
               <div className="product-div p-3" key={product.id}>
@@ -131,7 +132,7 @@ const UserProducts = () => {
           <Suspense fallback={<Loading />}>
             <UserProductsDisplay product={selectedProduct} />
           </Suspense>
-        </>
+        </div>
       )}
     </div>
   );

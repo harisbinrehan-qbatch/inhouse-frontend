@@ -44,11 +44,12 @@ const Login = ({ header }) => {
   return (
     <div>
       <div className="login-rectangle">
-        <h2 className="header">{header}</h2>
+        <h2 className="pb-3 header">{header}</h2>
         <div className="border">
           <div className="login-fields">
             <CustomForm
               placeholder="Please enter your email"
+              className="pt-2"
               label="Enter Email"
               type="email"
               value={email}

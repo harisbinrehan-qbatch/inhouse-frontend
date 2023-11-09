@@ -9,12 +9,10 @@ function UserMainPage() {
     <div className="user-main-page">
       <UserModuleHeader />
       <div className="d-flex">
-        <div className="d-flex">
-          <div className="scrollable-section">
-            <UserProducts />
-          </div>
-          <UserProductsDisplay />
+        <div className="scrollable-section">
+          <UserProducts />
         </div>
+        <UserProductsDisplay />
       </div>
     </div>
   );

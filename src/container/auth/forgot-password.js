@@ -42,12 +42,13 @@ const ForgotPassword = ({ header }) => {
 
   return (
     <div className="login-rectangle">
-      <h2 className="header">{header}</h2>
+      <h2 className="pb-3 header">{header}</h2>
       <div className="border">
         <div className="login-fields">
           <CustomForm
             placeholder="Please enter your email"
             label="Enter Email"
+            className="pt-2"
             type="email"
             value={email}
             hint={(

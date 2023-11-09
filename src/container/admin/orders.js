@@ -45,7 +45,7 @@ const Orders = () => {
   }, 500);
 
   return (
-    <div className="orders-main-div">
+    <div className="table-body orders-main-div">
       <h2 className="heading d-flex p-4">Orders</h2>
       <div className="d-flex justify-content-around ps-3 pe-3">
         <OrdersRectangle

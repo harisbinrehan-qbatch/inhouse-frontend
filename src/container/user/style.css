@@ -31,3 +31,7 @@
   font-weight: bold;
   font-style: italic;
 }
+.product-empty-status.empty-state-page{
+  position:absolute;
+  width: 100%;
+}

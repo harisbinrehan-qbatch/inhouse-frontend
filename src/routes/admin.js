@@ -36,7 +36,7 @@ const AdminRoutes = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/products" element={<Products />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/order-details/:orderId" element={<OrderDetails />} />
+          <Route path="/order-details" element={<OrderDetails />} />
           <Route
             path="*"
             element={<div className="empty-state-page">Page Not Found</div>}

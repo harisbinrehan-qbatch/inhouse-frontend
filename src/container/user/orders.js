@@ -43,7 +43,7 @@ function UserOrders() {
   };
 
   return (
-    <div>
+    <div className="table-body">
       <div className="d-flex p-4">
         <Link to="/">
           <img src={arrowLeft} alt="Cloud" className="img-large" />

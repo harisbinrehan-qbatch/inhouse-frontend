@@ -95,7 +95,7 @@ const UserModuleHeader = () => {
 
   return (
     <div
-      style={{ zIndex: '1' }}
+      style={{ zIndex: '1', position: 'fixed', top: '54px' }}
       className="container d-flex justify-content-between user-header-main-div navbar-sticky-section pe-5 ps-5"
     >
       <h4 className="header-heading pt-3 ps-4">Heading</h4>

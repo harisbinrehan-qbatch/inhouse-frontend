@@ -1,13 +1,19 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import MasterCard from '../master-card';
 import MastercardCanvas from '../mastercard-canvas';
 import { placeOrder, setMastercardShow } from '../../redux/slices/cart';
-import './style.css';
 import CustomBtn from '../button';
+import Pencil from '../../assets/images/edit-payment.svg';
+
+import './style.css';
+import ManagePaymentsCanvas from '../user-manage-payments';
 
 function AddPayment() {
+  const [multiplePaymentsCanvasShow, setMultiplePaymentsCanvasShow] = useState(false);
+
   const {
     mastercardShow, paymentDetails, userCart, orderSummary,
   } = useSelector((state) => state.cart);
@@ -16,6 +22,10 @@ function AddPayment() {
 
   const handleAddPaymentDetails = () => {
     dispatch(setMastercardShow());
+  };
+
+  const handleMultiplePaymentDetails = () => {
+    setMultiplePaymentsCanvasShow(true);
   };
 
   const handlePlaceOrder = () => {
@@ -40,13 +50,25 @@ function AddPayment() {
   return (
     <div className="container add-payment-main-div">
       <h2 className="p-2 heading">Add Payment</h2>
-      <div onClick={handleAddPaymentDetails}>
-        <CustomBtn
-          className="m-2"
-          variant="light"
-          btnText={!isEmpty(paymentDetails) ? 'Update' : '+ Add new'}
-        />
+      <div className="d-flex justify-content-between">
+        <div onClick={handleAddPaymentDetails}>
+          <CustomBtn
+            className="m-2"
+            variant="light"
+            btnText={!isEmpty(paymentDetails) ? 'Update' : '+ Add new'}
+          />
+        </div>
+        <div>
+          <img
+            src={Pencil}
+            alt="multiple-payments"
+            style={{ cursor: 'pointer' }}
+            onClick={handleMultiplePaymentDetails}
+            className="m-2 cart-trash-enabled"
+          />
+        </div>
       </div>
+
       <div>
         <MasterCard
           bankName=""
@@ -63,6 +85,13 @@ function AddPayment() {
               ? 'Add Payment Details'
               : 'Update Payment Details'
           }
+        />
+      )}
+
+      {multiplePaymentsCanvasShow && (
+        <ManagePaymentsCanvas
+          show={multiplePaymentsCanvasShow}
+          setShow={setMultiplePaymentsCanvasShow}
         />
       )}
 

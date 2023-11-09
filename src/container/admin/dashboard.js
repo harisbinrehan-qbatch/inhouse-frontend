@@ -25,7 +25,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="dashboard-main-div">
+    <div className="table-body dashboard-main-div">
       <h2 className="heading d-flex p-4">Dashboard</h2>
       <div className="d-flex justify-content-around gap-4 ms-4 me-3">
         <DashboardCart
@@ -61,7 +61,9 @@ const Dashboard = () => {
           <div className="ps-3">
             <span className="p-3 mb-3">Sales & Orders Report</span>
             <div className="pt-3">
-              <DashboardLineChart oneYearStats={orderStats?.oneYearStats || {}} />
+              <DashboardLineChart
+                oneYearStats={orderStats?.oneYearStats || {}}
+              />
             </div>
           </div>
         </div>

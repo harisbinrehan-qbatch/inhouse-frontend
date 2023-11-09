@@ -3,7 +3,7 @@
 /* eslint-disable no-underscore-dangle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { notification } from 'antd';
+import { message } from 'antd';
 
 export const placeOrder = createAsyncThunk(
   'cart/placeOrder',
@@ -211,12 +211,7 @@ const cartSlice = createSlice({
           }
         }
 
-        notification.success({
-          message: 'Success',
-          description: 'Product added to the cart.',
-          type: 'success',
-          duration: 1,
-        });
+        message.success('Product added to the cart', 2);
       } else {
         state.cartProducts = [
           {
@@ -266,12 +261,7 @@ const cartSlice = createSlice({
         }
         return cartItem;
       });
-      notification.success({
-        message: 'Success',
-        description: 'Product removed from cart.',
-        type: 'success',
-        duration: 1,
-      });
+      message.success('Product removed from cart.', 2);
     },
 
     incrementQuantity: (state, action) => {
@@ -317,16 +307,9 @@ const cartSlice = createSlice({
         state.cartProducts = state.cartProducts.filter(
           (cartItem) => cartItem.userId !== user.userId,
         );
-
-        notification.success({
-          message: 'All products removed from cart',
-          duration: 1,
-        });
+        message.success('All products removed from cart', 2);
       } else {
-        notification.warning({
-          message: 'Cart is already empty',
-          duration: 1,
-        });
+        message.success('\'Cart is already empty\'', 2);
       }
     },
   },
@@ -347,12 +330,7 @@ const cartSlice = createSlice({
 
         state.selectedCartProducts = [];
 
-        notification.success({
-          message: 'Success',
-          description: state.orderMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.success(state.orderMessage, 2);
       })
       .addCase(placeOrder.pending, (state) => {
         state.orderSuccess = false;
@@ -360,36 +338,18 @@ const cartSlice = createSlice({
       .addCase(placeOrder.rejected, (state) => {
         state.orderSuccess = false;
         state.orderMessage = 'Error placing order';
-
-        notification.error({
-          message: 'ERROR!',
-          description: state.orderMessage,
-          type: 'error',
-          duration: 1,
-        });
+        message.error(state.orderMessage, 2);
       })
 
       .addCase(savePaymentDetails.fulfilled, (state, action) => {
         state.paymentDetails = action.payload.paymentDetails;
         state.orderMessage = action.payload.message || 'Payment Details Saved Successfully';
-
-        notification.success({
-          message: 'Success',
-          description: state.orderMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.success(state.orderMessage, 2);
       })
       .addCase(savePaymentDetails.pending, () => {})
       .addCase(savePaymentDetails.rejected, (state) => {
         state.orderMessage = 'Error saving payment details';
-
-        notification.error({
-          message: 'ERROR!',
-          description: state.orderMessage,
-          type: 'error',
-          duration: 1,
-        });
+        message.error(state.orderMessage, 2);
       })
 
       .addCase(getAddress.fulfilled, (state, action) => {
@@ -407,13 +367,7 @@ const cartSlice = createSlice({
       .addCase(addAddress.fulfilled, (state, action) => {
         state.addAddressSuccess = true;
         state.orderMessage = action.payload.message;
-
-        notification.success({
-          message: 'Success',
-          description: state.orderMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.success(state.orderMessage, 2);
       })
       .addCase(addAddress.pending, (state) => {
         state.addAddressSuccess = false;
@@ -422,22 +376,12 @@ const cartSlice = createSlice({
         state.orderSuccess = false;
         state.orderMessage = action.payload.message;
 
-        notification.error({
-          message: 'ERROR!',
-          description: state.orderMessage,
-          type: 'error',
-          duration: 1,
-        });
+        message.success(state.orderMessage, 2);
       })
 
       .addCase(updateDefaultAddress.fulfilled, (state) => {
         state.updateAddressSuccess = true;
-
-        notification.success({
-          message: 'Default address updated successfully.',
-          type: 'success',
-          duration: 1,
-        });
+        message.success('Default address updated successfully', 2);
       })
       .addCase(updateDefaultAddress.pending, (state) => {
         state.updateAddressSuccess = false;
@@ -445,13 +389,7 @@ const cartSlice = createSlice({
       .addCase(updateDefaultAddress.rejected, (state) => {
         state.updateAddressSuccess = false;
         state.orderMessage = 'Error updating default address';
-
-        notification.error({
-          message: 'ERROR!',
-          description: state.orderMessage,
-          type: 'error',
-          duration: 1,
-        });
+        message.error(state.orderMessage, 2);
       });
   },
 });

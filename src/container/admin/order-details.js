@@ -26,6 +26,7 @@ function getColorName(hexCode) {
 }
 
 function OrderDetails() {
+  console.log('VHJGDJHBJBJLHBJHVHGSHSH');
   const location = useLocation();
 
   const dispatch = useDispatch();

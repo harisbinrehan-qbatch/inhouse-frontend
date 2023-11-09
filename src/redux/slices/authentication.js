@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { notification, message } from 'antd';
+import { message } from 'antd';
 import axios from 'axios';
 
 export const resetPassword = createAsyncThunk(
@@ -107,13 +107,7 @@ const authSlice = createSlice({
       .addCase(signUpUser.rejected, (state, action) => {
         state.signUpError = true;
         state.signUpMessage = action.payload.message || 'Signup failed';
-
-        notification.error({
-          message: 'Error',
-          description: state.signUpMessage,
-          type: 'error',
-          duration: 1,
-        });
+        message.error(state.signUpMessage, 2);
       })
 
       .addCase(loginUser.fulfilled, (state, action) => {
@@ -136,43 +130,23 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loginError = true;
         state.loginMessage = action.payload?.message || 'Login failed';
-
-        notification.error({
-          message: 'Error',
-          description: state.loginMessage,
-          type: 'error',
-          duration: 1,
-        });
+        message.error(state.loginMessage, 2);
       })
 
       .addCase(sendEmail.fulfilled, (state, action) => {
-        notification.success({
-          message: action.payload.message || 'Email sent successfully',
-          type: 'success',
-          duration: 1,
-        });
+        message.success(action.payload.message || 'Email sent successfully', 2);
       })
       .addCase(sendEmail.pending, () => {
       })
       .addCase(sendEmail.rejected, (state, action) => {
-        notification.error({
-          message: 'Error',
-          description: action.payload.message || 'Error Sending Email',
-          type: 'error',
-          duration: 1,
-        });
+        message.error(action.payload.message || 'Error Sending Email', 2);
       })
 
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.resetPasswordError = false;
         state.resetPasswordMessage = action.payload.message || 'Password reset successful';
 
-        notification.success({
-          message: 'Password Reset Success',
-          description: state.resetPasswordMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.success(state.resetPasswordMessage, 2);
       })
       .addCase(resetPassword.pending, (state) => {
         state.resetPasswordError = false;
@@ -180,12 +154,7 @@ const authSlice = createSlice({
       .addCase(resetPassword.rejected, (state, action) => {
         state.resetPasswordError = true;
         state.resetPasswordMessage = action.payload.error || 'Password reset failed';
-        notification.error({
-          message: 'Password Reset Error',
-          description: state.resetPasswordMessage,
-          type: 'error',
-          duration: 1,
-        });
+        message.error(state.resetPasswordMessage, 2);
       });
   },
 });

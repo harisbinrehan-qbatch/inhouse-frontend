@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from 'antd';
+import { message } from 'antd';
 
 import CustomBtn from '../button';
 import Trash from '../../assets/images/Trash.svg';
@@ -39,11 +39,7 @@ function CartItem({ cartItem }) {
     if (matchingProduct && cartItem.quantity < matchingProduct.quantity) {
       dispatch(incrementQuantity(cartItem));
     } else {
-      notification.warning({
-        message: 'No more products available',
-        type: 'success',
-        duration: 1,
-      });
+      message.warning('No more products available', 2);
     }
   };
 

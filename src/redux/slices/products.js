@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { notification } from 'antd';
+import { message } from 'antd';
 
 export const fetchUserProducts = createAsyncThunk(
   'products/fetchUserProducts',
@@ -238,12 +238,7 @@ const productsSlice = createSlice({
       .addCase(addProduct.fulfilled, (state, action) => {
         state.addSuccess = true;
         state.productMessage = action.payload?.message || 'Product added Successfully';
-        notification.success({
-          message: 'Success',
-          description: state.productMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.success(state.productMessage, 2);
       })
       .addCase(addProduct.pending, (state) => {
         state.addSuccess = false;
@@ -251,24 +246,14 @@ const productsSlice = createSlice({
       .addCase(addProduct.rejected, (state) => {
         state.addSuccess = false;
         state.productMessage = 'Error adding product';
-        notification.error({
-          message: 'ERROR!',
-          description: state.productMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.error(state.productMessage, 2);
       })
 
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.data = action.payload.products;
         state.productMessage = action.payload.message || 'Product deleted Successfully';
         state.deleteSuccess = true;
-        notification.success({
-          message: 'Success',
-          description: state.productMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.success(state.productMessage, 2);
       })
       .addCase(deleteProduct.pending, (state) => {
         state.deleteSuccess = false;
@@ -276,24 +261,14 @@ const productsSlice = createSlice({
       .addCase(deleteProduct.rejected, (state) => {
         state.deleteSuccess = true;
         state.productMessage = 'Error deleting product';
-        notification.error({
-          message: 'ERROR!',
-          description: state.productMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.error(state.productMessage, 2);
       })
 
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.data = action.payload.products;
         state.productMessage = action.payload.message || 'Product updated Successfully';
         state.editSuccess = true;
-        notification.success({
-          message: 'Success',
-          description: state.productMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.success(state.productMessage, 2);
       })
       .addCase(updateProduct.pending, (state) => {
         state.editSuccess = false;
@@ -301,12 +276,7 @@ const productsSlice = createSlice({
       .addCase(updateProduct.rejected, (state, action) => {
         state.productMessage = action.payload.message || 'Error Updating product';
         state.editSuccess = false;
-        notification.error({
-          message: 'ERROR!',
-          description: state.productMessage,
-          type: 'success',
-          duration: 1,
-        });
+        message.error(state.productMessage, 2);
       });
   },
 });

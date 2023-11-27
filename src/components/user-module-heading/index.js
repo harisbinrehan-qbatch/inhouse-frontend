@@ -89,8 +89,6 @@ const UserModuleHeader = () => {
         [filterName]: filterAction,
       });
     }
-
-    // dispatch(fetchUserProducts({ filterObject }));
   };
 
   return (

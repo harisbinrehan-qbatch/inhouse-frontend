@@ -94,7 +94,6 @@ export const savePaymentDetails = createAsyncThunk(
   'cart/savePaymentDetails',
   async (requestData, { getState, rejectWithValue }) => {
     try {
-      console.log('Here in createAsyncThunk', requestData);
       const state = getState();
 
       const response = await axios.post(
@@ -347,7 +346,9 @@ const cartSlice = createSlice({
         state.orderMessage = action.payload.message || 'Payment Details Saved Successfully';
         message.success(state.orderMessage, 2);
       })
-      .addCase(savePaymentDetails.pending, () => {})
+      .addCase(savePaymentDetails.pending, () => {
+        message.warning('Saving Payment Details...');
+      })
       .addCase(savePaymentDetails.rejected, (state) => {
         state.orderMessage = 'Error saving payment details';
         message.error(state.orderMessage, 2);
@@ -361,7 +362,6 @@ const cartSlice = createSlice({
 
       .addCase(getPaymentDetails.fulfilled, (state, action) => {
         state.paymentDetails = action.payload.allPaymentMethods;
-        // console.log('In fulfilled', action.payload.allPaymentMethods);
       })
       .addCase(getPaymentDetails.pending, () => {})
       .addCase(getPaymentDetails.rejected, () => {})

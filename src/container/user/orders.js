@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { Empty } from 'antd';
 
 import { Table } from 'react-bootstrap';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
@@ -35,7 +36,7 @@ function UserOrders() {
   }, []);
 
   if (userOrders.length === 0) {
-    return <div className="empty-state-page">No orders found for this user.</div>;
+    return <Empty description="No orders found" style={{ marginTop: '250px' }} />;
   }
 
   const handleOrderDetailsCanvas = (order) => {

@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
+import { Empty } from 'antd';
+
 import Arrow from '../../assets/images/Arrow left.svg';
 import CartItem from '../../components/user-cart-item';
 import Trash from '../../assets/images/Trash.svg';
@@ -174,9 +176,11 @@ function UserCart() {
             </h2>
           ) : (
             <h2 className="d-flex heading pt-2 ps-2 justify-content-around pt-5">
-              {proceedToCheckout
-                ? 'Please add products in cart to checkout ☝'
-                : 'No products in the cart 🥺'}
+              {proceedToCheckout ? (
+                <Empty description="Please add products in cart to checkout" />
+              ) : (
+                <Empty description="No products in the cart" />
+              )}
             </h2>
           )}
         </div>

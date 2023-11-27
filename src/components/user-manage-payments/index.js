@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { Empty } from 'antd';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import MasterCard from '../master-card';
 
@@ -37,19 +38,23 @@ const ManagePaymentsCanvas = ({ show, setShow }) => {
       <div className="d-flex">
         <div className="d-flex offcanvas-body">
           <Offcanvas.Body>
-            <div className="d-flex flex-wrap gap-1 justify-content-around">
-              {paymentDetails.map((paymentDetail, index) => (
-                <div key={index} style={{ width: '280px' }}>
-                  <MasterCard
-                    cardholderName={paymentDetail.cardholderName}
-                    brand={paymentDetail.brand}
-                    cardNumber={paymentDetail.cardNumber}
-                    exp_month={paymentDetail.exp_month}
-                    exp_year={paymentDetail.exp_year}
-                  />
-                </div>
-              ))}
-            </div>
+            {paymentDetails.length !== 0 ? (
+              <div className="d-flex flex-wrap gap-1 justify-content-around">
+                {paymentDetails.map((paymentDetail, index) => (
+                  <div key={index} style={{ width: '280px' }}>
+                    <MasterCard
+                      cardholderName={paymentDetail.cardholderName}
+                      brand={paymentDetail.brand}
+                      cardNumber={paymentDetail.cardNumber}
+                      exp_month={paymentDetail.exp_month}
+                      exp_year={paymentDetail.exp_year}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Empty description="No payment methods found" />
+            )}
           </Offcanvas.Body>
         </div>
       </div>

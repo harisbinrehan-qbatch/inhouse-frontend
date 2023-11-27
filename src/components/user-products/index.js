@@ -1,7 +1,9 @@
-import React, {
+import { Empty } from 'antd';
+import {
   useEffect, useState, Suspense, lazy,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
 import { fetchUserProducts } from '../../redux/slices/products';
 import CustomBtn from '../button';
 import './style.css';
@@ -71,8 +73,8 @@ const UserProducts = () => {
   return (
     <div style={{ paddingTop: '115px' }}>
       {products.length === 0 ? (
-        <div className="d-flex justify-content-center empty-state-page product-empty-status">
-          No products found.
+        <div className="d-flex empty-state-page product-empty-status">
+          <Empty description="No products found." />
         </div>
       ) : (
         <div className="d-flex ps-5 pt-3">

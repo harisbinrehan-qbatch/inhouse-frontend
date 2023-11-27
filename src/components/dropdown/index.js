@@ -28,10 +28,9 @@ function CustomDropdown({ heading, items, handleFilter }) {
 
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
 
-      <Dropdown.Menu className="dropdown-menu">
+      <Dropdown.Menu>
         {items.map((item, index) => (
           <Dropdown.Item
-            className="drop-down-item"
             onClick={() => {
               handleFilter({ [heading]: item, filterAction: item });
               updateSelectedFilterText({ [heading]: item });

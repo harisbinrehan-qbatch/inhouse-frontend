@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import UserMainPage from '../container/user/main-page';
-import MainPageLayout from '../main-page-layout';
+import MainPageLayout from '../layouts/main-page';
 
 const MainRoutes = () => {
   const { isAdmin, loginError } = useSelector((state) => state.authentication);

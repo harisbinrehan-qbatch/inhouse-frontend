@@ -6,7 +6,7 @@ import { Route, Routes, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 
-import UserLayout from '../user-layout';
+import UserLayout from '../layouts/user';
 import UserMainPage from '../container/user/main-page';
 import UserCart from '../container/user/cart';
 import UserOrders from '../container/user/orders';

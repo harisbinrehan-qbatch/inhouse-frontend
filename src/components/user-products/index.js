@@ -29,7 +29,6 @@ const UserProducts = () => {
   };
 
   useEffect(() => {
-    console.log('IN USE EFFECT __________*********___________');
     let updatedSkip = skip;
     let updatedLimit = limit;
     if (totalCount === 0) {
@@ -125,7 +124,7 @@ const UserProducts = () => {
               className="d-flex justify-content-center align-items-center"
               style={{ width: '100%', minHeight: '200px' }}
             >
-              {!loadingMore && <Loading />}
+              {!loadingMore && !isFilter && <Loading />}
             </div>
           </div>
 

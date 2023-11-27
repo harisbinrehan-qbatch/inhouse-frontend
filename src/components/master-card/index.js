@@ -1,27 +1,29 @@
+/* eslint-disable camelcase */
 import React from 'react';
-import { useSelector } from 'react-redux';
 import MasterCardImage from '../../assets/images/mastercard.svg';
-import CardBack from '../../assets/images/card-background.png';
+import masterCardBack from '../../assets/images/card-background.png';
+import visaCardBack from '../../assets/images/images.jpeg';
+
 import './style.css';
 
-const MasterCard = () => {
-  const { paymentDetails } = useSelector((state) => state.cart);
-
-  const formattedCardNumber = paymentDetails && paymentDetails.cardNumber
-    ? paymentDetails.cardNumber.slice(12, 16)
-    : '00';
-
+const MasterCard = ({
+  cardholderName,
+  brand,
+  cardNumber,
+  exp_month,
+  exp_year,
+}) => {
   const cardBackStyle = {
-    backgroundImage: `url(${CardBack})`,
+    backgroundImage: `url(${brand === 'Visa' ? visaCardBack : masterCardBack})`,
     backgroundSize: 'cover',
   };
-
+  console.log({ exp_month, exp_year });
   return (
     <div className="master-card container mt-4" style={cardBackStyle}>
       <div className="d-flex p-2">
-        <img src={MasterCardImage} alt="MasterCardImage" />
+        <img src={MasterCardImage} alt="cardImage" />
         <p className="ps-3 pt-3" style={{ fontWeight: 'bold' }}>
-          Master Card
+          {brand}
         </p>
       </div>
       <div
@@ -31,23 +33,19 @@ const MasterCard = () => {
         <p>****</p>
         <p>****</p>
         <p>****</p>
-        <p>{formattedCardNumber}</p>
+        <p>{cardNumber || '0000'}</p>
       </div>
       <div className="d-flex gap-5">
         <div style={{ fontStyle: 'italic' }} className="d-flex ps-4">
-          {paymentDetails ? paymentDetails.expiryDate || '00/00' : '00/00'}
+          {exp_month && exp_year ? `${exp_month}/${exp_year}` : '07/23'}
         </div>
-        <div style={{ fontStyle: 'italic', fontWeight: 'bold' }}>
-          {paymentDetails ? paymentDetails.cvc || '123' : '000'}
-        </div>
+        <div style={{ fontStyle: 'italic', fontWeight: 'bold' }}>123</div>
       </div>
       <div
         className="d-flex py-2 ps-4 pe-4 justify-content-around"
         style={{ fontWeight: 'bold' }}
       >
-        {paymentDetails
-          ? paymentDetails.cardholderName || 'Dummy Name'
-          : 'Dummy Name'}
+        {cardholderName || 'Dummy Name'}
       </div>
     </div>
   );

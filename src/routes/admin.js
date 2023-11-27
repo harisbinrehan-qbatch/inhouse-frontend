@@ -5,7 +5,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 
-import AdminLayout from '../admin-layout';
+import AdminLayout from '../layouts/admin';
 import Dashboard from '../container/admin/dashboard';
 import Products from '../container/admin/products';
 import Orders from '../container/admin/orders';

@@ -164,7 +164,7 @@ function UserCart() {
             </div>
           )}
 
-          {userCart && userCart.products && userCart.products.length > 0 ? (
+          {userCart && userCart?.products?.length > 0 ? (
             userCart.products.map((cartItem, index) => (
               <CartItem key={index} cartItem={cartItem} />
             ))

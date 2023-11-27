@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import CustomForm from '../../components/input';
-import Arrow from '../../assets/images/Arrow-up-down.svg';
 import sideArrow from '../../assets/images/Arrow up right.svg';
 import {
   fetchAllOrders,
@@ -81,21 +80,17 @@ const Orders = () => {
               <tr className="table-secondary mt-3">
                 <th>
                   Date
-                  <img src={Arrow} alt="Arrow Icon" className="ps-2" />
                 </th>
                 <th>Order #</th>
                 <th>User</th>
                 <th>
                   Products
-                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
                 </th>
                 <th>
                   Amount
-                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
                 </th>
                 <th>
                   Status
-                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
                 </th>
                 <th className="ps-5">Action</th>
               </tr>

@@ -31,6 +31,7 @@ function UserOrders() {
 
   useEffect(() => {
     dispatch(fetchAllOrders());
+    if (userOrderDetailsShow) { dispatch(setUserOrderDetailsShow()); }
   }, []);
 
   if (userOrders.length === 0) {
@@ -106,7 +107,7 @@ function UserOrders() {
                       alt="arrow"
                       className="d-flex pt-1 mark-delivered-arrow pe-5"
                       style={{ cursor: 'pointer' }}
-                      onClick={() => handleOrderDetailsCanvas(order)} // Fixed the onClick handler
+                      onClick={() => handleOrderDetailsCanvas(order)}
                     />
                   </div>
                 </td>

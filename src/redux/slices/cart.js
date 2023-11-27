@@ -94,6 +94,7 @@ export const savePaymentDetails = createAsyncThunk(
   'cart/savePaymentDetails',
   async (requestData, { getState, rejectWithValue }) => {
     try {
+      console.log('Here in createAsyncThunk', requestData);
       const state = getState();
 
       const response = await axios.post(
@@ -140,7 +141,7 @@ const cartSlice = createSlice({
     cartProducts: [],
     userCart: [],
     addresses: {},
-    paymentDetails: null,
+    paymentDetails: [],
     orderSummary: null,
     addAddressSuccess: false,
     updateAddressSuccess: false,
@@ -178,7 +179,7 @@ const cartSlice = createSlice({
     },
 
     addToCart: (state, action) => {
-      const { userId, product } = action.payload;
+      const { userId, product, productQuantity } = action.payload;
       state.proceedToCheckout = false;
 
       if (state.cartProducts) {
@@ -187,7 +188,7 @@ const cartSlice = createSlice({
         if (!userCart) {
           state.cartProducts.push({
             userId,
-            products: [{ ...product, quantity: 1 }],
+            products: [{ ...product, quantity: productQuantity }],
           });
         } else {
           const existingProduct = userCart.products.find(
@@ -202,12 +203,12 @@ const cartSlice = createSlice({
 
               if (matchingProduct) {
                 if (matchingProduct.quantity < product.quantity) {
-                  existingProduct.quantity += 1;
+                  existingProduct.quantity += productQuantity;
                 }
               }
             }
           } else {
-            userCart.products.push({ ...product, quantity: 1 });
+            userCart.products.push({ ...product, quantity: productQuantity });
           }
         }
 
@@ -359,7 +360,8 @@ const cartSlice = createSlice({
       .addCase(getAddress.rejected, () => {})
 
       .addCase(getPaymentDetails.fulfilled, (state, action) => {
-        state.paymentDetails = action.payload.payments[0];
+        state.paymentDetails = action.payload.allPaymentMethods;
+        // console.log('In fulfilled', action.payload.allPaymentMethods);
       })
       .addCase(getPaymentDetails.pending, () => {})
       .addCase(getPaymentDetails.rejected, () => {})

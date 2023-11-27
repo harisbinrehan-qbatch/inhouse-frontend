@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import MasterCard from '../master-card';
@@ -6,6 +7,8 @@ const ManagePaymentsCanvas = ({ show, setShow }) => {
   const handleClose = () => {
     setShow(false);
   };
+
+  const { paymentDetails } = useSelector((state) => state.cart);
 
   return (
     <Offcanvas
@@ -35,19 +38,17 @@ const ManagePaymentsCanvas = ({ show, setShow }) => {
         <div className="d-flex offcanvas-body">
           <Offcanvas.Body>
             <div className="d-flex flex-wrap gap-1 justify-content-around">
-              <div style={{ width: '280px' }}>
-                <MasterCard />
-              </div>
-              <div style={{ width: '280px' }}>
-                <MasterCard />
-              </div>
-              <div style={{ width: '280px' }}>
-                <MasterCard />
-              </div>
-              <div style={{ width: '280px' }}>
-                <MasterCard />
-              </div>
-
+              {paymentDetails.map((paymentDetail, index) => (
+                <div key={index} style={{ width: '280px' }}>
+                  <MasterCard
+                    cardholderName={paymentDetail.cardholderName}
+                    brand={paymentDetail.brand}
+                    cardNumber={paymentDetail.cardNumber}
+                    exp_month={paymentDetail.exp_month}
+                    exp_year={paymentDetail.exp_year}
+                  />
+                </div>
+              ))}
             </div>
           </Offcanvas.Body>
         </div>

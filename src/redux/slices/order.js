@@ -75,6 +75,37 @@ export const getAdminOrderStats = createAsyncThunk(
   },
 );
 
+export const getNotifications = createAsyncThunk(
+  'orders/getNotifications',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        'http://localhost:5000/v1/notifications/getNotifications',
+      );
+      console.log(' bhsdb hbshfbhs', response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const readNotification = createAsyncThunk(
+  'orders/readNotification',
+  async (notificationId, { rejectWithValue }) => {
+    try {
+      console.log({ notificationId });
+      const response = await axios.put(
+        'http://localhost:5000/v1/notifications/readNotification',
+        { notificationId },
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const setOrderAsDelivered = createAsyncThunk(
   'orders/setOrderAsDelivered',
   async (orderId, { getState, rejectWithValue }) => {
@@ -101,6 +132,7 @@ const ordersSlice = createSlice({
   name: 'orders',
   initialState: {
     orders: [],
+    notifications: [],
     searchedOrders: [],
     loading: false,
     ordersError: false,
@@ -152,7 +184,18 @@ const ordersSlice = createSlice({
         state.error = false;
       })
       .addCase(getAdminOrderStats.pending, () => {})
-      .addCase(getAdminOrderStats.rejected, () => {});
+      .addCase(getAdminOrderStats.rejected, () => {})
+
+      .addCase(readNotification.fulfilled, () => {})
+      .addCase(readNotification.pending, () => {})
+      .addCase(readNotification.rejected, () => {})
+
+      .addCase(getNotifications.fulfilled, (state, action) => {
+        console.log('Notification data:', action.payload);
+        state.notifications = action.payload;
+      })
+      .addCase(getNotifications.pending, () => {})
+      .addCase(getNotifications.rejected, () => {});
   },
 });
 

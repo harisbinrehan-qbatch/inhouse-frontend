@@ -16,7 +16,7 @@ const DashboardCart = ({
         <b className="ps-1">{totalUnits}</b>
       </div>
     </div>
-    <div className="d-flex m-2 ps-1 ms-3">
+    <div className="d-flex m-2 ps-1 ms-4">
       <span>Total Sale: </span>
       <b className="ps-1">{totalSale}</b>
     </div>

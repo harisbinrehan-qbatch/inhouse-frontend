@@ -1,6 +1,7 @@
 .user-products-display-main-div {
   position:sticky;
-  top: 100px;
+  top: 155px;
+  right: 0px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 1);
   width: 650px;
@@ -15,7 +16,4 @@
   height: 280px;
   top: 14px;
   left: 17px;
-}
-.temp {
-  background-color: antiquewhite;
 }

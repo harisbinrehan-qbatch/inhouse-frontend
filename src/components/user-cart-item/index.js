@@ -72,25 +72,35 @@ function CartItem({ cartItem }) {
         </div>
       </div>
       <div className="container d-flex align-items-center justify-content-between">
-        <div className="d-flex">
-          <CustomBtn
-            className="py-1"
-            variant="secondary"
-            btnText="-"
-            onClick={handleDecrementQuantity}
-          />
-          <div className="d-flex cart-counter-view ms-2 mt-1 me-2">
+        {!proceedToCheckout ? (
+          <div className="d-flex">
+            <CustomBtn
+              className="py-1"
+              variant="secondary"
+              btnText="-"
+              onClick={handleDecrementQuantity}
+            />
+            <div className="d-flex cart-counter-view ms-2 mt-1 me-2">
+              {cartItem.quantity}
+            </div>
+            <CustomBtn
+              className="py-1"
+              variant="secondary"
+              btnText="+"
+              onClick={handleIncrementQuantity}
+            />
+          </div>
+        ) : (
+          <div>
+            Quantity:
+            {' '}
             {cartItem.quantity}
           </div>
-          <CustomBtn
-            className="py-1"
-            variant="secondary"
-            btnText="+"
-            onClick={handleIncrementQuantity}
-          />
-        </div>
+        )}
+
         <div>
           Price:
+          {' '}
           {cartItem.price}
         </div>
         <div className="cart-trash">

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getOrderStats, startAgendaJobs } from '../../redux/slices/order';
+import { getNotifications, getOrderStats, startAgendaJobs } from '../../redux/slices/order';
 import DashboardCart from '../../components/dashboard-cart/admin-dashboard-cart';
 
 import DashboardOrdersGraph from '../../components/dashboard-orders-graph/admin-dashboard-orders-graph';
@@ -17,10 +17,8 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getNotifications());
     dispatch(getOrderStats());
-  }, []);
-
-  useEffect(() => {
     dispatch(startAgendaJobs());
   }, []);
 

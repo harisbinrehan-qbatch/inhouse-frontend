@@ -39,8 +39,6 @@ function AddPayment() {
         orderSummary,
       };
 
-      console.log('request data is', requestData);
-
       dispatch(placeOrder(requestData));
     } else {
       console.error('User cart or products are missing.');
@@ -52,11 +50,7 @@ function AddPayment() {
       <h2 className="p-2 heading">Add Payment</h2>
       <div className="d-flex justify-content-between">
         <div onClick={handleAddPaymentDetails}>
-          <CustomBtn
-            className="m-2"
-            variant="light"
-            btnText={!isEmpty(paymentDetails) ? 'Update' : '+ Add new'}
-          />
+          <CustomBtn className="m-2" variant="light" btnText="+ Add New" />
         </div>
         <div>
           <img
@@ -71,22 +65,14 @@ function AddPayment() {
 
       <div>
         <MasterCard
-          bankName=""
-          cardNumber=""
-          cardholderName=""
-          expirationDate=""
-          cvc=""
+          cardholderName={paymentDetails[0]?.cardholderName}
+          brand={paymentDetails[0]?.brand}
+          cardNumber={paymentDetails[0]?.cardNumber}
+          exp_month={paymentDetails[0]?.exp_month}
+          exp_year={paymentDetails[0]?.exp_year}
         />
       </div>
-      {mastercardShow && (
-        <MastercardCanvas
-          header={
-            isEmpty(paymentDetails)
-              ? 'Add Payment Details'
-              : 'Update Payment Details'
-          }
-        />
-      )}
+      {mastercardShow && <MastercardCanvas header="Add Payment Details" />}
 
       {multiplePaymentsCanvasShow && (
         <ManagePaymentsCanvas

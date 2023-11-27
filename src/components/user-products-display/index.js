@@ -1,7 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { message } from 'antd';
 
+import { useEffect, useState } from 'react';
 import { addToCart } from '../../redux/slices/cart';
 import CustomBtn from '../button';
 
@@ -9,7 +11,11 @@ import './style.css';
 
 const UserProductsDisplay = ({ product }) => {
   const dispatch = useDispatch();
+  const [productQuantity, setProductQuantity] = useState(1);
 
+  useEffect(() => {
+    setProductQuantity(1);
+  }, [product]);
   const user = JSON.parse(localStorage.getItem('user'));
 
   const { isUser } = useSelector((state) => state.authentication);
@@ -18,7 +24,7 @@ const UserProductsDisplay = ({ product }) => {
   }
 
   const handleAddToCart = () => {
-    dispatch(addToCart({ userId: user?.userId, product }));
+    dispatch(addToCart({ userId: user?.userId, product, productQuantity }));
   };
 
   const colorMap = {
@@ -70,9 +76,40 @@ const UserProductsDisplay = ({ product }) => {
         </div>
         <div className="d-flex pt-5 justify-content-end">
           {isUser ? (
-            <Link to="./shopping-bag">
-              <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
-            </Link>
+            <div className="container d-flex align-items-center justify-content-around gap-5">
+              <div className="d-flex">
+                <CustomBtn
+                  className="py-1"
+                  variant="secondary"
+                  btnText="-"
+                  onClick={() => {
+                    if (productQuantity !== 1) {
+                      setProductQuantity((prev) => prev - 1);
+                    }
+                  }}
+                />
+                <div className="d-flex cart-counter-view ms-2 mt-1 me-2">
+                  {productQuantity}
+                </div>
+                <CustomBtn
+                  className="py-1"
+                  variant="secondary"
+                  btnText="+"
+                  onClick={() => {
+                    if (productQuantity !== product.quantity) {
+                      setProductQuantity((prev) => prev + 1);
+                    } else {
+                      message.warning('No more products available', 2);
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <Link to="./shopping-bag">
+                  <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
+                </Link>
+              </div>
+            </div>
           ) : (
             <Link to="/auth/login">
               <CustomBtn btnText="Login to continue" />

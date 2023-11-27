@@ -9,7 +9,7 @@ import Signup from '../container/auth/signup';
 import ForgotPassword from '../container/auth/forgot-password';
 import NewPassword from '../container/auth/new-password';
 
-import MainPageLayout from '../main-page-layout';
+import MainPageLayout from '../layouts/main-page';
 
 const AuthRoutes = () => {
   const { loginError } = useSelector((state) => state.authentication);

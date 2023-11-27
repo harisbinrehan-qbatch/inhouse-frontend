@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import Arrow from '../../assets/images/Arrow-up-down.svg';
 
 const TopSelling = () => {
   const { orderStats } = useSelector((state) => state.order);
@@ -22,17 +21,14 @@ const TopSelling = () => {
                 <th>Image</th>
                 <th>
                   Name
-                  <img src={Arrow} alt="Arrow Icon" className="ps-2" />
                 </th>
                 <th>Stock</th>
                 <th>Units</th>
                 <th>
                   Amount
-                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
                 </th>
                 <th>
                   Date
-                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
                 </th>
               </tr>
             </thead>

@@ -27,7 +27,7 @@
   text-align: right;
 }
 .navbar-sticky-section {
-  min-height:54px;
+  min-height: 54px;
   position: sticky;
   top: 0px;
   background-color: rgb(255, 255, 255);
@@ -38,10 +38,37 @@
 }
 
 .badge {
-  position: relative;
-  top: -14px;
-  right: 4px;
-  font-size: 9px;
+ position: relative !important;
+color: white;
+  top: -16px !important;
+  right: 4px !important;
+  font-size: 10px !important;
+  border-radius: 100% !important;
+  padding: 3px 6px 3px 6px !important;
+}
+.navClass .dropdown-toggle {
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+.navClass .dropdown-toggle:hover,
+.navClass .dropdown-toggle:focus {
+  border: 0;
+  outline: 0;
+}
+.navClass .dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-menu.show .navClass {
+  background-color: none;
+}
+.notification-badge{
+position: relative !important;
+color: white;
+  top: -16px !important;
+  right: 4px !important;
+  font-size: 10px !important;
   border-radius: 100% !important;
   padding: 3px 6px 3px 6px !important;
 }

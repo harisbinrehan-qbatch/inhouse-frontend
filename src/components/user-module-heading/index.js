@@ -100,18 +100,20 @@ const UserModuleHeader = () => {
     >
       <h4 className="header-heading pt-3 ps-4">Heading</h4>
       <div className="d-flex gap-4 pt-3 pb-3">
-        <h5 className="pt-3 header-text">Filters:</h5>
+        <h5 className="pt-2 header-text">Filters:</h5>
         {dropdownArray.map((singleFilter, index) => (
-          <CustomDropdown
-            key={index}
-            handleFilter={handleFilters}
-            heading={singleFilter.heading}
-            items={singleFilter.items}
-          />
+          <div>
+            <CustomDropdown
+              key={index}
+              handleFilter={handleFilters}
+              heading={singleFilter.heading}
+              items={singleFilter.items}
+            />
+          </div>
         ))}
-        <h5 className="pt-3 header-text">Search:</h5>
+        <h5 className="pt-2 header-text">Search:</h5>
         <CustomForm
-          style={{ marginTop: '-15px' }}
+          style={{ marginTop: '-22px' }}
           placeholder="Search by name"
           onChange={handleSearch}
         />

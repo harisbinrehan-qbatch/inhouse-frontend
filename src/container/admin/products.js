@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import { Table } from 'react-bootstrap';
 
+import { Empty } from 'antd';
 import Arrow from '../../assets/images/Arrow-up-down.svg';
 import Pencil from '../../assets/images/Pencil-square.svg';
-import PaginationComponent from '../../components/pagination';
+import ProductsPaginationComponent from '../../components/products-pagination';
 import Trash from '../../assets/images/Trash.svg';
 import {
   deleteProduct,
@@ -109,83 +110,89 @@ const Products = () => {
         </div>
 
         <div>
-          <Table>
-            <thead>
-              <tr className="table-secondary mt-3">
-                <th>Image</th>
-                <th>
-                  Name
-                  <img src={Arrow} alt="Arrow Icon" className="ps-2" />
-                </th>
-                <th>Size</th>
-                <th>Color</th>
-                <th>
-                  Price
-                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
-                </th>
-                <th>
-                  Quantity
-                  <img src={Arrow} alt="Arrow Icon" className="ps-1" />
-                </th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products?.map((doc) => (
-                <tr
-                  className="product-text"
-                  key={doc.id}
-                  style={{ backgroundColor: getColorName(doc.color) }}
-                >
-                  <td>
-                    <img
-                      className=""
-                      src={`http://localhost:5000/${doc.images[0]}`}
-                      alt="thumbnail"
-                      height="40px"
-                    />
-                  </td>
-                  <td className="pt-4">
-                    <b>{doc.name}</b>
-                  </td>
-                  <td className="pt-4">{doc.size}</td>
-                  <td className="pt-4">{getColorName(doc.color)}</td>
-                  <td className="pt-4">{doc.price || 0}</td>
-                  <td className="pt-4">{doc.quantity}</td>
-                  <td>
-                    <img
-                      src={Pencil}
-                      alt="pen"
-                      className="mx-2 pt-4"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => handleUpdateClick(doc._id)}
-                    />
-                    <img
-                      src={Trash}
-                      alt="trash"
-                      className="mx-2 pt-4"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => handleDeleteProduct(doc._id)}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <div className="d-flex justify-content-end pe-3">
-            <PaginationComponent
-              page={page}
-              limit={limit}
-              totalCount={totalCount}
-              onNextPage={() => dispatch(incrementPage())}
-              onPrevPage={() => dispatch(decrementPage())}
-              onPageChange={PageChangeFunction}
-              onLimitChange={(newLimit) => {
-                dispatch(setLimit(newLimit));
-                handleSetPageOne();
-              }}
-            />
-          </div>
+          {products.length !== 0 ? (
+            <>
+              <Table>
+                <thead>
+                  <tr className="table-secondary mt-3">
+                    <th>Image</th>
+                    <th>
+                      Name
+                      <img src={Arrow} alt="Arrow Icon" className="ps-2" />
+                    </th>
+                    <th>Size</th>
+                    <th>Color</th>
+                    <th>
+                      Price
+                      <img src={Arrow} alt="Arrow Icon" className="ps-1" />
+                    </th>
+                    <th>
+                      Quantity
+                      <img src={Arrow} alt="Arrow Icon" className="ps-1" />
+                    </th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products?.map((doc) => (
+                    <tr
+                      className="product-text"
+                      key={doc.id}
+                      style={{ backgroundColor: getColorName(doc.color) }}
+                    >
+                      <td>
+                        <img
+                          className=""
+                          src={`http://localhost:5000/${doc.images[0]}`}
+                          alt="thumbnail"
+                          height="40px"
+                        />
+                      </td>
+                      <td className="pt-4">
+                        <b>{doc.name}</b>
+                      </td>
+                      <td className="pt-4">{doc.size}</td>
+                      <td className="pt-4">{getColorName(doc.color)}</td>
+                      <td className="pt-4">{doc.price || 0}</td>
+                      <td className="pt-4">{doc.quantity}</td>
+                      <td>
+                        <img
+                          src={Pencil}
+                          alt="pen"
+                          className="mx-2 pt-4"
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleUpdateClick(doc._id)}
+                        />
+                        <img
+                          src={Trash}
+                          alt="trash"
+                          className="mx-2 pt-4"
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleDeleteProduct(doc._id)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <div className="d-flex justify-content-end pe-3">
+                <ProductsPaginationComponent
+                  page={page}
+                  limit={limit}
+                  totalCount={totalCount}
+                  onNextPage={() => dispatch(incrementPage())}
+                  onPrevPage={() => dispatch(decrementPage())}
+                  onPageChange={PageChangeFunction}
+                  onLimitChange={(newLimit) => {
+                    dispatch(setLimit(newLimit));
+                    handleSetPageOne();
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            <Empty className="pt-5 mt-5" description="No products found" />
+          )}
         </div>
       </div>
       {show && (

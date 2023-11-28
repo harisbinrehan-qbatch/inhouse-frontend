@@ -177,12 +177,24 @@ const cartSlice = createSlice({
       }
     },
 
+    setDefaultPaymentMethod: (state, action) => {
+      const index = action.payload;
+
+      if (index >= 0 && index < state.paymentDetails.length) {
+        state.paymentDetails.forEach((detail, i) => {
+          detail.isDefault = i === index;
+        });
+      }
+    },
+
     addToCart: (state, action) => {
       const { userId, product, productQuantity } = action.payload;
       state.proceedToCheckout = false;
 
       if (state.cartProducts) {
-        const userCart = state.cartProducts.find((cart) => cart.userId === userId);
+        const userCart = state.cartProducts.find(
+          (cart) => cart.userId === userId,
+        );
 
         if (!userCart) {
           state.cartProducts.push({
@@ -299,6 +311,7 @@ const cartSlice = createSlice({
     },
 
     deleteSelectedAll: (state) => {
+      state.orderSummary = null;
       const user = JSON.parse(localStorage.getItem('user'));
 
       if (
@@ -412,6 +425,7 @@ export const {
   setUserOrderDetailsShow,
   deleteSelectedAll,
   setOrderSuccess,
+  setDefaultPaymentMethod,
 } = cartSlice.actions;
 
 export default cartSlice;

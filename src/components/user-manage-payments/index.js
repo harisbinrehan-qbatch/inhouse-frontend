@@ -1,15 +1,26 @@
-import { useSelector } from 'react-redux';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import { useDispatch, useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Empty } from 'antd';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import MasterCard from '../master-card';
+import { setDefaultPaymentMethod } from '../../redux/slices/cart';
+
+import './style.css';
 
 const ManagePaymentsCanvas = ({ show, setShow }) => {
+  const dispatch = useDispatch();
+
   const handleClose = () => {
     setShow(false);
   };
 
   const { paymentDetails } = useSelector((state) => state.cart);
+
+  const handleCardClick = (index) => {
+    dispatch(setDefaultPaymentMethod(index));
+    // setShow(false);
+  };
 
   return (
     <Offcanvas
@@ -23,6 +34,7 @@ const ManagePaymentsCanvas = ({ show, setShow }) => {
         <div>
           <img
             src={arrowLeft}
+            style={{ cursor: 'pointer' }}
             alt="Cloud"
             className="img-large ps-3 pt-3"
             onClick={handleClose}
@@ -41,7 +53,14 @@ const ManagePaymentsCanvas = ({ show, setShow }) => {
             {paymentDetails.length !== 0 ? (
               <div className="d-flex flex-wrap gap-1 justify-content-around">
                 {paymentDetails.map((paymentDetail, index) => (
-                  <div key={index} style={{ width: '280px' }}>
+                  <div
+                    key={index}
+                    style={{ width: '280px', cursor: 'pointer' }}
+                    onClick={() => handleCardClick(index)}
+                    className={
+                      paymentDetail.isDefault ? 'selected-card' : 'master-card'
+                    }
+                  >
                     <MasterCard
                       cardholderName={paymentDetail.cardholderName}
                       brand={paymentDetail.brand}

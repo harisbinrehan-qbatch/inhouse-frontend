@@ -65,6 +65,7 @@ const AddProductCustomCanvas = ({
             alt="Cloud"
             className="img-large ps-3 pt-3"
             onClick={handleClose}
+            style={{ cursor: 'pointer' }}
           />
         </div>
         <div className="offcanvas-header.custom-offcanvas-header">

@@ -1,25 +1,28 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import MasterCard from '../master-card';
 import MastercardCanvas from '../mastercard-canvas';
-import { placeOrder, setMastercardShow } from '../../redux/slices/cart';
+import { getPaymentDetails, placeOrder, setMastercardShow } from '../../redux/slices/cart';
 import CustomBtn from '../button';
 import Pencil from '../../assets/images/edit-payment.svg';
 
 import './style.css';
 import ManagePaymentsCanvas from '../user-manage-payments';
 
-function AddPayment() {
+const AddPayment = () => {
   const [multiplePaymentsCanvasShow, setMultiplePaymentsCanvasShow] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem('user'));
+
   const {
-    mastercardShow,
-    paymentDetails,
-    userCart,
-    orderSummary,
+    mastercardShow, paymentDetails, userCart, orderSummary,
   } = useSelector((state) => state.cart);
+
+  const defaultCardIndex = paymentDetails.findIndex(
+    (paymentDetail) => paymentDetail.isDefault,
+  );
 
   const dispatch = useDispatch();
 
@@ -31,18 +34,21 @@ function AddPayment() {
     setMultiplePaymentsCanvasShow(true);
   };
 
+  useEffect(() => {
+    dispatch(getPaymentDetails(user.userId));
+  }, []);
+
   const handlePlaceOrder = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    console.log({ paymentDetails });
-
     if (userCart && userCart.products) {
       const requestData = {
         username: user.username,
         userId: user.userId,
         email: user.email,
         stripeId: user.stripeId,
-        cardStripeId: paymentDetails[0].cardId,
+        cardStripeId:
+       defaultCardIndex !== -1
+         ? paymentDetails[defaultCardIndex]?.cardId
+         : paymentDetails[0]?.cardId,
         products: userCart.products,
         orderSummary,
       };
@@ -71,15 +77,36 @@ function AddPayment() {
         </div>
       </div>
 
-      <div>
+      <div className="selected-card">
         <MasterCard
-          cardholderName={paymentDetails[0]?.cardholderName}
-          brand={paymentDetails[0]?.brand}
-          cardNumber={paymentDetails[0]?.cardNumber}
-          exp_month={paymentDetails[0]?.exp_month}
-          exp_year={paymentDetails[0]?.exp_year}
+          cardholderName={
+            defaultCardIndex === -1
+              ? paymentDetails[0]?.cardholderName
+              : paymentDetails[defaultCardIndex]?.cardholderName
+          }
+          brand={
+            defaultCardIndex === -1
+              ? paymentDetails[0]?.brand
+              : paymentDetails[defaultCardIndex]?.brand
+          }
+          cardNumber={
+            defaultCardIndex === -1
+              ? paymentDetails[0]?.cardNumber
+              : paymentDetails[defaultCardIndex]?.cardNumber
+          }
+          exp_month={
+            defaultCardIndex === -1
+              ? paymentDetails[0]?.exp_month
+              : paymentDetails[defaultCardIndex]?.exp_month
+          }
+          exp_year={
+            defaultCardIndex === -1
+              ? paymentDetails[0]?.exp_year
+              : paymentDetails[defaultCardIndex]?.exp_year
+          }
         />
       </div>
+
       {mastercardShow && <MastercardCanvas header="Add Payment Details" />}
 
       {multiplePaymentsCanvasShow && (
@@ -91,7 +118,7 @@ function AddPayment() {
 
       {!isEmpty(paymentDetails) && userCart && !isEmpty(userCart.products) && (
         <CustomBtn
-          className="d-flex my-4"
+          className="d-flex mt-3 ms-2"
           btnText="Place Order"
           variant="primary"
           onClick={handlePlaceOrder}
@@ -99,6 +126,6 @@ function AddPayment() {
       )}
     </div>
   );
-}
+};
 
 export default AddPayment;

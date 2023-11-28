@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable radix */
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
-import { decrementPage, incrementPage } from '../../redux/slices/products';
+import { decrementPage, incrementPage } from '../../redux/slices/order';
 
-const PaginationComponent = ({
+const OrdersPaginationComponent = ({
   page,
   limit,
   totalCount = 0,
@@ -80,4 +79,4 @@ const PaginationComponent = ({
   );
 };
 
-export default PaginationComponent;
+export default OrdersPaginationComponent;

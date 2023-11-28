@@ -9,7 +9,7 @@ function UserMainPage() {
   const products = useSelector((state) => state.products.data);
   return (
     <div className={products.length !== 0 && 'user-main-page'}>
-      {products.length !== 0 ? <UserModuleHeader /> : null}
+      <UserModuleHeader />
       <div className="d-flex">
         <div className="scrollable-section">
           <UserProducts />

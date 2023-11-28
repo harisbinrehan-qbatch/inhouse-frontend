@@ -19,7 +19,7 @@ const MasterCard = ({
   };
 
   return (
-    <div className="master-card container mt-4" style={cardBackStyle}>
+    <div className="m-2" style={cardBackStyle}>
       <div className="d-flex p-2">
         <img src={MasterCardImage} alt="cardImage" />
         <p className="ps-3 pt-3" style={{ fontWeight: 'bold' }}>

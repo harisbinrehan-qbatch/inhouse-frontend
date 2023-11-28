@@ -6,7 +6,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { Empty } from 'antd';
 
 import { Table } from 'react-bootstrap';
-import Arrow from '../../assets/images/Arrow-up-down.svg';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import sideArrow from '../../assets/images/Arrow up right.svg';
 import { setUserOrderDetailsShow } from '../../redux/slices/cart';
@@ -58,21 +57,17 @@ function UserOrders() {
             <tr className="table-secondary mt-3">
               <th>
                 Date
-                <img src={Arrow} alt="Arrow Icon" className="ps-2" />
               </th>
               <th>Order #</th>
               <th>User</th>
               <th>
                 Products
-                <img src={Arrow} alt="Arrow Icon" className="ps-1" />
               </th>
               <th>
                 Amount
-                <img src={Arrow} alt="Arrow Icon" className="ps-1" />
               </th>
               <th>
                 Status
-                <img src={Arrow} alt="Arrow Icon" className="ps-1" />
               </th>
               <th className="ps-5">Action</th>
             </tr>

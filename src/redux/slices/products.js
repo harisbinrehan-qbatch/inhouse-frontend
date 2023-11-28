@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 
 export const fetchUserProducts = createAsyncThunk(
   'products/fetchUserProducts',
@@ -42,8 +42,7 @@ export const fetchAdminProducts = createAsyncThunk(
   async (filterObject, { getState, rejectWithValue }) => {
     try {
       const state = getState();
-      const { limit } = state.products;
-      const { page } = state.products;
+      const { limit, page } = state.products;
       const response = await axios.get(
         `http://localhost:5000/v1/products/fetchAdminProducts?skip=${
           (page - 1) * limit
@@ -146,7 +145,7 @@ const productsSlice = createSlice({
     isFilter: false,
     data: [],
     page: 1,
-    limit: 4,
+    limit: 5,
     totalCount: 0,
     isProductError: false,
     productMessage: null,
@@ -237,16 +236,24 @@ const productsSlice = createSlice({
 
       .addCase(addProduct.fulfilled, (state, action) => {
         state.addSuccess = true;
-        state.productMessage = action.payload?.message || 'Product added Successfully';
-        message.success(state.productMessage, 2);
+        state.productMessage = action.payload.message || 'Product added Successfully';
+        notification.success({
+          description: state.productMessage,
+          type: 'success',
+          duration: 2,
+        });
       })
       .addCase(addProduct.pending, (state) => {
         state.addSuccess = false;
       })
-      .addCase(addProduct.rejected, (state) => {
+      .addCase(addProduct.rejected, (state, action) => {
         state.addSuccess = false;
-        state.productMessage = 'Error adding product';
-        message.error(state.productMessage, 2);
+        state.productMessage = action.payload.message || 'Error adding product';
+        notification.error({
+          description: state.productMessage,
+          type: 'error',
+          duration: 2,
+        });
       })
 
       .addCase(deleteProduct.fulfilled, (state, action) => {

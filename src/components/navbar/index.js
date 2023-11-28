@@ -57,8 +57,6 @@ function CustomNavbar() {
       && notification.isRead === false,
   );
 
-  console.log({ unreadUserNotifications });
-
   const handleMoveToCart = () => {
     dispatch(setOrderSuccess());
     dispatch(moveToCartFromNavbar());

@@ -13,7 +13,6 @@ import {
   deleteSelectedAll,
   getAddress,
   getCartOfSpecificUser,
-  getPaymentDetails,
   setAddressShow,
   setChangeAddressShow,
   setOrderSuccess,
@@ -60,7 +59,6 @@ function UserCart() {
 
   useEffect(() => {
     dispatch(getAddress(user.userId));
-    dispatch(getPaymentDetails(user.userId));
   }, [addAddressSuccess, updateAddressSuccess]);
 
   useEffect(() => {
@@ -96,10 +94,16 @@ function UserCart() {
               src={Arrow}
               alt="<--"
               onClick={handleSetProceedToCheckout}
+              style={{ cursor: 'pointer' }}
             />
           ) : (
             <Link to="/" onClick={handleSetOrderSuccess}>
-              <img className="ms-3 pt-2 arrow-size" src={Arrow} alt="<--" />
+              <img
+                className="ms-3 pt-2 arrow-size"
+                src={Arrow}
+                alt="<--"
+                style={{ cursor: 'pointer' }}
+              />
             </Link>
           )}
 

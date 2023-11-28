@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 
 import arrowLeft from '../../assets/images/Arrow left.svg';
-import Arrow from '../../assets/images/Arrow-up-down.svg';
 import { setUserOrderDetailsShow } from '../../redux/slices/cart';
 
 const colorMap = {
@@ -65,17 +64,14 @@ const UserOrderDetailsCanvas = ({ orderData }) => {
                   <th>Image</th>
                   <th>
                     Name
-                    <img src={Arrow} alt="Arrow Icon" className="ps-2" />
                   </th>
                   <th>Size</th>
                   <th>Color</th>
                   <th>
                     Price
-                    <img src={Arrow} alt="Arrow Icon" className="ps-1" />
                   </th>
                   <th>
                     Quantity
-                    <img src={Arrow} alt="Arrow Icon" className="ps-1" />
                   </th>
                 </tr>
               </thead>

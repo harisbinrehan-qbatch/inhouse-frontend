@@ -23,7 +23,10 @@ const UserProducts = () => {
   const dispatch = useDispatch();
 
   const handleScroll = () => {
-    if (scrollEnabled && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (
+      scrollEnabled
+      && window.innerHeight + window.scrollY >= document.body.offsetHeight
+    ) {
       if (!loadingMore) {
         setLoadingMore(true);
       }
@@ -38,7 +41,7 @@ const UserProducts = () => {
         dispatch(fetchUserProducts({ skip: 0, limit: 4 }));
         setLoadingMore(false);
       }
-    } else if ((loadingMore && skip + limit !== totalCount)) {
+    } else if (loadingMore && skip + limit !== totalCount) {
       if (skip + 4 < totalCount) {
         updatedSkip = skip + 4;
         updatedLimit = updatedSkip + 4 > totalCount ? updatedSkip + 4 - totalCount : 4;

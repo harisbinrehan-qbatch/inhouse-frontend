@@ -7,12 +7,17 @@ export const fetchAllOrders = createAsyncThunk(
   async (orderId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+      const { limit, page } = state.order;
 
-      let url = 'http://localhost:5000/v1/orders/getOrders';
+      let url = `http://localhost:5000/v1/orders/getOrders?skip=${
+        (page - 1) * limit
+      }&limit=${limit}`;
 
       if (orderId) {
-        url += `?orderId=${orderId}`;
+        // Use & instead of ?
+        url += `&orderId=${orderId}`;
       }
+
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${state.authentication.user.token}`,
@@ -82,7 +87,7 @@ export const getNotifications = createAsyncThunk(
       const response = await axios.get(
         'http://localhost:5000/v1/notifications/getNotifications',
       );
-      console.log(' bhsdb hbshfbhs', response.data);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -94,7 +99,6 @@ export const readNotification = createAsyncThunk(
   'orders/readNotification',
   async (notificationId, { rejectWithValue }) => {
     try {
-      console.log({ notificationId });
       const response = await axios.put(
         'http://localhost:5000/v1/notifications/readNotification',
         { notificationId },
@@ -137,17 +141,51 @@ const ordersSlice = createSlice({
     loading: false,
     ordersError: false,
     orderStats: {},
+    page: 1,
+    limit: 5,
+    totalCount: 0,
+    isOrderId: false,
     adminOrderStats: {},
     jobMessage: null,
   },
   reducers: {
-    // None
+    incrementPage(state) {
+      state.page += 1;
+    },
+
+    decrementPage(state) {
+      state.page -= 1;
+    },
+    setPageOne(state) {
+      state.page = 1;
+    },
+    setPage(state, action) {
+      state.page = action.payload;
+    },
+
+    setLimit(state, action) {
+      state.limit = action.payload;
+    },
+
+    setTotalCount(state, action) {
+      state.totalCount = action.payload;
+    },
+    setAnyPage(state, action) {
+      state.page = action.payload;
+    },
+    setSkip(state, action) {
+      state.skip = action.payload;
+    },
+    setIsOrderId(state, action) {
+      state.isOrderId = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllOrders.fulfilled, (state, action) => {
         state.orders = action.payload.orders || [];
         state.searchedOrders = action.payload.searchedOrders;
+        state.totalCount = action.payload.totalCount;
         state.loading = false;
         state.error = false;
       })
@@ -156,6 +194,7 @@ const ordersSlice = createSlice({
         state.error = false;
       })
       .addCase(fetchAllOrders.rejected, (state, action) => {
+        state.orders = [];
         state.loading = false;
         state.error = action.payload
           ? action.payload.message
@@ -191,12 +230,23 @@ const ordersSlice = createSlice({
       .addCase(readNotification.rejected, () => {})
 
       .addCase(getNotifications.fulfilled, (state, action) => {
-        console.log('Notification data:', action.payload);
         state.notifications = action.payload;
       })
       .addCase(getNotifications.pending, () => {})
       .addCase(getNotifications.rejected, () => {});
   },
 });
+
+export const {
+  incrementPage,
+  decrementPage,
+  setPageOne,
+  setPage,
+  setLimit,
+  setTotalCount,
+  setAnyPage,
+  setSkip,
+  setIsOrderId,
+} = ordersSlice.actions;
 
 export default ordersSlice;

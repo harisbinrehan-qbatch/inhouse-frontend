@@ -17,7 +17,7 @@ const MasterCard = ({
     backgroundImage: `url(${brand === 'Visa' ? visaCardBack : masterCardBack})`,
     backgroundSize: 'cover',
   };
-  console.log({ exp_month, exp_year });
+
   return (
     <div className="master-card container mt-4" style={cardBackStyle}>
       <div className="d-flex p-2">

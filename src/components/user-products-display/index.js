@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { message } from 'antd';
 
 import { useEffect, useState } from 'react';
-import { addToCart } from '../../redux/slices/cart';
+import { addToCart, moveToCartFromNavbar, setOrderSuccess } from '../../redux/slices/cart';
 import CustomBtn from '../button';
 
 import './style.css';
@@ -24,6 +24,8 @@ const UserProductsDisplay = ({ product }) => {
   }
 
   const handleAddToCart = () => {
+    dispatch(moveToCartFromNavbar());
+    dispatch(setOrderSuccess());
     dispatch(addToCart({ userId: user?.userId, product, productQuantity }));
   };
 

@@ -54,11 +54,11 @@ const Orders = () => {
         />
         <OrdersRectangle
           rectangleText="Total units: "
-          value={adminOrderStats.totalUnits}
+          value={adminOrderStats.totalUnits || 0}
         />
         <OrdersRectangle
           rectangleText="Total amount: "
-          value={adminOrderStats.totalAmount}
+          value={adminOrderStats.totalAmount || 0}
           here
           append
           dollar

@@ -15,7 +15,10 @@ function AddPayment() {
   const [multiplePaymentsCanvasShow, setMultiplePaymentsCanvasShow] = useState(false);
 
   const {
-    mastercardShow, paymentDetails, userCart, orderSummary,
+    mastercardShow,
+    paymentDetails,
+    userCart,
+    orderSummary,
   } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
@@ -31,10 +34,15 @@ function AddPayment() {
   const handlePlaceOrder = () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
+    console.log({ paymentDetails });
+
     if (userCart && userCart.products) {
       const requestData = {
         username: user.username,
         userId: user.userId,
+        email: user.email,
+        stripeId: user.stripeId,
+        cardStripeId: paymentDetails[0].cardId,
         products: userCart.products,
         orderSummary,
       };

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -11,30 +12,29 @@ import './style.css';
 
 const MastercardCanvas = ({ header }) => {
   const { mastercardShow, paymentDetails } = useSelector((state) => state.cart);
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
   const dispatch = useDispatch();
 
   const [cardholderName, setCardholderName] = useState(
     paymentDetails?.cardholderName,
   );
-  const [cardNumber, setCardNumber] = useState(
+  const [number, setNumber] = useState(
     paymentDetails?.cardNumber,
   );
-  const [expiryDate, setExpiryDate] = useState(
-    paymentDetails?.expiryDate,
-  );
-  const [cvc, setCvc] = useState(paymentDetails?.cvc);
+  const [exp_month, setExpiryMonth] = useState(paymentDetails?.expiryDate);
+  const [exp_year, setExpiryYear] = useState(paymentDetails?.cvc);
 
   const handleClose = () => {
     dispatch(setMastercardShow());
   };
 
   const handleSavePaymentDetails = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-
     const paymentDetailsUpdated = {
-      cardNumber,
-      expiryDate,
-      cvc,
+      number,
+      exp_month,
+      exp_year,
       cardholderName,
     };
 
@@ -81,25 +81,26 @@ const MastercardCanvas = ({ header }) => {
                 <CustomForm
                   label="Card Number"
                   placeholder="Card Number"
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
+                  value={number}
+                  onChange={(e) => setNumber(e.target.value)}
                 />
               </div>
               <div className="d-flex justify-content-between pt-4">
                 <div>
                   <CustomForm
-                    label="Expiry Date"
-                    placeholder="Expiry date"
-                    value={expiryDate}
-                    onChange={(e) => setExpiryDate(e.target.value)}
+                    label="Expiry Month"
+                    placeholder="Expiry month"
+                    value={exp_month}
+                    onChange={(e) => setExpiryMonth(parseInt(e.target.value, 10))}
                   />
                 </div>
+
                 <div>
                   <CustomForm
-                    label="CVC"
-                    placeholder="cvc"
-                    value={cvc}
-                    onChange={(e) => setCvc(e.target.value)}
+                    label="Expiry Year"
+                    placeholder="Expiry year"
+                    value={exp_year}
+                    onChange={(e) => setExpiryYear(parseInt(e.target.value, 10))}
                   />
                 </div>
               </div>
@@ -107,7 +108,7 @@ const MastercardCanvas = ({ header }) => {
                 <CustomForm
                   label="Cardholder Name"
                   placeholder="Cardholder Name"
-                  value={cardholderName}
+                  value={user.username}
                   onChange={(e) => setCardholderName(e.target.value)}
                 />
               </div>

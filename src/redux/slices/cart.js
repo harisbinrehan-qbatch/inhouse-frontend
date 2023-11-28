@@ -3,7 +3,7 @@
 /* eslint-disable no-underscore-dangle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 
 export const placeOrder = createAsyncThunk(
   'cart/placeOrder',
@@ -344,10 +344,10 @@ const cartSlice = createSlice({
       .addCase(savePaymentDetails.fulfilled, (state, action) => {
         state.paymentDetails = action.payload.paymentDetails;
         state.orderMessage = action.payload.message || 'Payment Details Saved Successfully';
-        message.success(state.orderMessage, 2);
+        notification.success(state.orderMessage, 2);
       })
       .addCase(savePaymentDetails.pending, () => {
-        message.warning('Saving Payment Details...');
+        message.success('Saving Payment Details...', 2);
       })
       .addCase(savePaymentDetails.rejected, (state) => {
         state.orderMessage = 'Error saving payment details';

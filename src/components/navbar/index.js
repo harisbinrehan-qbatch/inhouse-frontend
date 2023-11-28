@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-nested-ternary */
@@ -42,14 +43,21 @@ function CustomNavbar() {
   const { isAdmin, isUser, user } = useSelector(
     (state) => state.authentication,
   );
-
-  const { userCart } = useSelector((state) => state.cart);
+  const { userCart, orderSuccess } = useSelector((state) => state.cart);
 
   const { notifications } = useSelector((state) => state.order);
 
-  const unreadNotificationsCount = notifications.filter(
-    (notification) => !notification.isRead,
+  const unreadAdminNotificationsCount = notifications.filter(
+    (notification) => notification.isRead === false && notification.forAdmin === true,
   ).length;
+
+  const unreadUserNotifications = notifications.filter(
+    (notification) => notification.userId === user.userId
+      && notification.forAdmin === false
+      && notification.isRead === false,
+  );
+
+  console.log({ unreadUserNotifications });
 
   const handleMoveToCart = () => {
     dispatch(setOrderSuccess());
@@ -74,7 +82,7 @@ function CustomNavbar() {
   useEffect(() => {
     dispatch(getNotifications());
     setMarkAsRead(false);
-  }, [markAsRead]);
+  }, [markAsRead, orderSuccess]);
 
   return (
     <div
@@ -104,18 +112,20 @@ function CustomNavbar() {
                             className="bi bi-bell"
                             style={{ color: '#007BFF' }}
                           >
-                            {unreadNotificationsCount > 0 && (
-                              <span className="notification-badge bg-primary">
-                                {unreadNotificationsCount}
-                              </span>
-                            )}
+                            <span className="notification-badge bg-primary">
+                              {unreadAdminNotificationsCount || 0}
+                            </span>
                           </i>
                         )}
                       >
-                        {unreadNotificationsCount > 0 ? (
-                          notifications.map((notification) => (
-                            <div className="navClass" key={notification.id}>
-                              {notification.isRead === false ? (
+                        {unreadAdminNotificationsCount > 0 ? (
+                          notifications
+                            .filter(
+                              (notification) => !notification.isRead
+                                && notification.forAdmin === true,
+                            )
+                            .map((notification) => (
+                              <div className="navClass" key={notification.id}>
                                 <Dropdown.Item className="d-flex">
                                   <p className="pt-1">{notification.text}</p>
                                   <CustomBtn
@@ -125,16 +135,52 @@ function CustomNavbar() {
                                     onClick={() => handleMarkAsRead(notification._id)}
                                   />
                                 </Dropdown.Item>
-                              ) : null}
-                            </div>
-                          ))
+                              </div>
+                            ))
                         ) : (
                           <div className="no-notifications ps-4">
                             No notifications
                           </div>
                         )}
                       </DropdownButton>
-                    ) : null}
+                    ) : (
+                      <DropdownButton
+                        align="end"
+                        variant="text"
+                        title={(
+                          <i
+                            className="bi bi-bell"
+                            style={{ color: '#007BFF' }}
+                          >
+                            <span className="notification-badge bg-primary">
+                              {unreadUserNotifications?.length || 0}
+                            </span>
+                          </i>
+                        )}
+                      >
+                        {unreadUserNotifications.length > 0 ? (
+                          unreadUserNotifications
+                            .filter((notification) => notification.forAdmin === false)
+                            .map((notification) => (
+                              <div className="navClass" key={notification._id}>
+                                <Dropdown.Item className="d-flex">
+                                  <p className="pt-1">{notification.text}</p>
+                                  <CustomBtn
+                                    btnText="👀"
+                                    variant="text"
+                                    className=""
+                                    onClick={() => handleMarkAsRead(notification._id)}
+                                  />
+                                </Dropdown.Item>
+                              </div>
+                            ))
+                        ) : (
+                          <div className="no-notifications ps-4">
+                            No notifications
+                          </div>
+                        )}
+                      </DropdownButton>
+                    )}
                   </div>
                 </div>
                 {isUser ? (

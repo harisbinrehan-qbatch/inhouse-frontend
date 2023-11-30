@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import MasterCard from '../master-card';
-import MastercardCanvas from '../mastercard-canvas';
 import { getPaymentDetails, placeOrder, setMastercardShow } from '../../redux/slices/cart';
 import CustomBtn from '../button';
 import Pencil from '../../assets/images/edit-payment.svg';
 
 import './style.css';
 import ManagePaymentsCanvas from '../user-manage-payments';
+import AddPaymentCanvas from '../mastercard-canvas';
 
 const AddPayment = () => {
   const [multiplePaymentsCanvasShow, setMultiplePaymentsCanvasShow] = useState(false);
@@ -17,12 +17,8 @@ const AddPayment = () => {
   const user = JSON.parse(localStorage.getItem('user'));
 
   const {
-    mastercardShow, paymentDetails, userCart, orderSummary,
+    mastercardShow, selectedCardIndex, paymentDetails, userCart, orderSummary,
   } = useSelector((state) => state.cart);
-
-  const defaultCardIndex = paymentDetails.findIndex(
-    (paymentDetail) => paymentDetail.isDefault,
-  );
 
   const dispatch = useDispatch();
 
@@ -45,12 +41,9 @@ const AddPayment = () => {
         userId: user.userId,
         email: user.email,
         stripeId: user.stripeId,
-        cardStripeId:
-       defaultCardIndex !== -1
-         ? paymentDetails[defaultCardIndex]?.cardId
-         : paymentDetails[0]?.cardId,
+        cardStripeId: paymentDetails[selectedCardIndex]?.cardId,
         products: userCart.products,
-        orderSummary,
+        totalAmount: orderSummary.total,
       };
 
       dispatch(placeOrder(requestData));
@@ -58,6 +51,8 @@ const AddPayment = () => {
       console.error('User cart or products are missing.');
     }
   };
+
+  console.log({ selectedCardIndex });
 
   return (
     <div className="container add-payment-main-div">
@@ -79,35 +74,15 @@ const AddPayment = () => {
 
       <div className="selected-card">
         <MasterCard
-          cardholderName={
-            defaultCardIndex === -1
-              ? paymentDetails[0]?.cardholderName
-              : paymentDetails[defaultCardIndex]?.cardholderName
-          }
-          brand={
-            defaultCardIndex === -1
-              ? paymentDetails[0]?.brand
-              : paymentDetails[defaultCardIndex]?.brand
-          }
-          cardNumber={
-            defaultCardIndex === -1
-              ? paymentDetails[0]?.cardNumber
-              : paymentDetails[defaultCardIndex]?.cardNumber
-          }
-          exp_month={
-            defaultCardIndex === -1
-              ? paymentDetails[0]?.exp_month
-              : paymentDetails[defaultCardIndex]?.exp_month
-          }
-          exp_year={
-            defaultCardIndex === -1
-              ? paymentDetails[0]?.exp_year
-              : paymentDetails[defaultCardIndex]?.exp_year
-          }
+          cardholderName={paymentDetails[selectedCardIndex]?.cardholderName}
+          brand={paymentDetails[selectedCardIndex]?.brand}
+          cardNumber={paymentDetails[selectedCardIndex]?.cardNumber}
+          exp_month={paymentDetails[selectedCardIndex]?.exp_month}
+          exp_year={paymentDetails[selectedCardIndex]?.exp_year}
         />
       </div>
 
-      {mastercardShow && <MastercardCanvas header="Add Payment Details" />}
+      {mastercardShow && <AddPaymentCanvas header="Add Payment Details" />}
 
       {multiplePaymentsCanvasShow && (
         <ManagePaymentsCanvas

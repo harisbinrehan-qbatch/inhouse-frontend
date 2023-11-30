@@ -1,3 +1,4 @@
+import { Spinner } from 'react-bootstrap';
 import { Empty } from 'antd';
 import {
   useEffect, useState, Suspense, lazy,
@@ -131,10 +132,15 @@ const UserProducts = () => {
             </div>
 
             <div
-              className="d-flex justify-content-center align-items-center"
+              className="d-flex justify-content-center align-items-center gap-2"
               style={{ width: '100%', minHeight: '200px' }}
             >
-              {products.length < totalCount && !isFilter && <Loading />}
+              {products.length < totalCount && !isFilter && (
+                <>
+                  <Spinner animation="grow" size="sm" />
+                  <Spinner animation="grow" />
+                </>
+              )}
             </div>
           </div>
 

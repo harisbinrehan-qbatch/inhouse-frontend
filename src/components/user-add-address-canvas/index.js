@@ -53,6 +53,7 @@ const AddAddress = ({ header }) => {
           <img
             src={arrowLeft}
             alt="Cloud"
+            style={{ cursor: 'pointer' }}
             className="img-large ps-3 pt-3"
             onClick={handleClose}
           />

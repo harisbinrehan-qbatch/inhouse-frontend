@@ -4,9 +4,9 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Empty } from 'antd';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import MasterCard from '../master-card';
-import { setDefaultPaymentMethod } from '../../redux/slices/cart';
 
 import './style.css';
+import { setCardIndex } from '../../redux/slices/cart';
 
 const ManagePaymentsCanvas = ({ show, setShow }) => {
   const dispatch = useDispatch();
@@ -15,11 +15,12 @@ const ManagePaymentsCanvas = ({ show, setShow }) => {
     setShow(false);
   };
 
-  const { paymentDetails } = useSelector((state) => state.cart);
+  const { paymentDetails, selectedCardIndex } = useSelector(
+    (state) => state.cart,
+  );
 
   const handleCardClick = (index) => {
-    dispatch(setDefaultPaymentMethod(index));
-    // setShow(false);
+    dispatch(setCardIndex(index));
   };
 
   return (
@@ -58,7 +59,7 @@ const ManagePaymentsCanvas = ({ show, setShow }) => {
                     style={{ width: '280px', cursor: 'pointer' }}
                     onClick={() => handleCardClick(index)}
                     className={
-                      paymentDetail.isDefault ? 'selected-card' : 'master-card'
+                      index === selectedCardIndex ? 'selected-card' : 'master-card'
                     }
                   >
                     <MasterCard

@@ -142,6 +142,7 @@ const cartSlice = createSlice({
     addresses: {},
     paymentDetails: [],
     orderSummary: null,
+    selectedCardIndex: 0,
     addAddressSuccess: false,
     updateAddressSuccess: false,
     orderSuccess: false,
@@ -154,6 +155,10 @@ const cartSlice = createSlice({
   reducers: {
     setCartSummaryNull: (state) => {
       state.orderSummary = null;
+    },
+
+    setCardIndex(state, action) {
+      state.selectedCardIndex = action.payload;
     },
 
     setOrderSuccess: (state) => {
@@ -176,17 +181,6 @@ const cartSlice = createSlice({
         state.userCart = [];
       }
     },
-
-    setDefaultPaymentMethod: (state, action) => {
-      const index = action.payload;
-
-      if (index >= 0 && index < state.paymentDetails.length) {
-        state.paymentDetails.forEach((detail, i) => {
-          detail.isDefault = i === index;
-        });
-      }
-    },
-
     addToCart: (state, action) => {
       const { userId, product, productQuantity } = action.payload;
       state.proceedToCheckout = false;
@@ -429,8 +423,8 @@ export const {
   setUserOrderDetailsShow,
   deleteSelectedAll,
   setOrderSuccess,
-  setDefaultPaymentMethod,
   setPaymentDetailsNull,
+  setCardIndex,
 } = cartSlice.actions;
 
 export default cartSlice;

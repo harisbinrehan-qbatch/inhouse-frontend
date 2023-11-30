@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -22,6 +22,10 @@ const AddProductCustomCanvas = ({
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [selectedImages, setSelectedImages] = useState([]);
+  const [isPriceValid, setIsPriceValid] = useState(false);
+  const [isQuantityValid, setIsQuantityValid] = useState(false);
+  const [priceSuggestions, setPriceSuggestions] = useState([]);
+  const [quantitySuggestions, setQuantitySuggestions] = useState([]);
   const [formData, setFormData] = useState({
     _id,
     name: selectedProduct?.name || '',
@@ -46,9 +50,41 @@ const AddProductCustomCanvas = ({
     };
     dispatch(addProduct({ obj }));
   };
+
   const handleUpdateProduct = () => {
     dispatch(updateProduct(formData));
   };
+
+  const validatePrice = (inputPrice) => {
+    const isValidPrice = /^\d+(\.\d{1,2})?$/.test(inputPrice) && inputPrice >= 0;
+
+    const suggestions = isValidPrice
+      ? []
+      : [
+        'Price should be a non-negative value and can have up to 2 decimal places',
+      ];
+
+    setIsPriceValid(isValidPrice);
+    setPriceSuggestions(suggestions);
+  };
+
+  const validateQuantity = (inputQuantity) => {
+    const isPositiveInteger = inputQuantity >= 0 && Number.isInteger(+inputQuantity);
+
+    const suggestions = isPositiveInteger
+      ? []
+      : ['Quantity should be a non-negative integer value'];
+
+    setIsQuantityValid(isPositiveInteger);
+    setQuantitySuggestions(suggestions);
+  };
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setIsPriceValid(true);
+      setIsQuantityValid(true);
+    }
+  }, []);
 
   return (
     <Offcanvas
@@ -92,6 +128,7 @@ const AddProductCustomCanvas = ({
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
+
             <div className="pt-2">
               Size
               <div className="d-flex pt-2 pb-2">
@@ -134,17 +171,37 @@ const AddProductCustomCanvas = ({
                 label="Price"
                 placeholder="$00.00"
                 value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                hint={(
+                  <span className={isPriceValid ? 'success-hint' : ''}>
+                    {priceSuggestions.join(' ')}
+                  </span>
+                )}
+                onChange={(e) => {
+                  const newPrice = e.target.value;
+                  setFormData({ ...formData, price: newPrice });
+                  validatePrice(newPrice);
+                }}
               />
             </div>
+
             <div className="pt-2">
               <CustomForm
                 label="Quantity"
                 placeholder="Quantity"
                 value={formData.quantity}
-                onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                hint={(
+                  <span className={isQuantityValid ? 'success-hint' : ''}>
+                    {quantitySuggestions.join(' ')}
+                  </span>
+                )}
+                onChange={(e) => {
+                  const newQuantity = e.target.value;
+                  setFormData({ ...formData, quantity: newQuantity });
+                  validateQuantity(newQuantity);
+                }}
               />
             </div>
+
             <div className="d-flex justify-content-center pt-5">
               <CustomBtn
                 btnText={btnText}
@@ -157,6 +214,7 @@ const AddProductCustomCanvas = ({
                     handleUpdateProduct();
                   }
                 }}
+                disabled={!isPriceValid || !isQuantityValid}
               />
             </div>
           </Offcanvas.Body>

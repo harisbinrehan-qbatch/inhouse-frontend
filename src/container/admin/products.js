@@ -27,6 +27,9 @@ import CustomBtn from '../../components/button';
 import AddProductCustomCanvas from '../../components/admin-add-product-canvas';
 
 import './style.css';
+import ImportBulk from '../../components/import-bulk';
+import ImportBulkErrorsCanvas from '../../components/import-bulk-errors-canvas';
+import CustomModal from '../../components/custom-modal';
 
 const colorMap = {
   '#155724': 'green',
@@ -47,7 +50,10 @@ function getColorName(hexCode) {
 const Products = () => {
   const products = useSelector((state) => state.products.data);
   const [currentProductId, setCurrentProductId] = useState();
+  const [importBulkErrorsShow, setImportBulkErrorsShow] = useState(false);
+  const [importBulkDiv, setImportBulkDiv] = useState(false);
   const { show, updateCanvasShow } = useSelector((state) => state.products);
+  const [modalShow, setModalShow] = useState(false);
   const {
     page, editSuccess, deleteSuccess, addSuccess, limit, totalCount,
   } = useSelector((state) => state.products);
@@ -65,10 +71,22 @@ const Products = () => {
 
   const handleDeleteProduct = (productId) => {
     dispatch(deleteProduct(productId));
+
+    if (products.length === 1) {
+      dispatch(decrementPage());
+    }
   };
 
   const handleSetPageOne = () => {
     dispatch(setPageOne());
+  };
+
+  const handleImportBulk = () => {
+    setModalShow(true);
+  };
+
+  const handleCloseBulk = () => {
+    setImportBulkDiv(false);
   };
 
   const PageChangeFunction = (newPage) => {
@@ -77,7 +95,7 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(fetchAdminProducts());
-  }, [page, limit, addSuccess, editSuccess, deleteSuccess]);
+  }, [page, addSuccess, editSuccess, deleteSuccess]);
 
   const handleSearch = debounce((e) => {
     handleSetPageOne();
@@ -87,10 +105,23 @@ const Products = () => {
 
   return (
     <div>
-      <div className="table-body w-100 h-100 p-4">
+      {importBulkDiv ? (
+        <ImportBulk
+          setShow={setImportBulkErrorsShow}
+          handleCloseBulk={handleCloseBulk}
+        />
+      ) : null}
+
+      <div className="products-table-body mt-4 w-100 h-100 p-4">
         <div className="main-div d-flex">
           <h2 className="heading">Products</h2>
-          <div className="header-buttons">
+          <div className="d-flex header-buttons">
+            <CustomBtn
+              btnText="Import Bulk Products"
+              size="default"
+              className="mx-2"
+              onClick={handleImportBulk}
+            />
             <CustomBtn
               btnText="Add New"
               size="default"
@@ -198,6 +229,15 @@ const Products = () => {
       {show && (
         <AddProductCustomCanvas header="Add Product" btnText="Add Product" />
       )}
+      <ImportBulkErrorsCanvas
+        show={importBulkErrorsShow}
+        setShow={setImportBulkErrorsShow}
+      />
+      <CustomModal
+        show={modalShow}
+        setShow={setModalShow}
+        setImportBulkDiv={setImportBulkDiv}
+      />
       {updateCanvasShow && (
         <AddProductCustomCanvas
           header="Update Product"

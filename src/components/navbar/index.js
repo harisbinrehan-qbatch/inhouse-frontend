@@ -1,6 +1,5 @@
-/* eslint-disable max-len */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-nested-ternary */
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -23,11 +22,11 @@ import {
   moveToCartFromNavbar,
   setCartSummaryNull,
   setOrderSuccess,
+  setPaymentDetailsNull,
 } from '../../redux/slices/cart';
+import { getNotifications, readNotification } from '../../redux/slices/order';
 
 import './style.css';
-import CustomBtn from '../button';
-import { getNotifications, readNotification } from '../../redux/slices/order';
 
 function CustomNavbar() {
   const dispatch = useDispatch();
@@ -65,6 +64,7 @@ function CustomNavbar() {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(setCartSummaryNull());
+    dispatch(setPaymentDetailsNull());
     navigate('/');
   };
 
@@ -124,14 +124,11 @@ function CustomNavbar() {
                             )
                             .map((notification) => (
                               <div className="navClass" key={notification.id}>
-                                <Dropdown.Item className="d-flex">
+                                <Dropdown.Item
+                                  className="d-flex"
+                                  onClick={() => handleMarkAsRead(notification._id)}
+                                >
                                   <p className="pt-1">{notification.text}</p>
-                                  <CustomBtn
-                                    btnText="👀"
-                                    variant="text"
-                                    className=""
-                                    onClick={() => handleMarkAsRead(notification._id)}
-                                  />
                                 </Dropdown.Item>
                               </div>
                             ))
@@ -158,17 +155,16 @@ function CustomNavbar() {
                       >
                         {unreadUserNotifications.length > 0 ? (
                           unreadUserNotifications
-                            .filter((notification) => notification.forAdmin === false)
+                            .filter(
+                              (notification) => notification.forAdmin === false,
+                            )
                             .map((notification) => (
                               <div className="navClass" key={notification._id}>
-                                <Dropdown.Item className="d-flex">
+                                <Dropdown.Item
+                                  className="d-flex"
+                                  onClick={() => handleMarkAsRead(notification._id)}
+                                >
                                   <p className="pt-1">{notification.text}</p>
-                                  <CustomBtn
-                                    btnText="👀"
-                                    variant="text"
-                                    className=""
-                                    onClick={() => handleMarkAsRead(notification._id)}
-                                  />
                                 </Dropdown.Item>
                               </div>
                             ))

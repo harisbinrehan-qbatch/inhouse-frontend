@@ -42,7 +42,7 @@ const NewPassword = ({ header }) => {
 
   return (
     <div>
-      <div className="container login-rectangle">
+      <div className="login-rectangle">
         <h2 className="pb-3 header">{header}</h2>
         <div className="border">
           <div className="login-fields">
@@ -73,7 +73,7 @@ const NewPassword = ({ header }) => {
             <CustomBtn
               btnText="Reset Password"
               size="default"
-              className="w-100"
+              className="w-100 mb-3"
               onClick={handleResetPassword}
             />
           </div>

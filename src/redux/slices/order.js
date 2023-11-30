@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchAllOrders = createAsyncThunk(
-  'orders/fetchAll',
+  'orders/fetchAllOrders',
   async (orderId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
@@ -24,6 +24,27 @@ export const fetchAllOrders = createAsyncThunk(
         },
       });
 
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
+
+export const fetchUserOrders = createAsyncThunk(
+  'orders/fetchUserOrders',
+  async (userId, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+
+      const response = await axios.get(
+        `http://localhost:5000/v1/orders/getUserOrders?userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
@@ -138,7 +159,6 @@ const ordersSlice = createSlice({
     orders: [],
     notifications: [],
     searchedOrders: [],
-    loading: false,
     ordersError: false,
     orderStats: {},
     page: 1,
@@ -186,19 +206,28 @@ const ordersSlice = createSlice({
         state.orders = action.payload.orders || [];
         state.searchedOrders = action.payload.searchedOrders;
         state.totalCount = action.payload.totalCount;
-        state.loading = false;
         state.error = false;
       })
       .addCase(fetchAllOrders.pending, (state) => {
-        state.loading = true;
         state.error = false;
       })
       .addCase(fetchAllOrders.rejected, (state, action) => {
         state.orders = [];
-        state.loading = false;
         state.error = action.payload
           ? action.payload.message
           : 'An error occurred';
+      })
+
+      .addCase(fetchUserOrders.fulfilled, (state, action) => {
+        state.orders = action.payload || [];
+        state.error = false;
+      })
+      .addCase(fetchUserOrders.pending, (state) => {
+        state.error = false;
+      })
+      .addCase(fetchUserOrders.rejected, (state) => {
+        state.orders = [];
+        state.error = true;
       })
 
       .addCase(setOrderAsDelivered.fulfilled, () => {})
@@ -219,7 +248,6 @@ const ordersSlice = createSlice({
 
       .addCase(getAdminOrderStats.fulfilled, (state, action) => {
         state.adminOrderStats = action.payload;
-        state.loading = false;
         state.error = false;
       })
       .addCase(getAdminOrderStats.pending, () => {})

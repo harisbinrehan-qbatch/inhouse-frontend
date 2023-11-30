@@ -4,19 +4,22 @@ const DashboardCart = ({
   cartText, totalOrders, totalUnits, totalSale,
 }) => (
   <div className="dashboard-cart-main-div container">
-    <img src={Cart} alt="Cart Icon" className="m-2 ps-2" />
-    <b className="">{cartText}</b>
-    <div className="d-flex justify-content-around pt-2">
-      <div className="m-2">
+    <div className="mt-3 ms-2">
+      <img src={Cart} alt="Cart Icon" className="" />
+      <b className="ps-2">{cartText}</b>
+    </div>
+
+    <div className="d-flex justify-content-between ">
+      <div className="m-2 pt-2">
         <span>Total Orders: </span>
         <b className="ps-1">{totalOrders}</b>
       </div>
-      <div className="m-2">
+      <div className="m-2 pt-2">
         <span>Total Units: </span>
         <b className="ps-1">{totalUnits}</b>
       </div>
     </div>
-    <div className="d-flex m-2 ps-1 ms-4">
+    <div className="d-flex justify-content-start ms-2 pt-2">
       <span>Total Sale: </span>
       <b className="ps-1">{totalSale}</b>
     </div>

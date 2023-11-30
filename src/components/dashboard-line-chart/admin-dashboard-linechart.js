@@ -11,7 +11,6 @@ import ordersEllipse from '../../assets/images/orders-unpaid.svg';
 import salesEllipse from '../../assets/images/salesEllipse.svg';
 
 const DashboardLineChart = ({ oneYearStats }) => {
-  // Sort the data by month
   const statsArray = Object.keys(oneYearStats)
     .map((key) => oneYearStats[key])
     .sort((a, b) => {
@@ -52,7 +51,7 @@ const DashboardLineChart = ({ oneYearStats }) => {
         </span>
       </div>
       <LineChart
-        width={717}
+        width={775}
         height={218}
         data={data}
         margin={{

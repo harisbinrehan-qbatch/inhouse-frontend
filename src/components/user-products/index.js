@@ -39,28 +39,25 @@ const UserProducts = () => {
     if (totalCount === 0) {
       if (isFilter === false) {
         dispatch(fetchUserProducts({ skip: 0, limit: 4 }));
-        setLoadingMore(false);
       }
     } else if (loadingMore && skip + limit !== totalCount) {
       if (skip + 4 < totalCount) {
         updatedSkip = skip + 4;
-        updatedLimit = updatedSkip + 4 > totalCount ? updatedSkip + 4 - totalCount : 4;
+        updatedLimit = updatedSkip + 4 > totalCount ? totalCount - updatedSkip : 4;
         setSkip(updatedSkip);
         setLimit(updatedLimit);
-        setLoadingMore(false);
       } else {
         updatedLimit = totalCount - skip;
         updatedSkip = skip;
         setSkip(updatedSkip);
         setLimit(updatedLimit);
         setScrollEnabled(false);
-        setLoadingMore(false);
       }
       if (isFilter === false) {
         dispatch(fetchUserProducts({ skip: updatedSkip, limit: updatedLimit }));
-        setLoadingMore(false);
       }
     }
+    setLoadingMore(false);
 
     window.addEventListener('scroll', handleScroll);
 
@@ -125,11 +122,19 @@ const UserProducts = () => {
                 </div>
               </div>
             ))}
+            <div>
+              <b style={{ color: 'grey' }}>
+                {totalCount}
+                {' '}
+                items found in Clothing & Accessories
+              </b>
+            </div>
+
             <div
               className="d-flex justify-content-center align-items-center"
               style={{ width: '100%', minHeight: '200px' }}
             >
-              {!loadingMore && !isFilter && <Loading />}
+              {products.length < totalCount && !isFilter && <Loading />}
             </div>
           </div>
 

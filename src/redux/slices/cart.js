@@ -246,6 +246,10 @@ const cartSlice = createSlice({
       state.userOrderDetailsShow = !state.userOrderDetailsShow;
     },
 
+    setPaymentDetailsNull(state) {
+      state.paymentDetails = [];
+    },
+
     setChangeAddressShow(state) {
       state.changeAddressShow = !state.changeAddressShow;
     },
@@ -426,6 +430,7 @@ export const {
   deleteSelectedAll,
   setOrderSuccess,
   setDefaultPaymentMethod,
+  setPaymentDetailsNull,
 } = cartSlice.actions;
 
 export default cartSlice;

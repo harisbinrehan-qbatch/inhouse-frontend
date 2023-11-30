@@ -257,7 +257,6 @@ const productsSlice = createSlice({
       })
 
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        state.data = action.payload.products;
         state.productMessage = action.payload.message || 'Product deleted Successfully';
         state.deleteSuccess = true;
         message.success(state.productMessage, 2);
@@ -266,7 +265,7 @@ const productsSlice = createSlice({
         state.deleteSuccess = false;
       })
       .addCase(deleteProduct.rejected, (state) => {
-        state.deleteSuccess = true;
+        state.deleteSuccess = false;
         state.productMessage = 'Error deleting product';
         message.error(state.productMessage, 2);
       })

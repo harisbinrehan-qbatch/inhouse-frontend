@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable max-len */
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -10,9 +9,10 @@ import arrowLeft from '../../assets/images/Arrow left.svg';
 import sideArrow from '../../assets/images/Arrow up right.svg';
 import { setUserOrderDetailsShow } from '../../redux/slices/cart';
 import UserOrderDetailsCanvas from '../../components/user-order-details';
-import { fetchAllOrders } from '../../redux/slices/order';
+import { fetchUserOrders } from '../../redux/slices/order';
 
-function UserOrders() {
+const UserOrders = () => {
+  console.log('+++++++++++++');
   const location = useLocation();
 
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -23,27 +23,28 @@ function UserOrders() {
 
   const { orders } = useSelector((state) => state.order);
 
+  console.log({ orders });
+
   const { userOrderDetailsShow } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
-
-  const userOrders = orders.filter((order) => order.userId === userId);
-
-  useEffect(() => {
-    dispatch(fetchAllOrders());
-    if (userOrderDetailsShow) { dispatch(setUserOrderDetailsShow()); }
-  }, []);
-
-  if (userOrders.length === 0) {
-    return <Empty description="No orders found" style={{ marginTop: '250px' }} />;
-  }
 
   const handleOrderDetailsCanvas = (order) => {
     setSelectedOrder(order);
     dispatch(setUserOrderDetailsShow());
   };
 
-  return (
+  useEffect(() => {
+    dispatch(fetchUserOrders(userId));
+
+    if (userOrderDetailsShow) {
+      dispatch(setUserOrderDetailsShow());
+    }
+  }, []);
+
+  return orders.length === 0 ? (
+    <Empty description="No orders found" style={{ marginTop: '250px' }} />
+  ) : (
     <div className="table-body">
       <div className="d-flex p-4">
         <Link to="/">
@@ -55,26 +56,18 @@ function UserOrders() {
         <Table>
           <thead>
             <tr className="table-secondary mt-3">
-              <th>
-                Date
-              </th>
+              <th>Date</th>
               <th>Order #</th>
               <th>User</th>
-              <th>
-                Products
-              </th>
-              <th>
-                Amount
-              </th>
-              <th>
-                Status
-              </th>
+              <th>Products</th>
+              <th>Amount</th>
+              <th>Status</th>
               <th className="ps-5">Action</th>
             </tr>
           </thead>
 
           <tbody>
-            {userOrders.map((order) => (
+            {orders.map((order) => (
               <tr key={order._id}>
                 <td className="pt-2">
                   {new Date(order.date).toLocaleString('en-US', {
@@ -117,6 +110,6 @@ function UserOrders() {
       </div>
     </div>
   );
-}
+};
 
 export default UserOrders;

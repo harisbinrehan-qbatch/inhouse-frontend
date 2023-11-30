@@ -46,23 +46,27 @@ const Dashboard = () => {
         />
       </div>
       <div>
-        <div className="d-flex pt-2">
-          <div className="">
-            <span className="p-3 m-3">Orders Overview</span>
-            <div className="pt-3 ps-2">
-              <DashboardOrdersGraph
-                paidOrders={orderStats?.totalPaidOrders || 0}
-                unpaidOrders={orderStats?.totalUnpaidOrders || 0}
-              />
-            </div>
+        <div className="d-flex pt-2 gap-5">
+          <div className="ms-1 pt-3">
+            <b
+              className="d-flex justify-content-center mb-3"
+              style={{ color: 'grey' }}
+            >
+              Orders Overview
+            </b>
+            <DashboardOrdersGraph
+              paidOrders={orderStats?.totalPaidOrders || 0}
+              unpaidOrders={orderStats?.totalUnpaidOrders || 0}
+            />
           </div>
-          <div className="ps-3">
-            <span className="p-3 mb-3">Sales & Orders Report</span>
-            <div className="pt-3">
-              <DashboardLineChart
-                oneYearStats={orderStats?.oneYearStats || {}}
-              />
-            </div>
+          <div className="pt-3">
+            <b
+              className="d-flex justify-content-center mb-3"
+              style={{ color: 'grey' }}
+            >
+              Sales and Orders Report
+            </b>
+            <DashboardLineChart oneYearStats={orderStats?.oneYearStats || {}} />
           </div>
         </div>
         <div>

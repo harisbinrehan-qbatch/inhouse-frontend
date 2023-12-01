@@ -9,7 +9,7 @@ import Pencil from '../../assets/images/edit-payment.svg';
 
 import './style.css';
 import ManagePaymentsCanvas from '../user-manage-payments';
-import AddPaymentCanvas from '../mastercard-canvas';
+import AddPaymentCanvas from '../user-add-payment-canvas';
 
 const AddPayment = () => {
   const [multiplePaymentsCanvasShow, setMultiplePaymentsCanvasShow] = useState(false);
@@ -91,12 +91,20 @@ const AddPayment = () => {
         />
       )}
 
-      {!isEmpty(paymentDetails) && userCart && !isEmpty(userCart.products) && (
+      {!isEmpty(paymentDetails) && userCart && !isEmpty(userCart.products) ? (
         <CustomBtn
           className="d-flex mt-3 ms-2"
           btnText="Place Order"
           variant="primary"
           onClick={handlePlaceOrder}
+        />
+      ) : (
+        <CustomBtn
+          className="d-flex mt-3 ms-2"
+          btnText="Place Order"
+          variant="primary"
+          onClick={handlePlaceOrder}
+          disabled="true"
         />
       )}
     </div>

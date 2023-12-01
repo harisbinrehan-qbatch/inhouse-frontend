@@ -74,7 +74,7 @@ const Orders = () => {
         />
         <OrdersRectangle
           rectangleText="Total amount: "
-          value={adminOrderStats.totalAmount || 0}
+          value={(adminOrderStats.totalAmount || 0).toFixed(2)}
           here
           append
           dollar
@@ -183,18 +183,18 @@ const Orders = () => {
                   }}
                 />
               </div>
-
             </>
-          ) : (<Empty className="mt-5 pt=5" description="No orders found" />)}
+          ) : (
+            <Empty className="mt-5 pt=5" description="No orders found" />
+          )}
 
           {ordersError && (
-          <div>
-            <CustomAlert variant="danger" alertText="Error" />
-          </div>
+            <div>
+              <CustomAlert variant="danger" alertText="Error" />
+            </div>
           )}
         </div>
       </div>
-
     </div>
   );
 };

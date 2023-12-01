@@ -21,11 +21,9 @@ const AddPaymentCanvas = ({ header }) => {
   const [yearSuggestions, setYearSuggestions] = useState([]);
 
   const validateCardNumber = (inputCardNumber) => {
-    // Card number should be of 16 digits
     const isValidLength = inputCardNumber.length === 16;
     setIsCardNumberValid(isValidLength);
 
-    // Suggestions logic: Display a suggestion if the length is less than 16
     const localCardNumberSuggestions = isValidLength
       ? []
       : ['Card number should be 16 digits.'];
@@ -33,11 +31,9 @@ const AddPaymentCanvas = ({ header }) => {
   };
 
   const validateMonth = (inputMonth) => {
-    // Month should be from 1 to 12
     const isValidMonth = inputMonth >= 1 && inputMonth <= 12;
     setIsMonthValid(isValidMonth);
 
-    // Suggestions logic: Display a suggestion if the month is not within the valid range
     const localMonthSuggestions = isValidMonth
       ? []
       : ['Month should be between 1 and 12.'];
@@ -45,14 +41,12 @@ const AddPaymentCanvas = ({ header }) => {
   };
 
   const validateYear = (inputYear) => {
-    // Year should be from 23 to 90 (adjust as needed)
-    const isValidYear = inputYear >= 23 && inputYear <= 90;
+    const isValidYear = inputYear >= 23 && inputYear <= 99;
     setIsYearValid(isValidYear);
 
-    // Suggestions logic: Display a suggestion if the year is not within the valid range
     const localYearSuggestions = isValidYear
       ? []
-      : ['Year should be between 23 and 90.'];
+      : ['Year should be between 23 and 99.'];
     setYearSuggestions(localYearSuggestions);
   };
 
@@ -110,11 +104,9 @@ const AddPaymentCanvas = ({ header }) => {
             onClick={handleClose}
           />
         </div>
-        <div className="offcanvas-header custom-offcanvas-header">
-          <Offcanvas.Header>
-            <Offcanvas.Title>{header}</Offcanvas.Title>
-          </Offcanvas.Header>
-        </div>
+        <Offcanvas.Header>
+          <Offcanvas.Title>{header}</Offcanvas.Title>
+        </Offcanvas.Header>
       </div>
 
       <div className="d-flex">
@@ -144,8 +136,12 @@ const AddPaymentCanvas = ({ header }) => {
                     placeholder="Expiry month"
                     value={exp_month}
                     onChange={(e) => {
-                      validateMonth(parseInt(e.target.value, 10));
-                      setExpiryMonth(parseInt(e.target.value, 10));
+                      if (e.target.value !== '') {
+                        validateMonth(parseInt(e.target.value, 10));
+                        setExpiryMonth(parseInt(e.target.value, 10));
+                      } else {
+                        setExpiryMonth('');
+                      }
                     }}
                     hint={(
                       <span className={isMonthValid ? 'success-hint' : ''}>
@@ -166,8 +162,12 @@ const AddPaymentCanvas = ({ header }) => {
                       </span>
                     )}
                     onChange={(e) => {
-                      validateYear(parseInt(e.target.value, 10));
-                      setExpiryYear(parseInt(e.target.value, 10));
+                      if (e.target.value !== '') {
+                        validateYear(parseInt(e.target.value, 10));
+                        setExpiryYear(parseInt(e.target.value, 10));
+                      } else {
+                        setExpiryYear('');
+                      }
                     }}
                   />
                 </div>

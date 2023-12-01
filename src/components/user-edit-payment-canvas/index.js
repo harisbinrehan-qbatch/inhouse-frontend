@@ -1,26 +1,38 @@
+/* eslint-disable max-len */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import { getPaymentDetails, savePaymentDetails, setMastercardShow } from '../../redux/slices/cart';
+import { editPaymentDetails, getPaymentDetails } from '../../redux/slices/cart';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import CustomForm from '../input';
 import CustomBtn from '../button';
 
-import './style.css';
+const EditPaymentCanvas = ({ show, setShow }) => {
+  const { paymentDetails, paymentDetailsStatus, selectedCardIndex } = useSelector((state) => state.cart);
 
-const AddPaymentCanvas = ({ header }) => {
-  const { mastercardShow, paymentDetails, paymentDetailsStatus } = useSelector(
-    (state) => state.cart,
-  );
-
-  const [isCardNumberValid, setIsCardNumberValid] = useState(false);
-  const [isMonthValid, setIsMonthValid] = useState(false);
-  const [isYearValid, setIsYearValid] = useState(false);
+  const [isCardNumberValid, setIsCardNumberValid] = useState(true);
+  const [isMonthValid, setIsMonthValid] = useState(true);
+  const [isYearValid, setIsYearValid] = useState(true);
   const [cardNumberSuggestions, setCardNumberSuggestions] = useState([]);
   const [monthSuggestions, setMonthSuggestions] = useState([]);
   const [yearSuggestions, setYearSuggestions] = useState([]);
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const dispatch = useDispatch();
+
+  console.log({ paymentDetails });
+
+  const [cardholderName, setCardholderName] = useState(user?.username || '');
+
+  const [number, setNumber] = useState('');
+  const [exp_month, setExpiryMonth] = useState(
+    paymentDetails[selectedCardIndex].exp_month,
+  );
+  const [exp_year, setExpiryYear] = useState(
+    paymentDetails[selectedCardIndex].exp_year % 100,
+  );
 
   const validateCardNumber = (inputCardNumber) => {
     const isValidLength = inputCardNumber.length === 16;
@@ -52,23 +64,11 @@ const AddPaymentCanvas = ({ header }) => {
     setYearSuggestions(localYearSuggestions);
   };
 
-  const user = JSON.parse(localStorage.getItem('user'));
-
-  const dispatch = useDispatch();
-
-  const [cardholderName, setCardholderName] = useState(
-    user?.username || '',
-  );
-
-  const [number, setNumber] = useState(paymentDetails?.cardNumber || '');
-  const [exp_month, setExpiryMonth] = useState(paymentDetails?.expiryMonth || '');
-  const [exp_year, setExpiryYear] = useState(paymentDetails?.expiryYear || '');
-
   const handleClose = () => {
-    dispatch(setMastercardShow());
+    setShow(false);
   };
 
-  const handleSavePaymentDetails = () => {
+  const handleEditPaymentDetails = () => {
     const paymentDetailsUpdated = {
       cardholderName,
       number,
@@ -78,7 +78,7 @@ const AddPaymentCanvas = ({ header }) => {
 
     if (user) {
       dispatch(
-        savePaymentDetails({
+        editPaymentDetails({
           userId: user.userId,
           paymentDetails: paymentDetailsUpdated,
         }),
@@ -93,7 +93,7 @@ const AddPaymentCanvas = ({ header }) => {
 
   return (
     <Offcanvas
-      show={mastercardShow}
+      show={show}
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"
@@ -110,7 +110,7 @@ const AddPaymentCanvas = ({ header }) => {
           />
         </div>
         <Offcanvas.Header>
-          <Offcanvas.Title>{header}</Offcanvas.Title>
+          <Offcanvas.Title>Edit Payment Details</Offcanvas.Title>
         </Offcanvas.Header>
       </div>
 
@@ -121,7 +121,7 @@ const AddPaymentCanvas = ({ header }) => {
               <div>
                 <CustomForm
                   label="Card Number"
-                  placeholder="Card Number"
+                  placeholder="Enter card number again"
                   value={number}
                   onChange={(e) => {
                     validateCardNumber(e.target.value);
@@ -187,8 +187,8 @@ const AddPaymentCanvas = ({ header }) => {
               </div>
               <div className="mt-5">
                 <CustomBtn
-                  btnText="Save"
-                  onClick={handleSavePaymentDetails}
+                  btnText="Update"
+                  onClick={handleEditPaymentDetails}
                   disabled={!isCardNumberValid || !isMonthValid || !isYearValid}
                 />
               </div>
@@ -200,4 +200,4 @@ const AddPaymentCanvas = ({ header }) => {
   );
 };
 
-export default AddPaymentCanvas;
+export default EditPaymentCanvas;

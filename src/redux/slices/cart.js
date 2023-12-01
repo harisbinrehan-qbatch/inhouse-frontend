@@ -3,7 +3,7 @@
 /* eslint-disable no-underscore-dangle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { message, notification } from 'antd';
+import { message } from 'antd';
 
 export const placeOrder = createAsyncThunk(
   'cart/placeOrder',
@@ -69,6 +69,28 @@ export const getAddress = createAsyncThunk(
   },
 );
 
+export const updateDefaultAddress = createAsyncThunk(
+  'cart/updateDefaultAddress',
+  async (requestData, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+
+      const response = await axios.put(
+        'http://localhost:5000/v1/orders/updateDefaultAddress',
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
+
 export const getPaymentDetails = createAsyncThunk(
   'cart/getPaymentDetails',
   async (userId, { getState, rejectWithValue }) => {
@@ -76,7 +98,7 @@ export const getPaymentDetails = createAsyncThunk(
       const state = getState();
 
       const response = await axios.get(
-        `http://localhost:5000/v1/orders/getPaymentDetails?userId=${userId}`,
+        `http://localhost:5000/v1/orders/paymentDetails?userId=${userId}`,
         {
           headers: {
             Authorization: `Bearer ${state.authentication.user.token}`,
@@ -105,6 +127,7 @@ export const savePaymentDetails = createAsyncThunk(
           },
         },
       );
+
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
@@ -112,15 +135,36 @@ export const savePaymentDetails = createAsyncThunk(
   },
 );
 
-export const updateDefaultAddress = createAsyncThunk(
-  'cart/updateDefaultAddress',
+export const editPaymentDetails = createAsyncThunk(
+  'cart/editPaymentDetails',
   async (requestData, { getState, rejectWithValue }) => {
     try {
       const state = getState();
 
       const response = await axios.put(
-        'http://localhost:5000/v1/orders/updateDefaultAddress',
+        'http://localhost:5000/v1/orders/paymentDetails',
         requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
+
+export const deletePaymentDetails = createAsyncThunk(
+  'cart/deletePaymentDetails',
+  async ({ cardStripeId, userStripeId }, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+
+      const response = await axios.delete(
+        `http://localhost:5000/v1/orders/paymentDetails?cardStripeId=${cardStripeId}&userStripeId=${userStripeId}`,
         {
           headers: {
             Authorization: `Bearer ${state.authentication.user.token}`,
@@ -151,6 +195,7 @@ const cartSlice = createSlice({
     addressShow: false,
     proceedToCheckout: false,
     userOrderDetailsShow: false,
+    paymentDetailsStatus: false,
   },
   reducers: {
     setCartSummaryNull: (state) => {
@@ -352,30 +397,11 @@ const cartSlice = createSlice({
         message.error(state.orderMessage, 2);
       })
 
-      .addCase(savePaymentDetails.fulfilled, (state, action) => {
-        state.paymentDetails = action.payload.paymentDetails;
-        state.orderMessage = action.payload.message || 'Payment Details Saved Successfully';
-        notification.success(state.orderMessage, 2);
-      })
-      .addCase(savePaymentDetails.pending, () => {
-        message.success('Saving Payment Details...', 2);
-      })
-      .addCase(savePaymentDetails.rejected, (state) => {
-        state.orderMessage = 'Error saving payment details';
-        message.error(state.orderMessage, 2);
-      })
-
       .addCase(getAddress.fulfilled, (state, action) => {
         state.addresses = action.payload.addresses[0];
       })
       .addCase(getAddress.pending, () => {})
       .addCase(getAddress.rejected, () => {})
-
-      .addCase(getPaymentDetails.fulfilled, (state, action) => {
-        state.paymentDetails = action.payload.allPaymentMethods;
-      })
-      .addCase(getPaymentDetails.pending, () => {})
-      .addCase(getPaymentDetails.rejected, () => {})
 
       .addCase(addAddress.fulfilled, (state, action) => {
         state.addAddressSuccess = true;
@@ -403,6 +429,48 @@ const cartSlice = createSlice({
         state.updateAddressSuccess = false;
         state.orderMessage = 'Error updating default address';
         message.error(state.orderMessage, 2);
+      })
+
+      .addCase(savePaymentDetails.fulfilled, (state) => {
+        message.success('Payment Details Saved Successfully', 2);
+        state.paymentDetailsStatus = true;
+        state.selectedCardIndex = 0;
+      })
+      .addCase(savePaymentDetails.pending, (state) => {
+        message.success('Saving Payment Details...', 2);
+        state.paymentDetailsStatus = true;
+      })
+      .addCase(savePaymentDetails.rejected, (state) => {
+        state.orderMessage = 'Error saving payment details';
+        message.error(state.orderMessage, 2);
+        state.paymentDetailsStatus = false;
+      })
+
+      .addCase(getPaymentDetails.fulfilled, (state, action) => {
+        state.paymentDetails = action.payload.allPaymentMethods;
+      })
+      .addCase(getPaymentDetails.pending, () => {})
+      .addCase(getPaymentDetails.rejected, () => {})
+
+      .addCase(editPaymentDetails.fulfilled, (state) => {
+        state.paymentDetailsStatus = true;
+      })
+      .addCase(editPaymentDetails.pending, () => {})
+      .addCase(editPaymentDetails.rejected, (state) => {
+        state.paymentDetailsStatus = false;
+      })
+
+      .addCase(deletePaymentDetails.fulfilled, (state) => {
+        state.paymentDetailsStatus = true;
+
+        state.selectedCardIndex = 0;
+        message.success('Card deleted successfully', 2);
+      })
+      .addCase(deletePaymentDetails.pending, () => {})
+      .addCase(deletePaymentDetails.rejected, (state) => {
+        state.paymentDetailsStatus = false;
+
+        message.error('Error deleting card', 2);
       });
   },
 });

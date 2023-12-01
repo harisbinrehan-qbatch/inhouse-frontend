@@ -12,7 +12,6 @@ import UserOrderDetailsCanvas from '../../components/user-order-details';
 import { fetchUserOrders } from '../../redux/slices/order';
 
 const UserOrders = () => {
-  console.log('+++++++++++++');
   const location = useLocation();
 
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -22,8 +21,6 @@ const UserOrders = () => {
   const userId = searchParams.get('userId');
 
   const { orders } = useSelector((state) => state.order);
-
-  console.log({ orders });
 
   const { userOrderDetailsShow } = useSelector((state) => state.cart);
 

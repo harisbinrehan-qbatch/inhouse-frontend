@@ -3,36 +3,46 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import MasterCard from '../master-card';
-import { getPaymentDetails, placeOrder, setMastercardShow } from '../../redux/slices/cart';
+import {
+  deletePaymentDetails,
+  getPaymentDetails,
+  placeOrder,
+  setMastercardShow,
+} from '../../redux/slices/cart';
 import CustomBtn from '../button';
 import Pencil from '../../assets/images/edit-payment.svg';
-
-import './style.css';
+import Trash from '../../assets/images/Trash.svg';
 import ManagePaymentsCanvas from '../user-manage-payments';
 import AddPaymentCanvas from '../user-add-payment-canvas';
 
+import './style.css';
+import EditPaymentCanvas from '../user-edit-payment-canvas';
+
 const AddPayment = () => {
   const [multiplePaymentsCanvasShow, setMultiplePaymentsCanvasShow] = useState(false);
+  const [editPaymentCanvasShow, setEditPaymentCanvasShow] = useState(false);
 
   const user = JSON.parse(localStorage.getItem('user'));
 
   const {
-    mastercardShow, selectedCardIndex, paymentDetails, userCart, orderSummary,
+    mastercardShow,
+    selectedCardIndex,
+    paymentDetails,
+    userCart,
+    orderSummary,
+    paymentDetailsStatus,
   } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
   const handleAddPaymentDetails = () => {
     dispatch(setMastercardShow());
+    // dispatch(getPaymentDetails(user.userId));
   };
 
   const handleMultiplePaymentDetails = () => {
     setMultiplePaymentsCanvasShow(true);
   };
-
-  useEffect(() => {
-    dispatch(getPaymentDetails(user.userId));
-  }, []);
 
   const handlePlaceOrder = () => {
     if (userCart && userCart.products) {
@@ -52,7 +62,18 @@ const AddPayment = () => {
     }
   };
 
-  console.log({ selectedCardIndex });
+  const handleEditPaymentCanvas = () => {
+    setEditPaymentCanvasShow(true);
+  };
+  const handleDeletePaymentDetails = async () => {
+    const cardStripeId = paymentDetails[selectedCardIndex].cardId;
+    const userStripeId = user.stripeId;
+
+    await dispatch(deletePaymentDetails({ cardStripeId, userStripeId }));
+  };
+  useEffect(() => {
+    dispatch(getPaymentDetails(user.userId));
+  }, [paymentDetailsStatus]);
 
   return (
     <div className="container add-payment-main-div">
@@ -81,8 +102,31 @@ const AddPayment = () => {
           exp_year={paymentDetails[selectedCardIndex]?.exp_year}
         />
       </div>
+      {!isEmpty(paymentDetails) ? (
+        <div className="d-flex mt-3 me-3 gap-2 justify-content-end">
+          <img
+            src={Pencil}
+            alt="multiple-payments"
+            style={{ cursor: 'pointer' }}
+            onClick={handleEditPaymentCanvas}
+          />
+          <img
+            src={Trash}
+            alt="trash"
+            style={{ cursor: 'pointer' }}
+            onClick={handleDeletePaymentDetails}
+          />
+        </div>
+      ) : null}
 
       {mastercardShow && <AddPaymentCanvas header="Add Payment Details" />}
+
+      {editPaymentCanvasShow && (
+      <EditPaymentCanvas
+        show={editPaymentCanvasShow}
+        setShow={setEditPaymentCanvasShow}
+      />
+      )}
 
       {multiplePaymentsCanvasShow && (
         <ManagePaymentsCanvas
@@ -93,14 +137,14 @@ const AddPayment = () => {
 
       {!isEmpty(paymentDetails) && userCart && !isEmpty(userCart.products) ? (
         <CustomBtn
-          className="d-flex mt-3 ms-2"
+          className="ms-2"
           btnText="Place Order"
           variant="primary"
           onClick={handlePlaceOrder}
         />
       ) : (
         <CustomBtn
-          className="d-flex mt-3 ms-2"
+          className="ms-2"
           btnText="Place Order"
           variant="primary"
           onClick={handlePlaceOrder}

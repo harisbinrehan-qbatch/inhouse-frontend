@@ -11,7 +11,7 @@ import './style.css';
 const NewPassword = ({ header }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordsMatch, setPasswordsMatch] = useState(true); // Initially, assume passwords match
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const dispatch = useDispatch();
 

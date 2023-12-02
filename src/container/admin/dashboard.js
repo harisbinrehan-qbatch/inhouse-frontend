@@ -28,21 +28,59 @@ const Dashboard = () => {
       <div className="d-flex justify-content-around gap-4 ms-4 me-3">
         <DashboardCart
           cartText="Today"
-          totalOrders={orderStats?.todayStats?.totalOrders || '0'}
-          totalUnits={orderStats?.todayStats?.totalUnits || '0'}
-          totalSale={orderStats?.todayStats?.totalSales || '0'}
+          totalOrders={
+            orderStats?.todayStats?.totalOrders !== undefined
+              ? orderStats.todayStats.totalOrders
+              : '0'
+          }
+          totalUnits={
+            orderStats?.todayStats?.totalUnits !== undefined
+              ? orderStats.todayStats.totalUnits
+              : '0'
+          }
+          totalSale={
+            orderStats?.todayStats?.totalSales !== undefined
+              ? orderStats.todayStats.totalSales.toFixed(2)
+              : '0'
+          }
         />
+
         <DashboardCart
           cartText="7 Days"
-          totalOrders={orderStats?.sevenDayStats?.totalOrders || '0'}
-          totalUnits={orderStats?.sevenDayStats?.totalUnits || 'Nil'}
-          totalSale={orderStats?.sevenDayStats?.totalSales || 'Nil'}
+          totalOrders={
+            orderStats?.sevenDayStats?.totalOrders !== undefined
+              ? orderStats.sevenDayStats.totalOrders
+              : '0'
+          }
+          totalUnits={
+            orderStats?.sevenDayStats?.totalUnits !== undefined
+              ? orderStats.sevenDayStats.totalUnits
+              : '0'
+          }
+          totalSale={
+            orderStats?.sevenDayStats?.totalSales !== undefined
+              ? orderStats.sevenDayStats.totalSales.toFixed(2)
+              : '0'
+          }
         />
+
         <DashboardCart
           cartText="30 Days"
-          totalOrders={orderStats?.thirtyDayStats?.totalOrders || '0'}
-          totalUnits={orderStats?.thirtyDayStats?.totalUnits || '0'}
-          totalSale={orderStats?.thirtyDayStats?.totalSales || '0'}
+          totalOrders={
+            orderStats?.thirtyDayStats?.totalOrders !== undefined
+              ? orderStats.thirtyDayStats.totalOrders
+              : '0'
+          }
+          totalUnits={
+            orderStats?.thirtyDayStats?.totalUnits !== undefined
+              ? orderStats.thirtyDayStats.totalUnits
+              : '0'
+          }
+          totalSale={
+            orderStats?.thirtyDayStats?.totalSales !== undefined
+              ? orderStats.thirtyDayStats.totalSales.toFixed(2)
+              : '0'
+          }
         />
       </div>
       <div>

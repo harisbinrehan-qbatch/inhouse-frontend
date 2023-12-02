@@ -59,21 +59,15 @@ const UserOrderDetailsCanvas = ({ orderData }) => {
       <div className="d-flex offcanvas-body">
         <Offcanvas.Body>
           <div>
-            <Table>
+            <Table bordered hover responsive>
               <thead>
                 <tr className="table-secondary mt-3">
                   <th>Image</th>
-                  <th>
-                    Name
-                  </th>
+                  <th>Name</th>
                   <th>Size</th>
                   <th>Color</th>
-                  <th>
-                    Price
-                  </th>
-                  <th>
-                    Quantity
-                  </th>
+                  <th>Price</th>
+                  <th>Quantity</th>
                 </tr>
               </thead>
               <tbody>

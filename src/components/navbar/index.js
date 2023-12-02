@@ -24,7 +24,7 @@ import {
   setOrderSuccess,
   setPaymentDetailsNull,
 } from '../../redux/slices/cart';
-import { getNotifications, readNotification } from '../../redux/slices/order';
+import { getNotifications, readNotification, setPageOne } from '../../redux/slices/order';
 
 import './style.css';
 
@@ -62,6 +62,7 @@ function CustomNavbar() {
   };
 
   const handleLogout = () => {
+    dispatch(setPageOne());
     dispatch(logout());
     dispatch(setCartSummaryNull());
     dispatch(setPaymentDetailsNull());

@@ -11,7 +11,7 @@ const CustomForm = (props) => {
     value,
     onChange,
     style,
-    // onKeyDown,
+    disabled,
   } = props;
 
   return (
@@ -24,7 +24,7 @@ const CustomForm = (props) => {
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            // onKeyDown={onKeyDown}
+            disabled={disabled}
           />
           <Form.Text className="d-flex ps-1 pt-1" style={{ color: 'rgba(220, 53, 69, 1)' }}>
             {hint}

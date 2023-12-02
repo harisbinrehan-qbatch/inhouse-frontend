@@ -15,21 +15,15 @@ const TopSelling = () => {
         </div>
 
         <div>
-          <Table>
+          <Table bordered hover responsive>
             <thead>
               <tr className="table-secondary mt-3">
                 <th>Image</th>
-                <th>
-                  Name
-                </th>
+                <th>Name</th>
                 <th>Stock</th>
                 <th>Units</th>
-                <th>
-                  Amount
-                </th>
-                <th>
-                  Date
-                </th>
+                <th>Amount</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody>

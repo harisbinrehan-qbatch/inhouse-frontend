@@ -10,12 +10,10 @@ import CustomForm from '../input';
 import CustomBtn from '../button';
 
 const EditPaymentCanvas = ({ show, setShow }) => {
-  const { paymentDetails, paymentDetailsStatus, selectedCardIndex } = useSelector((state) => state.cart);
+  const { paymentDetails, selectedCardIndex, paymentDetailsStatus } = useSelector((state) => state.cart);
 
-  const [isCardNumberValid, setIsCardNumberValid] = useState(true);
   const [isMonthValid, setIsMonthValid] = useState(true);
   const [isYearValid, setIsYearValid] = useState(true);
-  const [cardNumberSuggestions, setCardNumberSuggestions] = useState([]);
   const [monthSuggestions, setMonthSuggestions] = useState([]);
   const [yearSuggestions, setYearSuggestions] = useState([]);
   const user = JSON.parse(localStorage.getItem('user'));
@@ -26,23 +24,12 @@ const EditPaymentCanvas = ({ show, setShow }) => {
 
   const [cardholderName, setCardholderName] = useState(user?.username || '');
 
-  const [number, setNumber] = useState('');
   const [exp_month, setExpiryMonth] = useState(
     paymentDetails[selectedCardIndex].exp_month,
   );
   const [exp_year, setExpiryYear] = useState(
     paymentDetails[selectedCardIndex].exp_year % 100,
   );
-
-  const validateCardNumber = (inputCardNumber) => {
-    const isValidLength = inputCardNumber.length === 16;
-    setIsCardNumberValid(isValidLength);
-
-    const localCardNumberSuggestions = isValidLength
-      ? []
-      : ['Card number should be 16 digits.'];
-    setCardNumberSuggestions(localCardNumberSuggestions);
-  };
 
   const validateMonth = (inputMonth) => {
     const isValidMonth = inputMonth >= 1 && inputMonth <= 12;
@@ -55,12 +42,12 @@ const EditPaymentCanvas = ({ show, setShow }) => {
   };
 
   const validateYear = (inputYear) => {
-    const isValidYear = inputYear >= 23 && inputYear <= 99;
+    const isValidYear = inputYear >= 23 && inputYear <= 73;
     setIsYearValid(isValidYear);
 
     const localYearSuggestions = isValidYear
       ? []
-      : ['Year should be between 23 and 99.'];
+      : ['Year should be between 23 and 73.'];
     setYearSuggestions(localYearSuggestions);
   };
 
@@ -69,9 +56,10 @@ const EditPaymentCanvas = ({ show, setShow }) => {
   };
 
   const handleEditPaymentDetails = () => {
+    const cardStripeId = paymentDetails[selectedCardIndex].cardId;
+    const userStripeId = user.stripeId;
+
     const paymentDetailsUpdated = {
-      cardholderName,
-      number,
       exp_month,
       exp_year,
     };
@@ -79,7 +67,8 @@ const EditPaymentCanvas = ({ show, setShow }) => {
     if (user) {
       dispatch(
         editPaymentDetails({
-          userId: user.userId,
+          cardStripeId,
+          userStripeId,
           paymentDetails: paymentDetailsUpdated,
         }),
       );
@@ -118,22 +107,6 @@ const EditPaymentCanvas = ({ show, setShow }) => {
         <div className="d-flex offcanvas-body">
           <Offcanvas.Body>
             <div className="container pt-2">
-              <div>
-                <CustomForm
-                  label="Card Number"
-                  placeholder="Enter card number again"
-                  value={number}
-                  onChange={(e) => {
-                    validateCardNumber(e.target.value);
-                    setNumber(e.target.value);
-                  }}
-                  hint={(
-                    <span className={isCardNumberValid ? 'success-hint' : ''}>
-                      {cardNumberSuggestions.join(' ')}
-                    </span>
-                  )}
-                />
-              </div>
               <div className="d-flex justify-content-between pt-4">
                 <div>
                   <CustomForm
@@ -155,7 +128,6 @@ const EditPaymentCanvas = ({ show, setShow }) => {
                     )}
                   />
                 </div>
-
                 <div>
                   <CustomForm
                     label="Expiry Year"
@@ -179,17 +151,19 @@ const EditPaymentCanvas = ({ show, setShow }) => {
               </div>
               <div className="pt-4">
                 <CustomForm
+                  disabled
                   label="Cardholder Name"
                   placeholder="Cardholder Name"
                   value={cardholderName}
                   onChange={(e) => setCardholderName(e.target.value)}
                 />
+
               </div>
               <div className="mt-5">
                 <CustomBtn
                   btnText="Update"
                   onClick={handleEditPaymentDetails}
-                  disabled={!isCardNumberValid || !isMonthValid || !isYearValid}
+                  disabled={!isMonthValid || !isYearValid}
                 />
               </div>
             </div>

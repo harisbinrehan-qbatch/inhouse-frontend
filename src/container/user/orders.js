@@ -9,7 +9,10 @@ import arrowLeft from '../../assets/images/Arrow left.svg';
 import sideArrow from '../../assets/images/Arrow up right.svg';
 import { setUserOrderDetailsShow } from '../../redux/slices/cart';
 import UserOrderDetailsCanvas from '../../components/user-order-details';
-import { fetchUserOrders } from '../../redux/slices/order';
+import {
+  decrementPage, fetchUserOrders, incrementPage, setAnyPage, setLimit, setPageOne,
+} from '../../redux/slices/order';
+import OrdersPaginationComponent from '../../components/orders-paginantion';
 
 const UserOrders = () => {
   const location = useLocation();
@@ -20,9 +23,11 @@ const UserOrders = () => {
 
   const userId = searchParams.get('userId');
 
-  const { orders } = useSelector((state) => state.order);
-
   const { userOrderDetailsShow } = useSelector((state) => state.cart);
+
+  const {
+    page, limit, totalCount, orders,
+  } = useSelector((state) => state.order);
 
   const dispatch = useDispatch();
 
@@ -31,13 +36,21 @@ const UserOrders = () => {
     dispatch(setUserOrderDetailsShow());
   };
 
+  const handleSetPageOne = () => {
+    dispatch(setPageOne());
+  };
+
+  const PageChangeFunction = (newPage) => {
+    dispatch(setAnyPage(newPage));
+  };
+
   useEffect(() => {
     dispatch(fetchUserOrders(userId));
 
     if (userOrderDetailsShow) {
       dispatch(setUserOrderDetailsShow());
     }
-  }, []);
+  }, [page, limit]);
 
   return orders.length === 0 ? (
     <Empty description="No orders found" style={{ marginTop: '250px' }} />
@@ -50,7 +63,7 @@ const UserOrders = () => {
         <h2 className="d-flex ps-3 pt-1">Orders</h2>
       </div>
       <div className="container">
-        <Table>
+        <Table bordered hover responsive>
           <thead>
             <tr className="table-secondary mt-3">
               <th>Date</th>
@@ -64,7 +77,7 @@ const UserOrders = () => {
           </thead>
 
           <tbody>
-            {orders.map((order) => (
+            {orders?.map((order) => (
               <tr key={order._id}>
                 <td className="pt-2">
                   {new Date(order.date).toLocaleString('en-US', {
@@ -104,6 +117,20 @@ const UserOrders = () => {
             )}
           </tbody>
         </Table>
+        <div className="d-flex justify-content-end pe-3">
+          <OrdersPaginationComponent
+            page={page}
+            limit={limit}
+            totalCount={totalCount}
+            onNextPage={() => dispatch(incrementPage())}
+            onPrevPage={() => dispatch(decrementPage())}
+            onPageChange={PageChangeFunction}
+            onLimitChange={(newLimit) => {
+              dispatch(setLimit(newLimit));
+              handleSetPageOne();
+            }}
+          />
+        </div>
       </div>
     </div>
   );

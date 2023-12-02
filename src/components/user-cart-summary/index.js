@@ -58,19 +58,19 @@ function UserCartSummary() {
         <div className="p-3">
           <h3 className="heading">Order Summary</h3>
           <h5 className="pt-3">
-            <b style={{ color: 'black' }}>Sub Total:</b>
+            <b>Sub Total:</b>
             {' '}
             $
             {orderSummary?.subTotal?.toFixed(2) || '0'}
           </h5>
           <h5 className="pt-3">
-            <b style={{ color: 'black' }}>Tax:</b>
+            <b>Tax:</b>
             {' '}
             $
             {orderSummary?.tax?.toFixed(2) || '0'}
           </h5>
           <h5 className="pt-3">
-            <b style={{ color: 'black' }}>Total:</b>
+            <b>Total:</b>
             {' '}
             $
             {orderSummary?.total?.toFixed(2) || '0'}

@@ -39,6 +39,7 @@ const ChangeAddressCanvas = ({ header }) => {
           <img
             src={arrowLeft}
             alt="Arrow Left"
+            style={{ cursor: 'pointer' }}
             className="img-large ps-2 pt-3"
             onClick={handleClose}
           />

@@ -1,12 +1,11 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import { Table } from 'react-bootstrap';
 
 import { Empty } from 'antd';
-import Arrow from '../../assets/images/Arrow-up-down.svg';
 import Pencil from '../../assets/images/Pencil-square.svg';
 import ProductsPaginationComponent from '../../components/products-pagination';
 import Trash from '../../assets/images/Trash.svg';
@@ -52,13 +51,18 @@ const Products = () => {
   const [currentProductId, setCurrentProductId] = useState();
   const [importBulkErrorsShow, setImportBulkErrorsShow] = useState(false);
   const [importBulkDiv, setImportBulkDiv] = useState(false);
+  const [fileName, setFileName] = useState('');
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const [modalShow, setModalShow] = useState(false);
+
+  const [bulkProducts, setBulkProducts] = useState([]);
   const {
     page, editSuccess, deleteSuccess, addSuccess, limit, totalCount,
   } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
+
+  const fileInputRef = useRef(null);
 
   const handleAddProductClick = () => {
     dispatch(setShow());
@@ -87,6 +91,13 @@ const Products = () => {
 
   const handleCloseBulk = () => {
     setImportBulkDiv(false);
+
+    setFileName('');
+    setBulkProducts([]);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const PageChangeFunction = (newPage) => {
@@ -95,7 +106,7 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(fetchAdminProducts());
-  }, [page, addSuccess, editSuccess, deleteSuccess]);
+  }, [page, limit, addSuccess, editSuccess, deleteSuccess]);
 
   const handleSearch = debounce((e) => {
     handleSetPageOne();
@@ -109,6 +120,7 @@ const Products = () => {
         <ImportBulk
           setShow={setImportBulkErrorsShow}
           handleCloseBulk={handleCloseBulk}
+          fileName={fileName}
         />
       ) : null}
 
@@ -144,24 +156,15 @@ const Products = () => {
           {products.length !== 0 ? (
             <>
               <div className="product-table-wrapper">
-                <Table>
+                <Table bordered hover responsive>
                   <thead>
                     <tr className="table-secondary mt-3">
                       <th>Image</th>
-                      <th>
-                        Name
-                        <img src={Arrow} alt="Arrow Icon" className="ps-2" />
-                      </th>
+                      <th>Name</th>
                       <th>Size</th>
                       <th>Color</th>
-                      <th>
-                        Price
-                        <img src={Arrow} alt="Arrow Icon" className="ps-1" />
-                      </th>
-                      <th>
-                        Quantity
-                        <img src={Arrow} alt="Arrow Icon" className="ps-1" />
-                      </th>
+                      <th>Price</th>
+                      <th>Quantity</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -240,6 +243,10 @@ const Products = () => {
         show={modalShow}
         setShow={setModalShow}
         setImportBulkDiv={setImportBulkDiv}
+        fileName={fileName}
+        setFileName={setFileName}
+        bulkProducts={bulkProducts}
+        setBulkProducts={setBulkProducts}
       />
       {updateCanvasShow && (
         <AddProductCustomCanvas

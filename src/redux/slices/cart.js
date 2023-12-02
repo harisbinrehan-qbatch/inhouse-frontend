@@ -448,16 +448,20 @@ const cartSlice = createSlice({
 
       .addCase(getPaymentDetails.fulfilled, (state, action) => {
         state.paymentDetails = action.payload.allPaymentMethods;
+        state.paymentDetailsStatus = false;
       })
       .addCase(getPaymentDetails.pending, () => {})
       .addCase(getPaymentDetails.rejected, () => {})
 
       .addCase(editPaymentDetails.fulfilled, (state) => {
+        message.success('Payment deatils are successfully', 2);
         state.paymentDetailsStatus = true;
       })
-      .addCase(editPaymentDetails.pending, () => {})
+      .addCase(editPaymentDetails.pending, () => {
+      })
       .addCase(editPaymentDetails.rejected, (state) => {
         state.paymentDetailsStatus = false;
+        message.error('Error updating payment details', 2);
       })
 
       .addCase(deletePaymentDetails.fulfilled, (state) => {
@@ -469,7 +473,6 @@ const cartSlice = createSlice({
       .addCase(deletePaymentDetails.pending, () => {})
       .addCase(deletePaymentDetails.rejected, (state) => {
         state.paymentDetailsStatus = false;
-
         message.error('Error deleting card', 2);
       });
   },

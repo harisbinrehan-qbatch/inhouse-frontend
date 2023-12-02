@@ -14,7 +14,6 @@ export const fetchAllOrders = createAsyncThunk(
       }&limit=${limit}`;
 
       if (orderId) {
-        // Use & instead of ?
         url += `&orderId=${orderId}`;
       }
 
@@ -36,9 +35,12 @@ export const fetchUserOrders = createAsyncThunk(
   async (userId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
+      const { limit, page } = state.order;
 
       const response = await axios.get(
-        `http://localhost:5000/v1/orders/getUserOrders?userId=${userId}`,
+        `http://localhost:5000/v1/orders/getUserOrders?userId=${userId}&skip=${
+          (page - 1) * limit
+        }&limit=${limit}`,
         {
           headers: {
             Authorization: `Bearer ${state.authentication.user.token}`,
@@ -243,7 +245,9 @@ const ordersSlice = createSlice({
       })
 
       .addCase(fetchUserOrders.fulfilled, (state, action) => {
-        state.orders = action.payload || [];
+        console.log('++++++++++', action.payload);
+        state.orders = action.payload.orders || [];
+        state.totalCount = action.payload.totalCount;
         state.error = false;
       })
       .addCase(fetchUserOrders.pending, (state) => {

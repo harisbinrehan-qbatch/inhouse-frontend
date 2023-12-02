@@ -1,12 +1,17 @@
+import { useSelector } from 'react-redux';
 import CustomProgressBar from '../progress-bar';
 
 import CustomBtn from '../button';
 import Cross from '../../assets/images/close.svg';
 
-const ImportBulk = ({ setShow, handleCloseBulk }) => {
+const ImportBulk = ({
+  setShow, handleCloseBulk, fileName,
+}) => {
+  const { bulkUploadResult } = useSelector((state) => state.products);
   const handleViewErrors = () => {
     setShow(true);
   };
+  console.log(bulkUploadResult.failedUploads);
   return (
     <div className="container import-bulk-div">
       <div className="d-flex justify-content-between">
@@ -24,18 +29,27 @@ const ImportBulk = ({ setShow, handleCloseBulk }) => {
         <div>
           <p>File Name:</p>
           <p style={{ color: 'grey' }} className="d-flex mb-3">
-            Bulk-July.CSV
+            {fileName}
           </p>
         </div>
         <div>
           <div className="d-flex">
             <p>File Status: </p>
-            <b style={{ color: 'grey' }} className="d-flex mb-3 ms-2">
-              In-Progress
-            </b>
+            {Object.keys(bulkUploadResult).length === 0 ? (
+              <b style={{ color: 'red' }} className="d-flex mb-3 ms-2">
+                Failed
+              </b>
+            ) : (
+              <b style={{ color: 'green' }} className="d-flex mb-3 ms-2">
+                Completed
+              </b>
+            )}
           </div>
           <div className="mt-1">
-            <CustomProgressBar />
+            <CustomProgressBar
+              successfulUploads={bulkUploadResult.successfulUploads}
+              failedUploads={bulkUploadResult.failedUploads}
+            />
           </div>
         </div>
 
@@ -45,7 +59,8 @@ const ImportBulk = ({ setShow, handleCloseBulk }) => {
             style={{ color: 'blue' }}
             className="d-flex mb-3 justify-content-center"
           >
-            452
+            {(bulkUploadResult?.successfulUploads ?? 0)
+              + (bulkUploadResult?.failedUploads ?? 0)}
           </b>
         </div>
         <div>
@@ -54,7 +69,7 @@ const ImportBulk = ({ setShow, handleCloseBulk }) => {
             style={{ color: 'green' }}
             className="d-flex mb-3 justify-content-center"
           >
-            410
+            {bulkUploadResult?.successfulUploads || 0}
           </b>
         </div>
         <div>
@@ -63,7 +78,7 @@ const ImportBulk = ({ setShow, handleCloseBulk }) => {
             style={{ color: 'red' }}
             className="d-flex mb-3 justify-content-center"
           >
-            42
+            {bulkUploadResult?.failedUploads || 0}
           </b>
         </div>
 

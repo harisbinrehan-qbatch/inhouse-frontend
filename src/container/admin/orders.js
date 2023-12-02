@@ -96,7 +96,7 @@ const Orders = () => {
           {orders.length !== 0 ? (
             <>
               <div className="product-table-orders">
-                <Table>
+                <Table bordered hover responsive>
                   <thead>
                     <tr className="table-secondary mt-3">
                       <th>Date</th>

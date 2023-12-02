@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 
@@ -11,6 +12,7 @@ import './style.css';
 
 const Signup = ({ header }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -31,7 +33,11 @@ const Signup = ({ header }) => {
       email,
       mobile,
     };
-    dispatch(signUpUser(body));
+
+    dispatch(signUpUser(body))
+      .then(() => {
+        navigate('/auth/login');
+      });
   };
 
   const validateEmail = (inputEmail) => {

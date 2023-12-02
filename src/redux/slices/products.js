@@ -94,6 +94,28 @@ export const addProduct = createAsyncThunk(
     }
   },
 );
+export const addBulkProducts = createAsyncThunk(
+  'products/addBulkProducts',
+  async (requestData, { getState, rejectWithValue }) => {
+    const state = getState();
+    try {
+      console.log('reasdaskd', requestData);
+      const response = await axios.post(
+        'http://localhost:5000/v1/products/addBulkProducts',
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: error.response.data });
+    }
+  },
+);
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (_id, { getState, rejectWithValue }) => {
@@ -144,6 +166,7 @@ const productsSlice = createSlice({
     updateCanvasShow: false,
     isFilter: false,
     data: [],
+    bulkUploadResult: {},
     page: 1,
     limit: 5,
     totalCount: 0,
@@ -283,6 +306,14 @@ const productsSlice = createSlice({
         state.productMessage = action.payload.message || 'Error Updating product';
         state.editSuccess = false;
         message.error(state.productMessage, 2);
+      })
+
+      .addCase(addBulkProducts.fulfilled, (state, action) => {
+        state.bulkUploadResult = action.payload.bulkUploadResult;
+      })
+      .addCase(addBulkProducts.pending, () => {})
+      .addCase(addBulkProducts.rejected, (state) => {
+        state.bulkUploadResult = {};
       });
   },
 });

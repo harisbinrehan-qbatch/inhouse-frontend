@@ -109,7 +109,7 @@ function OrderDetails() {
             <p>__________________________________________________________</p>
           </div>
           <div>
-            <Table>
+            <Table bordered hover responsive>
               <thead>
                 <tr className="table-secondary mt-3">
                   <th>Image</th>

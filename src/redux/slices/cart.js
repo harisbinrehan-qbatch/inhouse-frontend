@@ -437,7 +437,7 @@ const cartSlice = createSlice({
         state.selectedCardIndex = 0;
       })
       .addCase(savePaymentDetails.pending, (state) => {
-        message.success('Saving Payment Details...', 2);
+        message.success('Saving Payment Details...', 1);
         state.paymentDetailsStatus = true;
       })
       .addCase(savePaymentDetails.rejected, (state) => {
@@ -454,7 +454,7 @@ const cartSlice = createSlice({
       .addCase(getPaymentDetails.rejected, () => {})
 
       .addCase(editPaymentDetails.fulfilled, (state) => {
-        message.success('Payment deatils are successfully', 2);
+        message.success('Payment details are edited successfully', 2);
         state.paymentDetailsStatus = true;
       })
       .addCase(editPaymentDetails.pending, () => {

@@ -20,8 +20,6 @@ const EditPaymentCanvas = ({ show, setShow }) => {
 
   const dispatch = useDispatch();
 
-  console.log({ paymentDetails });
-
   const [cardholderName, setCardholderName] = useState(user?.username || '');
 
   const [exp_month, setExpiryMonth] = useState(

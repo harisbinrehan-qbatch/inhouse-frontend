@@ -99,7 +99,6 @@ export const addBulkProducts = createAsyncThunk(
   async (requestData, { getState, rejectWithValue }) => {
     const state = getState();
     try {
-      console.log('reasdaskd', requestData);
       const response = await axios.post(
         'http://localhost:5000/v1/products/addBulkProducts',
         requestData,
@@ -167,6 +166,7 @@ const productsSlice = createSlice({
     isFilter: false,
     data: [],
     bulkUploadResult: {},
+    importBulkSuccess: false,
     page: 1,
     limit: 5,
     totalCount: 0,
@@ -245,6 +245,7 @@ const productsSlice = createSlice({
         state.totalCount = action.payload.totalCount;
         state.isProductError = false;
         state.loading = false;
+        state.importBulkSuccess = false;
       })
       .addCase(fetchAdminProducts.pending, (state) => {
         state.isProductError = false;
@@ -309,10 +310,12 @@ const productsSlice = createSlice({
       })
 
       .addCase(addBulkProducts.fulfilled, (state, action) => {
+        state.importBulkSuccess = true;
         state.bulkUploadResult = action.payload.bulkUploadResult;
       })
       .addCase(addBulkProducts.pending, () => {})
       .addCase(addBulkProducts.rejected, (state) => {
+        state.importBulkSuccess = false;
         state.bulkUploadResult = {};
       });
   },

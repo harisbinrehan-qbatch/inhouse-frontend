@@ -35,7 +35,6 @@ const CustomModal = ({
   };
 
   const handleSave = () => {
-    console.log({ bulkProducts });
     dispatch(addBulkProducts({ bulkProducts }));
     setImportBulkDiv(true);
     handleClose();

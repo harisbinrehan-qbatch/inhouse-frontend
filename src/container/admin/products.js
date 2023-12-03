@@ -57,7 +57,7 @@ const Products = () => {
 
   const [bulkProducts, setBulkProducts] = useState([]);
   const {
-    page, editSuccess, deleteSuccess, addSuccess, limit, totalCount,
+    page, editSuccess, importBulkSuccess, deleteSuccess, addSuccess, limit, totalCount,
   } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
@@ -106,7 +106,7 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(fetchAdminProducts());
-  }, [page, limit, addSuccess, editSuccess, deleteSuccess]);
+  }, [page, limit, addSuccess, editSuccess, deleteSuccess, importBulkSuccess]);
 
   const handleSearch = debounce((e) => {
     handleSetPageOne();

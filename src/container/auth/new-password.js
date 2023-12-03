@@ -69,7 +69,7 @@ const NewPassword = ({ header }) => {
         newPassword: password,
       };
       dispatch(resetPassword(body)).then(() => {
-        navigate('/auth/forgotPassword');
+        navigate('/auth/login');
       });
     } else {
       message.error(

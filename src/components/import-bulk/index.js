@@ -11,7 +11,7 @@ const ImportBulk = ({
   const handleViewErrors = () => {
     setShow(true);
   };
-  console.log(bulkUploadResult.failedUploads);
+
   return (
     <div className="container import-bulk-div">
       <div className="d-flex justify-content-between">

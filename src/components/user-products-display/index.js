@@ -46,13 +46,11 @@ const UserProductsDisplay = ({ product }) => {
       <div className="m-4 ms-3 p-4 user-products-display-main-div">
         <h4 className="ps-3 heading">Product Information:</h4>
         <div className="d-flex">
-          <div className="user-products-display-image">
-            <img
-              className="mt-5 ms-4 ps-2"
-              src={`http://localhost:5000/${product.images[0]}`}
-              alt="product"
-            />
-          </div>
+          <img
+            className="user-products-display-image mt-5 ms-4 ps-2"
+            src={`http://localhost:5000/${product.images[0]}`}
+            alt="product"
+          />
 
           <div className="mt-4 ms-4 pt-3">
             <div className="p-3">

@@ -6,8 +6,6 @@ export const verifyUser = createAsyncThunk(
   'auth/verifyUser',
   async (body, { rejectWithValue }) => {
     try {
-      console.log('in createAsyncThunk', body);
-
       const response = await axios.post(
         'http://localhost:5000/v1/auth/verifyUser',
         body,
@@ -116,6 +114,7 @@ const authSlice = createSlice({
       state.isAdmin = false;
       state.isUser = false;
       state.loginError = true;
+      message.success('Logout Successful', 2);
     },
   },
 
@@ -164,7 +163,6 @@ const authSlice = createSlice({
       })
 
       .addCase(resetPassword.fulfilled, (state, action) => {
-        console.log('in fulfilled', action.payload);
         state.resetPasswordError = false;
         state.resetPasswordMessage = action.payload.message || 'Password reset successful';
         if (state.resetPasswordMessage === 'Invalid or expired token') {
@@ -178,19 +176,18 @@ const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.resetPasswordError = true;
-        console.log('in rejected', action.payload);
         state.resetPasswordMessage = action.payload.message || 'Password reset failed';
         message.error(state.resetPasswordMessage, 2);
       })
 
-      .addCase(verifyUser.fulfilled, (state) => {
+      .addCase(verifyUser.fulfilled, (state, action) => {
         state.isVerifiedUser = true;
-        message.success('User created successfully', 2);
+        message.success(action.payload.message, 2);
       })
       .addCase(verifyUser.pending, () => {})
-      .addCase(verifyUser.rejected, (state) => {
+      .addCase(verifyUser.rejected, (state, action) => {
         state.isVerifiedUser = false;
-        message.error('Error Verifying User', 2);
+        message.error(action.payload.message, 2);
       });
   },
 });

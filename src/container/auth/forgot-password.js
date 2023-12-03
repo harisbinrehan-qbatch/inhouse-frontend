@@ -1,22 +1,23 @@
-// import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
-import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch
+import { useDispatch, useSelector } from 'react-redux';
+import { message } from 'antd';
+import { sendEmail } from '../../redux/slices/authentication';
 
 import CustomBtn from '../../components/button';
 import CustomLink from '../../components/link';
 import CustomForm from '../../components/input';
-import { sendEmail } from '../../redux/slices/authentication';
 
 import './style.css';
 
 const ForgotPassword = ({ header }) => {
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.authentication);
+
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailSuggestions, setEmailSuggestions] = useState([]);
   const [email, setEmail] = useState('');
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
 
   const validateEmail = (inputEmail) => {
     if (isEmpty(inputEmail)) {
@@ -36,8 +37,16 @@ const ForgotPassword = ({ header }) => {
     }
   };
 
-  const handleForgotPassword = () => {
-    dispatch(sendEmail({ email, token: user.token }));
+  const handleForgotPassword = async () => {
+    setIsSendingEmail(true);
+    try {
+      await dispatch(sendEmail({ email, token: user.token }));
+      window.location.href = 'https://mail.google.com/mail';
+    } catch (error) {
+      message.error('Error sending email. Please try again.');
+    } finally {
+      setIsSendingEmail(false);
+    }
   };
 
   return (
@@ -65,10 +74,10 @@ const ForgotPassword = ({ header }) => {
         </div>
         <div className="login-fields">
           <CustomBtn
-            btnText="Forgot Password"
+            btnText={isSendingEmail ? 'Sending Email' : 'Forgot Password'}
             size="default"
             className="w-100"
-            disabled={!isEmailValid}
+            disabled={!isEmailValid || isSendingEmail}
             onClick={handleForgotPassword}
           />
         </div>

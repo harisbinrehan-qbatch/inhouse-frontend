@@ -143,17 +143,22 @@ const authSlice = createSlice({
       })
 
       .addCase(resetPassword.fulfilled, (state, action) => {
+        console.log('in fulfilled', action.payload);
         state.resetPasswordError = false;
         state.resetPasswordMessage = action.payload.message || 'Password reset successful';
-
-        message.success(state.resetPasswordMessage, 2);
+        if (state.resetPasswordMessage === 'Invalid or expired token') {
+          message.warning(state.resetPasswordMessage, 2);
+        } else {
+          message.success(state.resetPasswordMessage, 2);
+        }
       })
       .addCase(resetPassword.pending, (state) => {
         state.resetPasswordError = false;
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.resetPasswordError = true;
-        state.resetPasswordMessage = action.payload.error || 'Password reset failed';
+        console.log('in rejected', action.payload);
+        state.resetPasswordMessage = action.payload.message || 'Password reset failed';
         message.error(state.resetPasswordMessage, 2);
       });
   },

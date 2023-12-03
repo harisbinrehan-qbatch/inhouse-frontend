@@ -10,6 +10,7 @@ import ForgotPassword from '../container/auth/forgot-password';
 import NewPassword from '../container/auth/new-password';
 
 import MainPageLayout from '../layouts/main-page';
+import VerifyUser from '../container/auth/verify-user';
 
 const AuthRoutes = () => {
   const { loginError } = useSelector((state) => state.authentication);
@@ -37,6 +38,10 @@ const AuthRoutes = () => {
         <Route
           path="/forgotPassword"
           element={<ForgotPassword header="Forgot Password" />}
+        />
+        <Route
+          path="/verifyUser"
+          element={<VerifyUser />}
         />
         <Route
           path="*"

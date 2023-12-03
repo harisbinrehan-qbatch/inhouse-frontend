@@ -2,9 +2,34 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import axios from 'axios';
 
+export const verifyUser = createAsyncThunk(
+  'auth/verifyUser',
+  async (body, { rejectWithValue }) => {
+    try {
+      console.log('in createAsyncThunk', body);
+
+      const response = await axios.post(
+        'http://localhost:5000/v1/auth/verifyUser',
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${body.token}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({
+        error: error.response.data.error,
+      });
+    }
+  },
+);
+
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
-  async (body, thunkApi) => {
+  async (body, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         'http://localhost:5000/v1/auth/resetPassword',
@@ -18,7 +43,7 @@ export const resetPassword = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue({
+      return rejectWithValue({
         error: error.response.data.error,
       });
     }
@@ -81,6 +106,7 @@ const authSlice = createSlice({
     user: {},
     isAdmin: false,
     isUser: false,
+    isVerifiedUser: false,
     token: '',
   },
   reducers: {
@@ -95,11 +121,8 @@ const authSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(signUpUser.fulfilled, (state, action) => {
+      .addCase(signUpUser.fulfilled, (state) => {
         state.signUpError = false;
-        state.signUpMessage = action.payload.message || 'Signup Successful';
-
-        message.success(state.signUpMessage, 2);
       })
       .addCase(signUpUser.pending, (state) => {
         state.signUpError = false;
@@ -125,8 +148,7 @@ const authSlice = createSlice({
         state.loginMessage = action.payload.message || 'Login Successful';
         message.success('Login Successful', 2);
       })
-      .addCase(loginUser.pending, () => {
-      })
+      .addCase(loginUser.pending, () => {})
       .addCase(loginUser.rejected, (state, action) => {
         state.loginError = true;
         state.loginMessage = action.payload?.message || 'Login failed';
@@ -136,8 +158,7 @@ const authSlice = createSlice({
       .addCase(sendEmail.fulfilled, (state, action) => {
         message.success(action.payload.message || 'Email sent successfully', 2);
       })
-      .addCase(sendEmail.pending, () => {
-      })
+      .addCase(sendEmail.pending, () => {})
       .addCase(sendEmail.rejected, (state, action) => {
         message.error(action.payload.message || 'Error Sending Email', 2);
       })
@@ -160,6 +181,16 @@ const authSlice = createSlice({
         console.log('in rejected', action.payload);
         state.resetPasswordMessage = action.payload.message || 'Password reset failed';
         message.error(state.resetPasswordMessage, 2);
+      })
+
+      .addCase(verifyUser.fulfilled, (state) => {
+        state.isVerifiedUser = true;
+        message.success('User created successfully', 2);
+      })
+      .addCase(verifyUser.pending, () => {})
+      .addCase(verifyUser.rejected, (state) => {
+        state.isVerifiedUser = false;
+        message.error('Error Verifying User', 2);
       });
   },
 });

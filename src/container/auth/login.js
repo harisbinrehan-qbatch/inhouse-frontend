@@ -6,6 +6,7 @@ import { loginUser } from '../../redux/slices/authentication';
 import CustomLink from '../../components/link';
 import CustomBtn from '../../components/button';
 import CustomForm from '../../components/input';
+import { setCartSummaryNull, setPaymentDetailsNull } from '../../redux/slices/cart';
 
 import './style.css';
 
@@ -19,6 +20,8 @@ const Login = ({ header }) => {
   const handleLogin = async () => {
     if (isEmailValid && email && password) {
       const body = { email, password };
+      dispatch(setCartSummaryNull());
+      dispatch(setPaymentDetailsNull());
       dispatch(loginUser(body));
     }
   };

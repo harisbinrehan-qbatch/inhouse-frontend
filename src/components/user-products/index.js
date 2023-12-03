@@ -124,11 +124,19 @@ const UserProducts = () => {
               </div>
             ))}
             <div>
-              <b style={{ color: 'grey' }}>
-                {totalCount}
-                {' '}
-                items found in Clothing & Accessories
-              </b>
+              {products.length === totalCount ? (
+                <b style={{ color: 'grey' }}>No more products found</b>
+              ) : (
+                <b style={{ color: 'grey' }}>
+                  {totalCount}
+                  {' '}
+                  items found in Clothing & Accessories
+                  {' '}
+                  {totalCount - products.length}
+                  {' '}
+                  remaining
+                </b>
+              )}
             </div>
 
             <div

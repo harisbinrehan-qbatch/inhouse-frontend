@@ -245,7 +245,6 @@ const ordersSlice = createSlice({
       })
 
       .addCase(fetchUserOrders.fulfilled, (state, action) => {
-        console.log('++++++++++', action.payload);
         state.orders = action.payload.orders || [];
         state.totalCount = action.payload.totalCount;
         state.error = false;

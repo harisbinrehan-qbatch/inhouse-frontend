@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
+import { message } from 'antd';
 import { useDispatch } from 'react-redux';
 
 import CustomForm from '../../components/input';
@@ -12,7 +12,6 @@ import './style.css';
 
 const Signup = ({ header }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -25,8 +24,10 @@ const Signup = ({ header }) => {
   const [mobileSuggestions, setMobileSuggestions] = useState([]);
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [usernameSuggestions, setUsernameSuggestions] = useState([]);
+  const [isCreatingUser, setIsCreatingUser] = useState(false);
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
+    setIsCreatingUser(true);
     const body = {
       username,
       password,
@@ -34,10 +35,14 @@ const Signup = ({ header }) => {
       mobile,
     };
 
-    dispatch(signUpUser(body))
-      .then(() => {
-        navigate('/auth/login');
-      });
+    try {
+      await dispatch(signUpUser(body));
+      window.location.href = 'https://mail.google.com/mail';
+    } catch (error) {
+      message.error('Error creating user. Please try again.');
+    } finally {
+      setIsCreatingUser(false);
+    }
   };
 
   const validateEmail = (inputEmail) => {
@@ -195,7 +200,7 @@ const Signup = ({ header }) => {
         </div>
         <div className="login-fields">
           <CustomBtn
-            btnText="Signup"
+            btnText={isCreatingUser ? 'Creating User' : 'Signup'}
             size="default"
             className="w-100"
             disabled={
@@ -203,6 +208,7 @@ const Signup = ({ header }) => {
               || !isPasswordValid
               || !isEmailValid
               || !isMobileValid
+              || isCreatingUser
             }
             onClick={handleSignUp}
           />

@@ -135,7 +135,12 @@ export const updateProduct = createAsyncThunk(
       const response = await axios.put(
         'http://localhost:5000/v1/products/updateProduct',
         body,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.user.token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -244,9 +249,9 @@ const productsSlice = createSlice({
         state.loading = false;
       })
 
-      .addCase(addProduct.fulfilled, (state, action) => {
+      .addCase(addProduct.fulfilled, (state) => {
         state.addSuccess = true;
-        state.productMessage = action.payload.message || 'Product added Successfully';
+        state.productMessage = 'Product added Successfully';
         notification.success({
           description: state.productMessage,
           type: 'success',
@@ -282,9 +287,8 @@ const productsSlice = createSlice({
 
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.data = action.payload.products;
-        state.productMessage = action.payload.message || 'Product updated Successfully';
         state.editSuccess = true;
-        message.success(state.productMessage, 2);
+        message.success('Product updated Successfully', 2);
       })
       .addCase(updateProduct.pending, (state) => {
         state.editSuccess = false;

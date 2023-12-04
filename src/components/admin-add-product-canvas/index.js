@@ -51,7 +51,11 @@ const AddProductCustomCanvas = ({
   };
 
   const handleUpdateProduct = () => {
-    dispatch(updateProduct(formData));
+    const obj = {
+      ...formData,
+      images: selectedImages,
+    };
+    dispatch(updateProduct({ obj }));
   };
 
   const validatePrice = (inputPrice) => {
@@ -82,6 +86,7 @@ const AddProductCustomCanvas = ({
     if (selectedProduct) {
       setIsPriceValid(true);
       setIsQuantityValid(true);
+      setSelectedImages(selectedProduct.images || '');
     }
   }, []);
 

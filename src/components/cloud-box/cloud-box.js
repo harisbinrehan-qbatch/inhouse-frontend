@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable react/button-has-type */
 import { useRef } from 'react';
 
 import cloudImage from '../../assets/images/cloud-arrow-up.svg';
@@ -11,6 +13,7 @@ const CloudBox = ({ selectedImages, setSelectedImages }) => {
       fileInputRef.current.click();
     }
   };
+  console.log({ selectedImages });
 
   const handleFileSelected = (e) => {
     const newImages = Array.from(e.target.files).filter((file) => file.type.startsWith('image/'));
@@ -64,7 +67,11 @@ const CloudBox = ({ selectedImages, setSelectedImages }) => {
                 <div className="image-container-relative">
                   <img
                     className="image-item"
-                    src={URL.createObjectURL(image)}
+                    src={
+                      !image?.name
+                        ? `http://localhost:5000/${image}`
+                        : URL.createObjectURL(image)
+                    }
                     alt={`Selected Image ${index + 1}`}
                   />
                   <button

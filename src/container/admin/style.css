@@ -145,10 +145,12 @@
 }
 
 .product-table-orders{
-  height: calc(100vh - 57vh);
+  height: calc(100vh - 59vh);
+      overflow: auto;
 }
 .product-table-wrapper{
-      height: calc(100vh - 48vh);
+    height: calc(100vh - 43vh);
+    overflow: auto;
 }
 .products-header {
   color: var(--global-01-primary, #007bff);

@@ -3,3 +3,7 @@
   height: calc(100vh - 50px);
   overflow: auto;
 }
+.admin-layout-wrapper{
+      height: 100vh !important;
+    BACKGROUND: #e9ecef;
+}

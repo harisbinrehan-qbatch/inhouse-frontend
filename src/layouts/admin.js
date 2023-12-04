@@ -17,7 +17,7 @@ const AdminLayout = ({ children, setIsLoggedIn }) => {
           />
           <div className="d-flex">
             <CustomSidebar />
-            <div className="w-100 p-4">{children}</div>
+            <div className="w-100 p-4 admin-layout-wrapper">{children}</div>
           </div>
         </>
       ) : (

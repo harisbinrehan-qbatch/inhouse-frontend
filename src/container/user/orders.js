@@ -54,7 +54,7 @@ const UserOrders = () => {
   return orders.length === 0 ? (
     <Empty description="No orders found" style={{ marginTop: '250px' }} />
   ) : (
-    <div className="table-body">
+    <div className="table-body user-table-body">
       <div className="d-flex p-4">
         <Link to="/">
           <img src={arrowLeft} alt="Cloud" className="img-large" />

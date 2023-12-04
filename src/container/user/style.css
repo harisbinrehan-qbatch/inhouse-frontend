@@ -35,3 +35,6 @@
   position: absolute;
   width: 100%;
 }
+.user-table-body {
+      height: calc(100vh - 2.4vh);
+}

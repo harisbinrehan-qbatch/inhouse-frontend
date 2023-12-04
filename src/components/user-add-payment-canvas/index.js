@@ -43,12 +43,12 @@ const AddPaymentCanvas = ({ header }) => {
   };
 
   const validateYear = (inputYear) => {
-    const isValidYear = inputYear >= 23 && inputYear <= 99;
+    const isValidYear = inputYear >= 23 && inputYear <= 73;
     setIsYearValid(isValidYear);
 
     const localYearSuggestions = isValidYear
       ? []
-      : ['Year should be between 23 and 99.'];
+      : ['Year should be between 23 and 73.'];
     setYearSuggestions(localYearSuggestions);
   };
 

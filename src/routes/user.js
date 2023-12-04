@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-undef */
-
 import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';

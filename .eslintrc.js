@@ -40,5 +40,6 @@ module.exports = {
     'no-param-reassign': 0,
     'react/no-array-index-key': 'off',
     'no-plusplus': 'off',
+    // 'jsx-a11y/no-static-element-interactions': 'on',
   },
 };

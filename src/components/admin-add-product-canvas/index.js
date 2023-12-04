@@ -21,6 +21,7 @@ const AddProductCustomCanvas = ({
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [selectedImages, setSelectedImages] = useState([]);
+  const [deletedImages, setDeletedImages] = useState([]);
   const [isPriceValid, setIsPriceValid] = useState(false);
   const [isQuantityValid, setIsQuantityValid] = useState(false);
   const [priceSuggestions, setPriceSuggestions] = useState([]);
@@ -53,7 +54,8 @@ const AddProductCustomCanvas = ({
   const handleUpdateProduct = () => {
     const obj = {
       ...formData,
-      images: selectedImages
+      images: selectedImages,
+      deletedImages
     };
     console.log({ obj });
     dispatch(updateProduct({ obj }));
@@ -121,6 +123,8 @@ const AddProductCustomCanvas = ({
           <CloudBox
             selectedImages={selectedImages}
             setSelectedImages={setSelectedImages}
+            deletedImages={deletedImages}
+            setDeletedImages={setDeletedImages}
           />
         </div>
         <div className="d-flex offcanvas-body">

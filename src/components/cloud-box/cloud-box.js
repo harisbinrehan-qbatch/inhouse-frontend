@@ -3,9 +3,14 @@ import { useRef } from 'react';
 import cloudImage from '../../assets/images/cloud-arrow-up.svg';
 import CustomBtn from '../button';
 
-const CloudBox = ({ selectedImages, setSelectedImages }) => {
+const CloudBox = ({
+  selectedImages,
+  setSelectedImages,
+  deletedImages,
+  setDeletedImages
+}) => {
   const fileInputRef = useRef(null);
-
+  console.log({ deletedImages });
   const handleBrowseClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -28,9 +33,15 @@ const CloudBox = ({ selectedImages, setSelectedImages }) => {
   };
 
   const handleImageDelete = (index) => {
+    const deletedImage = selectedImages[index];
+
+    const temp = [...deletedImages || [], deletedImage];
+    setDeletedImages(temp);
+
     const newImages = [...selectedImages];
     newImages.splice(index, 1);
     setSelectedImages(newImages);
+    console.log({ deletedImages, temp });
   };
 
   return (

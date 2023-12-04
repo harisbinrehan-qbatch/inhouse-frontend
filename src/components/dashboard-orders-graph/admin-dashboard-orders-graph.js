@@ -1,5 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-import React from 'react'; // Make sure to import React
 import { PieChart, Pie, Cell } from 'recharts';
 import OrdersPaid from '../../assets/images/orders-paid.svg';
 import OrdersUnpaid from '../../assets/images/orders-unpaid.svg';
@@ -7,10 +5,8 @@ import OrdersUnpaid from '../../assets/images/orders-unpaid.svg';
 const COLORS = ['#00C49F', '#0088FE'];
 
 const DashboardOrdersGraph = ({ paidOrders, unpaidOrders }) => {
-  // Calculate the total (sum of paidOrders and unpaidOrders)
   const total = paidOrders + unpaidOrders;
 
-  // Calculate the percentages for paid and unpaid orders
   const paidPercentage = total > 0 ? (paidOrders / total) * 100 : 0;
   const unpaidPercentage = total > 0 ? (unpaidOrders / total) * 100 : 0;
 

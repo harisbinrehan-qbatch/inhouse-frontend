@@ -16,9 +16,7 @@ export const fetchUserProducts = createAsyncThunk(
             limit,
             filterObject,
           },
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
+          headers: { Authorization: `Bearer ${state.authentication.user.token}` },
         },
       );
 
@@ -48,12 +46,8 @@ export const fetchAdminProducts = createAsyncThunk(
           (page - 1) * limit
         }&limit=${limit}`,
         {
-          params: {
-            filterObject,
-          },
-          headers: {
-            Authorization: `Bearer ${getState().authentication.user.token}`,
-          },
+          params: { filterObject },
+          headers: { Authorization: `Bearer ${getState().authentication.user.token}` },
         },
       );
 
@@ -123,11 +117,7 @@ export const deleteProduct = createAsyncThunk(
 
       const response = await axios.delete(
         `http://localhost:5000/v1/products/deleteProduct?_id=${_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -145,11 +135,7 @@ export const updateProduct = createAsyncThunk(
       const response = await axios.put(
         'http://localhost:5000/v1/products/updateProduct',
         body,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {

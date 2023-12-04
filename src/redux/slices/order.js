@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -17,11 +16,7 @@ export const fetchAllOrders = createAsyncThunk(
         url += `&orderId=${orderId}`;
       }
 
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${state.authentication.user.token}`,
-        },
-      });
+      const response = await axios.get(url, { headers: { Authorization: `Bearer ${state.authentication.user.token}` } });
 
       return response.data;
     } catch (error) {
@@ -41,11 +36,7 @@ export const fetchUserOrders = createAsyncThunk(
         `http://localhost:5000/v1/orders/getUserOrders?userId=${userId}&skip=${
           (page - 1) * limit
         }&limit=${limit}`,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -62,11 +53,7 @@ export const startAgendaJobs = createAsyncThunk(
 
       const response = await axios.get(
         'http://localhost:5000/v1/script?method=StartDashboardJob',
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -82,11 +69,7 @@ export const getOrderStats = createAsyncThunk(
       const state = getState();
       const response = await axios.get(
         'http://localhost:5000/v1/orders/getOrderStats',
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -102,11 +85,7 @@ export const getAdminOrderStats = createAsyncThunk(
       const state = getState();
       const response = await axios.get(
         'http://localhost:5000/v1/orders/getAdminOrderStats',
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -122,11 +101,7 @@ export const getNotifications = createAsyncThunk(
       const state = getState();
       const response = await axios.get(
         'http://localhost:5000/v1/notifications/getNotifications',
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
 
       return response.data;
@@ -144,11 +119,7 @@ export const readNotification = createAsyncThunk(
       const response = await axios.put(
         'http://localhost:5000/v1/notifications/readNotification',
         { notificationId },
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -166,11 +137,7 @@ export const setOrderAsDelivered = createAsyncThunk(
       const response = await axios.put(
         `http://localhost:5000/v1/orders/setIsDelivered?orderId=${orderId}`,
         null,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {

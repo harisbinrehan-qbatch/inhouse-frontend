@@ -9,18 +9,12 @@ export const verifyUser = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/auth/verifyUser',
         body,
-        {
-          headers: {
-            Authorization: `Bearer ${body.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${body.token}` } },
       );
 
       return response.data;
     } catch (error) {
-      return rejectWithValue({
-        error: error.response.data.error,
-      });
+      return rejectWithValue({ error: error.response.data.error });
     }
   },
 );
@@ -32,18 +26,12 @@ export const resetPassword = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/auth/resetPassword',
         body,
-        {
-          headers: {
-            Authorization: `Bearer ${body.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${body.token}` } },
       );
 
       return response.data;
     } catch (error) {
-      return rejectWithValue({
-        error: error.response.data.error,
-      });
+      return rejectWithValue({ error: error.response.data.error });
     }
   },
 );
@@ -192,7 +180,5 @@ const authSlice = createSlice({
   },
 });
 
-export const {
-  logout, getToken, getUser,
-} = authSlice.actions;
+export const { logout, getToken, getUser } = authSlice.actions;
 export default authSlice;

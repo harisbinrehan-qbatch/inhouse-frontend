@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Result } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

@@ -4,9 +4,7 @@ import CustomProgressBar from '../progress-bar';
 import CustomBtn from '../button';
 import Cross from '../../assets/images/close.svg';
 
-const ImportBulk = ({
-  setShow, handleCloseBulk, fileName,
-}) => {
+const ImportBulk = ({ setShow, handleCloseBulk, fileName }) => {
   const { bulkUploadResult } = useSelector((state) => state.products);
   const handleViewErrors = () => {
     setShow(true);

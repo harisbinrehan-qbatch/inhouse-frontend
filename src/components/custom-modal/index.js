@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useRef } from 'react';
 import { message } from 'antd';
 import Modal from 'react-bootstrap/Modal';

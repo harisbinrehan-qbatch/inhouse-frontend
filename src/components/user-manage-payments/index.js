@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useDispatch, useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Empty } from 'antd';

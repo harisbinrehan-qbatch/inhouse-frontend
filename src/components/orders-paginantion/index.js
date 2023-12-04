@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable radix */
 import { useDispatch } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
 import { decrementPage, incrementPage } from '../../redux/slices/order';

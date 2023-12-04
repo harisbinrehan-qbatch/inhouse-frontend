@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-/* eslint-disable react/button-has-type */
 import { useRef } from 'react';
 
 import cloudImage from '../../assets/images/cloud-arrow-up.svg';

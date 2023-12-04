@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable no-underscore-dangle */
 import React, { useEffect } from 'react';
 import { debounce } from 'lodash';
 import { Link } from 'react-router-dom';

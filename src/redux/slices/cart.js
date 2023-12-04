@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-underscore-dangle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { message } from 'antd';
@@ -13,11 +10,7 @@ export const placeOrder = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/orders/placeOrder',
         requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -35,11 +28,7 @@ export const addAddress = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/orders/saveAddress',
         requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -56,11 +45,7 @@ export const getAddress = createAsyncThunk(
 
       const response = await axios.get(
         `http://localhost:5000/v1/orders/getAddresses?userId=${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -78,11 +63,7 @@ export const updateDefaultAddress = createAsyncThunk(
       const response = await axios.put(
         'http://localhost:5000/v1/orders/updateDefaultAddress',
         requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -99,11 +80,7 @@ export const getPaymentDetails = createAsyncThunk(
 
       const response = await axios.get(
         `http://localhost:5000/v1/orders/paymentDetails?userId=${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -121,11 +98,7 @@ export const savePaymentDetails = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/orders/paymentDetails',
         requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
 
       return response.data;
@@ -144,11 +117,7 @@ export const editPaymentDetails = createAsyncThunk(
       const response = await axios.put(
         'http://localhost:5000/v1/orders/paymentDetails',
         requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {
@@ -165,11 +134,7 @@ export const deletePaymentDetails = createAsyncThunk(
 
       const response = await axios.delete(
         `http://localhost:5000/v1/orders/paymentDetails?cardStripeId=${cardStripeId}&userStripeId=${userStripeId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.user.token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
       );
       return response.data;
     } catch (error) {

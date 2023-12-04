@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-import React from 'react';
 import MasterCardImage from '../../assets/images/mastercard.svg';
 import masterCardBack from '../../assets/images/card-background.png';
 import visaCardBack from '../../assets/images/images.jpeg';

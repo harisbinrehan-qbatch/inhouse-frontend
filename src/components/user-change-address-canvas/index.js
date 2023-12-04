@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { useDispatch, useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 

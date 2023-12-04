@@ -10,7 +10,7 @@ const ProductsPaginationComponent = ({
   onNextPage,
   onPrevPage,
   onLimitChange,
-  onPageChange,
+  onPageChange
 }) => {
   const totalPages = Math.ceil(totalCount / limit);
 

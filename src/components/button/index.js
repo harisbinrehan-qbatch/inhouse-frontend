@@ -7,7 +7,7 @@ const CustomBtn = ({
   btnText = 'Click Here',
   className,
   disabled,
-  onClick,
+  onClick
 }) => (
   <div>
     <Button

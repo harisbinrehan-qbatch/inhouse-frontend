@@ -10,6 +10,7 @@ import UserOrders from '../container/user/orders';
 
 const UserRoutes = () => {
   const user = JSON.parse(localStorage.getItem('user'));
+
   const { isAdmin, isUser } = useSelector((state) => state.authentication);
 
   const navigate = useNavigate();

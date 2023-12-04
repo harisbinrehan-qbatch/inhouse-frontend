@@ -14,10 +14,10 @@ export const fetchUserProducts = createAsyncThunk(
           params: {
             skip,
             limit,
-            filterObject,
+            filterObject
           },
-          headers: { Authorization: `Bearer ${state.authentication.user.token}` },
-        },
+          headers: { Authorization: `Bearer ${state.authentication.user.token}` }
+        }
       );
 
       if (response.data.products.length === 0) {
@@ -32,7 +32,7 @@ export const fetchUserProducts = createAsyncThunk(
     } catch (error) {
       return rejectWithValue({ error: 'Network Error', originalError: error });
     }
-  },
+  }
 );
 
 export const fetchAdminProducts = createAsyncThunk(
@@ -47,8 +47,8 @@ export const fetchAdminProducts = createAsyncThunk(
         }&limit=${limit}`,
         {
           params: { filterObject },
-          headers: { Authorization: `Bearer ${getState().authentication.user.token}` },
-        },
+          headers: { Authorization: `Bearer ${getState().authentication.user.token}` }
+        }
       );
 
       if (response.data.products.length === 0) {
@@ -63,7 +63,7 @@ export const fetchAdminProducts = createAsyncThunk(
     } catch (error) {
       return rejectWithValue({ error: 'Network Error', originalError: error });
     }
-  },
+  }
 );
 
 export const addProduct = createAsyncThunk(
@@ -78,15 +78,15 @@ export const addProduct = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${state.authentication.user.token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        },
+            'Content-Type': 'multipart/form-data'
+          }
+        }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 export const addBulkProducts = createAsyncThunk(
   'products/addBulkProducts',
@@ -99,15 +99,15 @@ export const addBulkProducts = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${state.authentication.user.token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        },
+            'Content-Type': 'multipart/form-data'
+          }
+        }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
@@ -117,13 +117,13 @@ export const deleteProduct = createAsyncThunk(
 
       const response = await axios.delete(
         `http://localhost:5000/v1/products/deleteProduct?_id=${_id}`,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  },
+  }
 );
 
 export const updateProduct = createAsyncThunk(
@@ -138,15 +138,15 @@ export const updateProduct = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${state.authentication.user.token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        },
+            'Content-Type': 'multipart/form-data'
+          }
+        }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  },
+  }
 );
 
 const productsSlice = createSlice({
@@ -166,7 +166,7 @@ const productsSlice = createSlice({
     loading: false,
     editSuccess: false,
     deleteSuccess: false,
-    addSuccess: false,
+    addSuccess: false
   },
   reducers: {
     setShow(state) {
@@ -206,7 +206,7 @@ const productsSlice = createSlice({
     },
     setIsFilter(state, { payload }) {
       state.isFilter = payload;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -255,7 +255,7 @@ const productsSlice = createSlice({
         notification.success({
           description: state.productMessage,
           type: 'success',
-          duration: 2,
+          duration: 2
         });
       })
       .addCase(addProduct.pending, (state) => {
@@ -267,7 +267,7 @@ const productsSlice = createSlice({
         notification.error({
           description: state.productMessage,
           type: 'error',
-          duration: 2,
+          duration: 2
         });
       })
 
@@ -308,7 +308,7 @@ const productsSlice = createSlice({
         state.importBulkSuccess = false;
         state.bulkUploadResult = {};
       });
-  },
+  }
 });
 
 export const {
@@ -322,7 +322,7 @@ export const {
   setTotalCount,
   setAnyPage,
   setSkip,
-  setIsFilter,
+  setIsFilter
 } = productsSlice.actions;
 
 export default productsSlice;

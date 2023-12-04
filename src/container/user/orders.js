@@ -9,7 +9,7 @@ import sideArrow from '../../assets/images/Arrow up right.svg';
 import { setUserOrderDetailsShow } from '../../redux/slices/cart';
 import UserOrderDetailsCanvas from '../../components/user-order-details';
 import {
-  decrementPage, fetchUserOrders, incrementPage, setAnyPage, setLimit, setPageOne,
+  decrementPage, fetchUserOrders, incrementPage, setAnyPage, setLimit, setPageOne
 } from '../../redux/slices/order';
 import OrdersPaginationComponent from '../../components/orders-paginantion';
 
@@ -25,7 +25,10 @@ const UserOrders = () => {
   const { userOrderDetailsShow } = useSelector((state) => state.cart);
 
   const {
-    page, limit, totalCount, orders,
+    page,
+    limit,
+    totalCount,
+    orders
   } = useSelector((state) => state.order);
 
   const dispatch = useDispatch();
@@ -82,7 +85,7 @@ const UserOrders = () => {
                   {new Date(order.date).toLocaleString('en-US', {
                     day: '2-digit',
                     month: 'long',
-                    year: 'numeric',
+                    year: 'numeric'
                   })}
                 </td>
                 <td className="pt-2" style={{ fontWeight: 'bold' }}>

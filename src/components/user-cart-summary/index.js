@@ -9,7 +9,7 @@ import './style.css';
 
 function UserCartSummary() {
   const { userCart, orderSummary, proceedToCheckout } = useSelector(
-    (state) => state.cart,
+    (state) => state.cart
   );
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ function UserCartSummary() {
     if (userCart && userCart.products) {
       const subTotal = userCart.products.reduce(
         (total, item) => total + item.price * item.quantity,
-        0,
+        0
       );
 
       const taxRate = 0.1;
@@ -34,8 +34,8 @@ function UserCartSummary() {
         setOrderSummary({
           subTotal,
           tax,
-          total,
-        }),
+          total
+        })
       );
     }
   }, [userCart]);

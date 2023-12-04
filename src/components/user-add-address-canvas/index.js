@@ -33,7 +33,7 @@ const AddAddress = ({ header }) => {
       province,
       city,
       address,
-      isDefault,
+      isDefault
     };
 
     dispatch(addAddress(newAddress));

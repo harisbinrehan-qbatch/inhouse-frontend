@@ -10,13 +10,13 @@ import {
   setShow,
   addProduct,
   updateProduct,
-  setUpdateCanvasShow,
+  setUpdateCanvasShow
 } from '../../redux/slices/products';
 
 import './style.css';
 
 const AddProductCustomCanvas = ({
-  header, btnText, _id, selectedProduct,
+  header, btnText, _id, selectedProduct
 }) => {
   const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const AddProductCustomCanvas = ({
     price: selectedProduct?.price || 0,
     size: selectedProduct?.size || '',
     color: selectedProduct?.color || '',
-    quantity: selectedProduct?.quantity || 0,
+    quantity: selectedProduct?.quantity || 0
   });
 
   const handleClose = () => {
@@ -45,7 +45,7 @@ const AddProductCustomCanvas = ({
   const handleAddProduct = () => {
     const obj = {
       ...formData,
-      images: selectedImages,
+      images: selectedImages
     };
     dispatch(addProduct({ obj }));
   };
@@ -53,8 +53,9 @@ const AddProductCustomCanvas = ({
   const handleUpdateProduct = () => {
     const obj = {
       ...formData,
-      images: selectedImages,
+      images: selectedImages
     };
+    console.log({ obj });
     dispatch(updateProduct({ obj }));
   };
 
@@ -64,7 +65,7 @@ const AddProductCustomCanvas = ({
     const suggestions = isValidPrice
       ? []
       : [
-        'Price should be a non-negative value and can have up to 2 decimal places',
+        'Price should be a non-negative value and can have up to 2 decimal places'
       ];
 
     setIsPriceValid(isValidPrice);
@@ -147,7 +148,7 @@ const AddProductCustomCanvas = ({
                     >
                       {size}
                     </div>
-                  ),
+                  )
                 )}
               </div>
             </div>
@@ -165,7 +166,7 @@ const AddProductCustomCanvas = ({
                       style={{ backgroundColor: color }}
                       onClick={() => setFormData({ ...formData, color })}
                     />
-                  ),
+                  )
                 )}
               </div>
             </div>

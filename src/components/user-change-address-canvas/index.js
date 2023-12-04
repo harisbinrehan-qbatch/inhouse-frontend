@@ -3,7 +3,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 import {
   setAddressShow,
-  setChangeAddressShow,
+  setChangeAddressShow
 } from '../../redux/slices/cart';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import AddressBox from '../user-address-box';

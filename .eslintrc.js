@@ -1,19 +1,19 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2021: true
   },
   extends: 'airbnb',
   overrides: [
     {
       env: { node: true },
       files: ['.eslintrc.{js,cjs}'],
-      parserOptions: { sourceType: 'script' },
-    },
+      parserOptions: { sourceType: 'script' }
+    }
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module',
+    sourceType: 'module'
   },
   globals: { React: 'writable' },
   rules: {
@@ -45,15 +45,28 @@ module.exports = {
     'no-nested-ternary': 'off',
     'react/jsx-no-useless-fragment': 'off',
     'max-len': 'off',
-    'prefer-destructuring': 'off',
+    'comma-dangle': ['error', 'never'],
     'object-curly-newline': [
       'error',
       {
         ObjectExpression: { multiline: true, minProperties: 4 },
         ObjectPattern: { multiline: true, minProperties: 4 },
         ImportDeclaration: { multiline: true, minProperties: 4 },
-        ExportDeclaration: { multiline: true, minProperties: 4 },
-      },
+        ExportDeclaration: { multiline: true, minProperties: 4 }
+      }
     ],
-  },
+    'prefer-destructuring': [
+      'error',
+      {
+        VariableDeclarator: {
+          array: false,
+          object: true
+        },
+        AssignmentExpression: {
+          array: false,
+          object: true
+        }
+      }
+    ]
+  }
 };

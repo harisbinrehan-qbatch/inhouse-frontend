@@ -1,19 +1,22 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Route, Routes, useLocation, useNavigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate
 } from 'react-router-dom';
 
 import Login from '../container/auth/login';
 import Signup from '../container/auth/signup';
 import ForgotPassword from '../container/auth/forgot-password';
 import NewPassword from '../container/auth/new-password';
-
 import MainPageLayout from '../layouts/main-page';
 import VerifyUser from '../container/auth/verify-user';
 
 const AuthRoutes = () => {
   const { loginError } = useSelector((state) => state.authentication);
+
   const navigate = useNavigate();
 
   const location = useLocation();

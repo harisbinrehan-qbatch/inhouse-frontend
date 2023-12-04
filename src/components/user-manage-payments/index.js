@@ -15,7 +15,7 @@ const ManagePaymentsCanvas = ({ show, setShow }) => {
   };
 
   const { paymentDetails, selectedCardIndex } = useSelector(
-    (state) => state.cart,
+    (state) => state.cart
   );
 
   const handleCardClick = (index) => {

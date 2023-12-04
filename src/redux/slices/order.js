@@ -22,7 +22,7 @@ export const fetchAllOrders = createAsyncThunk(
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const fetchUserOrders = createAsyncThunk(
@@ -36,13 +36,13 @@ export const fetchUserOrders = createAsyncThunk(
         `http://localhost:5000/v1/orders/getUserOrders?userId=${userId}&skip=${
           (page - 1) * limit
         }&limit=${limit}`,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const startAgendaJobs = createAsyncThunk(
@@ -53,13 +53,13 @@ export const startAgendaJobs = createAsyncThunk(
 
       const response = await axios.get(
         'http://localhost:5000/v1/script?method=StartDashboardJob',
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  },
+  }
 );
 
 export const getOrderStats = createAsyncThunk(
@@ -69,13 +69,13 @@ export const getOrderStats = createAsyncThunk(
       const state = getState();
       const response = await axios.get(
         'http://localhost:5000/v1/orders/getOrderStats',
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const getAdminOrderStats = createAsyncThunk(
@@ -85,13 +85,13 @@ export const getAdminOrderStats = createAsyncThunk(
       const state = getState();
       const response = await axios.get(
         'http://localhost:5000/v1/orders/getAdminOrderStats',
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const getNotifications = createAsyncThunk(
@@ -101,14 +101,14 @@ export const getNotifications = createAsyncThunk(
       const state = getState();
       const response = await axios.get(
         'http://localhost:5000/v1/notifications/getNotifications',
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
 
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const readNotification = createAsyncThunk(
@@ -119,13 +119,13 @@ export const readNotification = createAsyncThunk(
       const response = await axios.put(
         'http://localhost:5000/v1/notifications/readNotification',
         { notificationId },
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const setOrderAsDelivered = createAsyncThunk(
@@ -137,13 +137,13 @@ export const setOrderAsDelivered = createAsyncThunk(
       const response = await axios.put(
         `http://localhost:5000/v1/orders/setIsDelivered?orderId=${orderId}`,
         null,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 const ordersSlice = createSlice({
@@ -159,7 +159,7 @@ const ordersSlice = createSlice({
     totalCount: 0,
     isOrderId: false,
     adminOrderStats: {},
-    jobMessage: null,
+    jobMessage: null
   },
   reducers: {
     incrementPage(state) {
@@ -191,7 +191,7 @@ const ordersSlice = createSlice({
     },
     setIsOrderId(state, action) {
       state.isOrderId = action.payload;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -256,7 +256,7 @@ const ordersSlice = createSlice({
       })
       .addCase(getNotifications.pending, () => {})
       .addCase(getNotifications.rejected, () => {});
-  },
+  }
 });
 
 export const {
@@ -268,7 +268,7 @@ export const {
   setTotalCount,
   setAnyPage,
   setSkip,
-  setIsOrderId,
+  setIsOrderId
 } = ordersSlice.actions;
 
 export default ordersSlice;

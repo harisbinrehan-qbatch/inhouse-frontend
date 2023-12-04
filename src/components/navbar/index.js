@@ -7,7 +7,7 @@ import {
   NavDropdown,
   Button,
   Dropdown,
-  DropdownButton,
+  DropdownButton
 } from 'react-bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
@@ -18,7 +18,7 @@ import {
   moveToCartFromNavbar,
   setCartSummaryNull,
   setOrderSuccess,
-  setPaymentDetailsNull,
+  setPaymentDetailsNull
 } from '../../redux/slices/cart';
 import { getNotifications, readNotification, setPageOne } from '../../redux/slices/order';
 
@@ -36,20 +36,20 @@ function CustomNavbar() {
   const [markAsRead, setMarkAsRead] = useState(false);
 
   const { isAdmin, isUser, user } = useSelector(
-    (state) => state.authentication,
+    (state) => state.authentication
   );
   const { userCart, orderSuccess } = useSelector((state) => state.cart);
 
   const { notifications } = useSelector((state) => state.order);
 
   const unreadAdminNotificationsCount = notifications.filter(
-    (notification) => notification.isRead === false && notification.forAdmin === true,
+    (notification) => notification.isRead === false && notification.forAdmin === true
   ).length;
 
   const unreadUserNotifications = notifications.filter(
     (notification) => notification.userId === user.userId
       && notification.forAdmin === false
-      && notification.isRead === false,
+      && notification.isRead === false
   );
 
   const handleMoveToCart = () => {
@@ -117,7 +117,7 @@ function CustomNavbar() {
                           notifications
                             .filter(
                               (notification) => !notification.isRead
-                                && notification.forAdmin === true,
+                                && notification.forAdmin === true
                             )
                             .map((notification) => (
                               <div className="navClass" key={notification.id}>
@@ -153,7 +153,7 @@ function CustomNavbar() {
                         {unreadUserNotifications.length > 0 ? (
                           unreadUserNotifications
                             .filter(
-                              (notification) => notification.forAdmin === false,
+                              (notification) => notification.forAdmin === false
                             )
                             .map((notification) => (
                               <div className="navClass" key={notification._id}>
@@ -200,7 +200,7 @@ function CustomNavbar() {
                   <Link
                     to={{
                       pathname: '/user/user-orders',
-                      search: `?userId=${user?.userId}`,
+                      search: `?userId=${user?.userId}`
                     }}
                     style={{ textDecoration: 'none', color: 'black' }}
                   >

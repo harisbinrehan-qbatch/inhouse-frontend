@@ -21,10 +21,10 @@ const EditPaymentCanvas = ({ show, setShow }) => {
   const [cardholderName, setCardholderName] = useState(user?.username || '');
 
   const [exp_month, setExpiryMonth] = useState(
-    paymentDetails[selectedCardIndex].exp_month,
+    paymentDetails[selectedCardIndex].exp_month
   );
   const [exp_year, setExpiryYear] = useState(
-    paymentDetails[selectedCardIndex].exp_year % 100,
+    paymentDetails[selectedCardIndex].exp_year % 100
   );
 
   const validateMonth = (inputMonth) => {
@@ -57,7 +57,7 @@ const EditPaymentCanvas = ({ show, setShow }) => {
 
     const paymentDetailsUpdated = {
       exp_month,
-      exp_year,
+      exp_year
     };
 
     if (user) {
@@ -65,8 +65,8 @@ const EditPaymentCanvas = ({ show, setShow }) => {
         editPaymentDetails({
           cardStripeId,
           userStripeId,
-          paymentDetails: paymentDetailsUpdated,
-        }),
+          paymentDetails: paymentDetailsUpdated
+        })
       );
       handleClose();
     }

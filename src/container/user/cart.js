@@ -7,6 +7,12 @@ import { Empty } from 'antd';
 import Arrow from '../../assets/images/Arrow left.svg';
 import CartItem from '../../components/user-cart-item';
 import Trash from '../../assets/images/Trash.svg';
+import AddressBox from '../../components/user-address-box';
+import CustomBtn from '../../components/button';
+import UserCartSummary from '../../components/user-cart-summary';
+import AddPayment from '../../components/user-add-payment';
+import AddAddress from '../../components/user-add-address-canvas';
+import ChangeAddressCanvas from '../../components/user-change-address-canvas';
 import {
   deleteSelectedAll,
   getAddress,
@@ -14,16 +20,10 @@ import {
   setAddressShow,
   setChangeAddressShow,
   setOrderSuccess,
-  setProceedToCheckout,
+  setProceedToCheckout
 } from '../../redux/slices/cart';
-import AddressBox from '../../components/user-address-box';
 
 import './style.css';
-import CustomBtn from '../../components/button';
-import UserCartSummary from '../../components/user-cart-summary';
-import AddPayment from '../../components/user-add-payment';
-import AddAddress from '../../components/user-add-address-canvas';
-import ChangeAddressCanvas from '../../components/user-change-address-canvas';
 
 function UserCart() {
   const {
@@ -35,7 +35,7 @@ function UserCart() {
     addAddressSuccess,
     updateAddressSuccess,
     proceedToCheckout,
-    addresses,
+    addresses
   } = useSelector((state) => state.cart);
 
   const user = JSON.parse(localStorage.getItem('user'));
@@ -62,7 +62,7 @@ function UserCart() {
   useEffect(() => {
     dispatch(getCartOfSpecificUser());
     setDefaultAddress(
-      addresses?.addressInfo?.find((address) => address.isDefault) || {},
+      addresses?.addressInfo?.find((address) => address.isDefault) || {}
     );
   }, [addresses, cartProducts]);
 

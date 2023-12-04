@@ -12,7 +12,7 @@ const colorMap = {
   '#AAA': 'grey',
   '#1B1E21': 'black',
   '#231579': 'blue',
-  '#740F0F': 'red',
+  '#740F0F': 'red'
 };
 
 function getColorName(hexCode) {
@@ -58,7 +58,7 @@ function OrderDetails() {
                 {new Date(orderData.date).toLocaleString('en-US', {
                   day: '2-digit',
                   month: 'long',
-                  year: 'numeric',
+                  year: 'numeric'
                 })}
               </strong>
             </p>

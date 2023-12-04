@@ -53,7 +53,7 @@ const TopSelling = () => {
                     {new Date(product.date).toLocaleString('en-US', {
                       day: '2-digit',
                       month: 'long',
-                      year: 'numeric',
+                      year: 'numeric'
                     })}
                   </td>
                 </tr>

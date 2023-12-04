@@ -14,7 +14,7 @@ import {
   setAnyPage,
   setLimit,
   setOrderAsDelivered,
-  setPageOne,
+  setPageOne
 } from '../../redux/slices/order';
 import CustomAlert from '../../components/alert';
 import OrdersRectangle from '../../components/admin-orders-rectangle/admin-orders-rectangle';
@@ -26,9 +26,9 @@ const Orders = () => {
   const dispatch = useDispatch();
 
   const {
-    page, limit, totalCount, orders, ordersError, adminOrderStats,
+    page, limit, totalCount, orders, ordersError, adminOrderStats
   } = useSelector(
-    (state) => state.order,
+    (state) => state.order
   );
 
   const handleSetMarkAsDelivered = (orderId) => {
@@ -114,7 +114,7 @@ const Orders = () => {
                           {new Date(order.date).toLocaleString('en-US', {
                             day: '2-digit',
                             month: 'long',
-                            year: 'numeric',
+                            year: 'numeric'
                           })}
                         </td>
                         <td className="pt-2" style={{ fontWeight: 'bold' }}>
@@ -135,7 +135,7 @@ const Orders = () => {
                             <Link
                               to={{
                                 pathname: '/admin/order-details',
-                                search: `?orderId=${order._id}`,
+                                search: `?orderId=${order._id}`
                               }}
                             >
                               <img

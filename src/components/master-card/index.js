@@ -9,11 +9,11 @@ const MasterCard = ({
   brand,
   cardNumber,
   exp_month,
-  exp_year,
+  exp_year
 }) => {
   const cardBackStyle = {
     backgroundImage: `url(${brand === 'Visa' ? visaCardBack : masterCardBack})`,
-    backgroundSize: 'cover',
+    backgroundSize: 'cover'
   };
 
   return (

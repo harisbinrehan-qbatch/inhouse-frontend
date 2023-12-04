@@ -11,14 +11,14 @@ import ordersSlice from '../slices/order';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart', 'authentication'],
+  whitelist: ['cart', 'authentication']
 };
 
 const reducers = combineReducers({
   authentication: authSlice.reducer,
   products: productsSlice.reducer,
   cart: cartSlice.reducer,
-  order: ordersSlice.reducer,
+  order: ordersSlice.reducer
 });
 
 const rootReducer = (state, action) => reducers(state, action);
@@ -28,5 +28,5 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export default configureStore({
   reducer: persistedReducer,
   middleware: [thunk, logger],
-  devTools: true,
+  devTools: true
 });

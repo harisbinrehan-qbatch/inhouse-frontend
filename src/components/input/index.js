@@ -11,7 +11,7 @@ const CustomForm = (props) => {
     value,
     onChange,
     style,
-    disabled,
+    disabled
   } = props;
 
   return (

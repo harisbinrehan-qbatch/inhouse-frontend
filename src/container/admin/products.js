@@ -16,7 +16,7 @@ import {
   incrementPage,
   decrementPage,
   setLimit,
-  setAnyPage,
+  setAnyPage
 } from '../../redux/slices/products';
 
 import CustomForm from '../../components/input';
@@ -33,7 +33,7 @@ const colorMap = {
   '#AAA': 'grey',
   '#1B1E21': 'black',
   '#231579': 'blue',
-  '#740F0F': 'red',
+  '#740F0F': 'red'
 };
 
 function getColorName(hexCode) {
@@ -55,7 +55,7 @@ const Products = () => {
 
   const [bulkProducts, setBulkProducts] = useState([]);
   const {
-    page, editSuccess, importBulkSuccess, deleteSuccess, addSuccess, limit, totalCount,
+    page, editSuccess, importBulkSuccess, deleteSuccess, addSuccess, limit, totalCount
   } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
@@ -252,7 +252,7 @@ const Products = () => {
           btnText="Update Product"
           _id={currentProductId}
           selectedProduct={products.find(
-            (product) => product._id === currentProductId,
+            (product) => product._id === currentProductId
           )}
         />
       )}

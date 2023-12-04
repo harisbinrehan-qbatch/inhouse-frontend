@@ -32,7 +32,7 @@ const Signup = ({ header }) => {
       username,
       password,
       email,
-      mobile,
+      mobile
     };
 
     try {
@@ -87,7 +87,7 @@ const Signup = ({ header }) => {
       setIsPasswordValid(false);
     } else {
       const hasSpecialCharacters = /[!@#%^&*()_+{}[\]:;<>,.?~-]/.test(
-        inputPassword,
+        inputPassword
       );
       const hasCapitalLetter = /[A-Z]/.test(inputPassword);
 

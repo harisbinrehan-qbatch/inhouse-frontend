@@ -7,6 +7,7 @@ import MainPageLayout from '../layouts/main-page';
 
 const MainRoutes = () => {
   const { isAdmin, loginError } = useSelector((state) => state.authentication);
+
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem('user'));

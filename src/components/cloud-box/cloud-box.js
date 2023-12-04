@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-/* eslint-disable react/button-has-type */
 import { useRef } from 'react';
 
 import cloudImage from '../../assets/images/cloud-arrow-up.svg';
@@ -13,11 +11,10 @@ const CloudBox = ({ selectedImages, setSelectedImages }) => {
       fileInputRef.current.click();
     }
   };
-  console.log({ selectedImages });
 
   const handleFileSelected = (e) => {
     const newImages = Array.from(e.target.files).filter((file) => file.type.startsWith('image/'));
-    setSelectedImages([...selectedImages, ...newImages]);
+    setSelectedImages((prevImages) => [...prevImages, ...newImages]);
   };
 
   const handleDragOver = (e) => {
@@ -27,7 +24,7 @@ const CloudBox = ({ selectedImages, setSelectedImages }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     const newImages = Array.from(e.dataTransfer.files).filter((file) => file.type.startsWith('image/'));
-    setSelectedImages([...selectedImages, ...newImages]);
+    setSelectedImages((prevImages) => [...prevImages, ...newImages]);
   };
 
   const handleImageDelete = (index) => {

@@ -8,11 +8,12 @@ const DashboardOrdersGraph = ({ paidOrders, unpaidOrders }) => {
   const total = paidOrders + unpaidOrders;
 
   const paidPercentage = total > 0 ? (paidOrders / total) * 100 : 0;
+
   const unpaidPercentage = total > 0 ? (unpaidOrders / total) * 100 : 0;
 
   const data = [
     { name: 'Orders Paid', value: paidOrders || 0 },
-    { name: 'Orders Unpaid', value: unpaidOrders || 0 },
+    { name: 'Orders Unpaid', value: unpaidOrders || 0 }
   ];
 
   return (

@@ -1,7 +1,7 @@
 import { Spinner } from 'react-bootstrap';
 import { Empty } from 'antd';
 import {
-  useEffect, useState, Suspense, lazy,
+  useEffect, useState, Suspense, lazy
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -104,7 +104,7 @@ const UserProducts = () => {
                         color: 'white',
                         background: 'red',
                         height: '35px',
-                        borderRadius: '3px',
+                        borderRadius: '3px'
                       }}
                     >
                       <strong
@@ -131,10 +131,6 @@ const UserProducts = () => {
                   {totalCount}
                   {' '}
                   items found in Clothing & Accessories
-                  {' '}
-                  {totalCount - products.length}
-                  {' '}
-                  remaining
                 </b>
               )}
             </div>

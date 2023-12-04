@@ -9,7 +9,7 @@ const OrdersPaginationComponent = ({
   onNextPage,
   onPrevPage,
   onLimitChange,
-  onPageChange,
+  onPageChange
 }) => {
   const totalPages = Math.ceil(totalCount / limit);
 

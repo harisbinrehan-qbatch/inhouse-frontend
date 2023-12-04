@@ -8,7 +8,7 @@ import {
   decrementQuantity,
   getCartOfSpecificUser,
   incrementQuantity,
-  removeFromCart,
+  removeFromCart
 } from '../../redux/slices/cart';
 import './style.css';
 
@@ -17,7 +17,7 @@ const colorMap = {
   '#AAA': 'grey',
   '#1B1E21': 'black',
   '#231579': 'blue',
-  '#740F0F': 'red',
+  '#740F0F': 'red'
 };
 
 function getColorName(hexCode) {
@@ -32,7 +32,7 @@ function CartItem({ cartItem }) {
 
   const handleIncrementQuantity = () => {
     const matchingProduct = data.find(
-      (product) => product._id === cartItem._id,
+      (product) => product._id === cartItem._id
     );
 
     if (matchingProduct && cartItem.quantity < matchingProduct.quantity) {

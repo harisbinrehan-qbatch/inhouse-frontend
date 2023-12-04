@@ -11,7 +11,7 @@ import './style.css';
 
 const AddPaymentCanvas = ({ header }) => {
   const { mastercardShow, paymentDetails, paymentDetailsStatus } = useSelector(
-    (state) => state.cart,
+    (state) => state.cart
   );
 
   const [isCardNumberValid, setIsCardNumberValid] = useState(false);
@@ -56,7 +56,7 @@ const AddPaymentCanvas = ({ header }) => {
   const dispatch = useDispatch();
 
   const [cardholderName, setCardholderName] = useState(
-    user?.username || '',
+    user?.username || ''
   );
 
   const [number, setNumber] = useState(paymentDetails?.cardNumber || '');
@@ -72,15 +72,15 @@ const AddPaymentCanvas = ({ header }) => {
       cardholderName,
       number,
       exp_month,
-      exp_year,
+      exp_year
     };
 
     if (user) {
       dispatch(
         savePaymentDetails({
           userId: user.userId,
-          paymentDetails: paymentDetailsUpdated,
-        }),
+          paymentDetails: paymentDetailsUpdated
+        })
       );
       handleClose();
     }

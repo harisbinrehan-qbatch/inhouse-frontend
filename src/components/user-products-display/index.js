@@ -33,7 +33,7 @@ const UserProductsDisplay = ({ product }) => {
     '#AAA': 'grey',
     '#1B1E21': 'black',
     '#231579': 'blue',
-    '#740F0F': 'red',
+    '#740F0F': 'red'
   };
 
   function getColorName(hexCode) {

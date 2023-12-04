@@ -32,7 +32,7 @@ const NewPassword = ({ header }) => {
       setIsPasswordValid(false);
     } else {
       const hasSpecialCharacters = /[!@#%^&*()_+{}[\]:;<>,.?~-]/.test(
-        inputPassword,
+        inputPassword
       );
       const hasCapitalLetter = /[A-Z]/.test(inputPassword);
 
@@ -46,7 +46,7 @@ const NewPassword = ({ header }) => {
         setPasswordSuggestions(['Moderate password']);
       } else {
         setPasswordSuggestions([
-          `Password should have at least ${minLength} characters and include special characters or capital letters.`,
+          `Password should have at least ${minLength} characters and include special characters or capital letters.`
         ]);
         setIsPasswordValid(false);
       }
@@ -66,7 +66,7 @@ const NewPassword = ({ header }) => {
       const token = query.get('token');
       const body = {
         token,
-        newPassword: password,
+        newPassword: password
       };
       dispatch(resetPassword(body)).then(() => {
         navigate('/auth/login');
@@ -74,7 +74,7 @@ const NewPassword = ({ header }) => {
     } else {
       message.error(
         'Passwords must be the same and meet the password strength criteria',
-        2,
+        2
       );
     }
   };

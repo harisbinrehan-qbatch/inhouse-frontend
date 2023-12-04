@@ -6,16 +6,16 @@ import {
   deletePaymentDetails,
   getPaymentDetails,
   placeOrder,
-  setMastercardShow,
+  setMastercardShow
 } from '../../redux/slices/cart';
 import CustomBtn from '../button';
 import Pencil from '../../assets/images/edit-payment.svg';
 import Trash from '../../assets/images/Trash.svg';
 import ManagePaymentsCanvas from '../user-manage-payments';
 import AddPaymentCanvas from '../user-add-payment-canvas';
+import EditPaymentCanvas from '../user-edit-payment-canvas';
 
 import './style.css';
-import EditPaymentCanvas from '../user-edit-payment-canvas';
 
 const AddPayment = () => {
   const [multiplePaymentsCanvasShow, setMultiplePaymentsCanvasShow] = useState(false);
@@ -29,7 +29,7 @@ const AddPayment = () => {
     paymentDetails,
     userCart,
     orderSummary,
-    paymentDetailsStatus,
+    paymentDetailsStatus
   } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const AddPayment = () => {
         stripeId: user.stripeId,
         cardStripeId: paymentDetails[selectedCardIndex]?.cardId,
         products: userCart.products,
-        totalAmount: orderSummary.total,
+        totalAmount: orderSummary.total
       };
 
       dispatch(placeOrder(requestData));

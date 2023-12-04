@@ -10,13 +10,13 @@ export const placeOrder = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/orders/placeOrder',
         requestData,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const addAddress = createAsyncThunk(
@@ -28,13 +28,13 @@ export const addAddress = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/orders/saveAddress',
         requestData,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const getAddress = createAsyncThunk(
@@ -45,13 +45,13 @@ export const getAddress = createAsyncThunk(
 
       const response = await axios.get(
         `http://localhost:5000/v1/orders/getAddresses?userId=${userId}`,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const updateDefaultAddress = createAsyncThunk(
@@ -63,13 +63,13 @@ export const updateDefaultAddress = createAsyncThunk(
       const response = await axios.put(
         'http://localhost:5000/v1/orders/updateDefaultAddress',
         requestData,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const getPaymentDetails = createAsyncThunk(
@@ -80,13 +80,13 @@ export const getPaymentDetails = createAsyncThunk(
 
       const response = await axios.get(
         `http://localhost:5000/v1/orders/paymentDetails?userId=${userId}`,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const savePaymentDetails = createAsyncThunk(
@@ -98,14 +98,14 @@ export const savePaymentDetails = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/orders/paymentDetails',
         requestData,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
 
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const editPaymentDetails = createAsyncThunk(
@@ -117,13 +117,13 @@ export const editPaymentDetails = createAsyncThunk(
       const response = await axios.put(
         'http://localhost:5000/v1/orders/paymentDetails',
         requestData,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 export const deletePaymentDetails = createAsyncThunk(
@@ -134,13 +134,13 @@ export const deletePaymentDetails = createAsyncThunk(
 
       const response = await axios.delete(
         `http://localhost:5000/v1/orders/paymentDetails?cardStripeId=${cardStripeId}&userStripeId=${userStripeId}`,
-        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } },
+        { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue({ message: error.response.data });
     }
-  },
+  }
 );
 
 const cartSlice = createSlice({
@@ -160,7 +160,7 @@ const cartSlice = createSlice({
     addressShow: false,
     proceedToCheckout: false,
     userOrderDetailsShow: false,
-    paymentDetailsStatus: false,
+    paymentDetailsStatus: false
   },
   reducers: {
     setCartSummaryNull: (state) => {
@@ -180,7 +180,7 @@ const cartSlice = createSlice({
 
       if (state.cartProducts) {
         const userCart = state.cartProducts.find(
-          (cartItem) => cartItem.userId === user.userId,
+          (cartItem) => cartItem.userId === user.userId
         );
         if (userCart) {
           state.userCart = userCart;
@@ -197,23 +197,23 @@ const cartSlice = createSlice({
 
       if (state.cartProducts) {
         const userCart = state.cartProducts.find(
-          (cart) => cart.userId === userId,
+          (cart) => cart.userId === userId
         );
 
         if (!userCart) {
           state.cartProducts.push({
             userId,
-            products: [{ ...product, quantity: productQuantity }],
+            products: [{ ...product, quantity: productQuantity }]
           });
         } else {
           const existingProduct = userCart.products.find(
-            (item) => item._id === product._id,
+            (item) => item._id === product._id
           );
 
           if (existingProduct) {
             if (userCart.products) {
               const matchingProduct = userCart.products.find(
-                (singleProduct) => product._id === singleProduct._id,
+                (singleProduct) => product._id === singleProduct._id
               );
 
               if (matchingProduct) {
@@ -232,8 +232,8 @@ const cartSlice = createSlice({
         state.cartProducts = [
           {
             userId,
-            products: [{ ...product, quantity: 1 }],
-          },
+            products: [{ ...product, quantity: 1 }]
+          }
         ];
       }
     },
@@ -276,7 +276,7 @@ const cartSlice = createSlice({
       state.cartProducts = state.cartProducts.map((cartItem) => {
         if (cartItem.userId === user.userId) {
           cartItem.products = cartItem.products.filter(
-            (product) => product._id !== itemIdToRemove,
+            (product) => product._id !== itemIdToRemove
           );
         }
         return cartItem;
@@ -326,13 +326,13 @@ const cartSlice = createSlice({
         state.cartProducts.some((cartItem) => cartItem.userId === user.userId)
       ) {
         state.cartProducts = state.cartProducts.filter(
-          (cartItem) => cartItem.userId !== user.userId,
+          (cartItem) => cartItem.userId !== user.userId
         );
         message.success('All products removed from cart', 2);
       } else {
         message.success('\'Cart is already empty\'', 2);
       }
-    },
+    }
   },
 
   extraReducers: (builder) => {
@@ -346,7 +346,7 @@ const cartSlice = createSlice({
 
         const user = JSON.parse(localStorage.getItem('user'));
         state.cartProducts = state.cartProducts.filter(
-          (cartItem) => cartItem.userId !== user.userId,
+          (cartItem) => cartItem.userId !== user.userId
         );
 
         state.selectedCartProducts = [];
@@ -440,7 +440,7 @@ const cartSlice = createSlice({
         state.paymentDetailsStatus = false;
         message.error('Error deleting card', 2);
       });
-  },
+  }
 });
 
 export const {
@@ -460,7 +460,7 @@ export const {
   deleteSelectedAll,
   setOrderSuccess,
   setPaymentDetailsNull,
-  setCardIndex,
+  setCardIndex
 } = cartSlice.actions;
 
 export default cartSlice;

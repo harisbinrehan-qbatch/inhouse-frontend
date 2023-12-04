@@ -7,6 +7,7 @@ import './style.css';
 
 function UserMainPage() {
   const products = useSelector((state) => state.products.data);
+
   return (
     <div className={products.length !== 0 && 'user-main-page'}>
       <UserModuleHeader />

@@ -16,7 +16,7 @@ const CustomModal = ({
   setShow,
   setImportBulkDiv,
   bulkProducts,
-  setBulkProducts,
+  setBulkProducts
 }) => {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);

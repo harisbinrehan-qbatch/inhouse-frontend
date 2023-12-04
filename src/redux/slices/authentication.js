@@ -9,14 +9,14 @@ export const verifyUser = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/auth/verifyUser',
         body,
-        { headers: { Authorization: `Bearer ${body.token}` } },
+        { headers: { Authorization: `Bearer ${body.token}` } }
       );
 
       return response.data;
     } catch (error) {
       return rejectWithValue({ error: error.response.data.error });
     }
-  },
+  }
 );
 
 export const resetPassword = createAsyncThunk(
@@ -26,14 +26,14 @@ export const resetPassword = createAsyncThunk(
       const response = await axios.post(
         'http://localhost:5000/v1/auth/resetPassword',
         body,
-        { headers: { Authorization: `Bearer ${body.token}` } },
+        { headers: { Authorization: `Bearer ${body.token}` } }
       );
 
       return response.data;
     } catch (error) {
       return rejectWithValue({ error: error.response.data.error });
     }
-  },
+  }
 );
 
 export const sendEmail = createAsyncThunk(
@@ -42,13 +42,13 @@ export const sendEmail = createAsyncThunk(
     try {
       const response = await axios.post(
         'http://localhost:5000/v1/auth/sendEmail',
-        email,
+        email
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  },
+  }
 );
 
 export const signUpUser = createAsyncThunk(
@@ -57,13 +57,13 @@ export const signUpUser = createAsyncThunk(
     try {
       const response = await axios.post(
         'http://localhost:5000/v1/auth/signup',
-        body,
+        body
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  },
+  }
 );
 
 export const loginUser = createAsyncThunk(
@@ -72,14 +72,14 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axios.post(
         'http://localhost:5000/v1/auth/signin',
-        body,
+        body
       );
 
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  },
+  }
 );
 
 const authSlice = createSlice({
@@ -93,7 +93,7 @@ const authSlice = createSlice({
     isAdmin: false,
     isUser: false,
     isVerifiedUser: false,
-    token: '',
+    token: ''
   },
   reducers: {
     logout: (state) => {
@@ -103,7 +103,7 @@ const authSlice = createSlice({
       state.isUser = false;
       state.loginError = true;
       message.success('Logout Successful', 2);
-    },
+    }
   },
 
   extraReducers: (builder) => {
@@ -177,7 +177,7 @@ const authSlice = createSlice({
         state.isVerifiedUser = false;
         message.error(action.payload.message, 2);
       });
-  },
+  }
 });
 
 export const { logout, getToken, getUser } = authSlice.actions;

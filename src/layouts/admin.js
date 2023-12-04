@@ -4,6 +4,7 @@ import CustomNavbar from '../components/navbar';
 
 const AdminLayout = ({ children, setIsLoggedIn }) => {
   const location = useLocation();
+
   const { pathname } = location;
 
   return (

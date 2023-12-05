@@ -9,7 +9,7 @@ export const fetchUserProducts = createAsyncThunk(
       const state = getState();
 
       const response = await axios.get(
-        'http://localhost:5000/v1/products/fetchUserProducts',
+        'http://localhost:5000/v1/products/userProducts',
         {
           params: {
             skip,
@@ -42,7 +42,7 @@ export const fetchAdminProducts = createAsyncThunk(
       const state = getState();
       const { limit, page } = state.products;
       const response = await axios.get(
-        `http://localhost:5000/v1/products/fetchAdminProducts?skip=${
+        `http://localhost:5000/v1/products/adminProducts?skip=${
           (page - 1) * limit
         }&limit=${limit}`,
         {
@@ -73,7 +73,7 @@ export const addProduct = createAsyncThunk(
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/v1/products/addProduct',
+        'http://localhost:5000/v1/products/product',
         requestData,
         {
           headers: {
@@ -94,7 +94,7 @@ export const addBulkProducts = createAsyncThunk(
     const state = getState();
     try {
       const response = await axios.post(
-        'http://localhost:5000/v1/products/addBulkProducts',
+        'http://localhost:5000/v1/products/bulkProducts',
         requestData,
         {
           headers: {
@@ -116,7 +116,7 @@ export const deleteProduct = createAsyncThunk(
       const state = getState();
 
       const response = await axios.delete(
-        `http://localhost:5000/v1/products/deleteProduct?_id=${_id}`,
+        `http://localhost:5000/v1/products/product?_id=${_id}`,
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
@@ -133,7 +133,7 @@ export const updateProduct = createAsyncThunk(
       const state = getState();
 
       const response = await axios.put(
-        'http://localhost:5000/v1/products/updateProduct',
+        'http://localhost:5000/v1/products/product',
         body,
         {
           headers: {

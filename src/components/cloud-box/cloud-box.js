@@ -10,7 +10,6 @@ const CloudBox = ({
   setDeletedImages
 }) => {
   const fileInputRef = useRef(null);
-  console.log({ deletedImages });
   const handleBrowseClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -41,7 +40,6 @@ const CloudBox = ({
     const newImages = [...selectedImages];
     newImages.splice(index, 1);
     setSelectedImages(newImages);
-    console.log({ deletedImages, temp });
   };
 
   return (

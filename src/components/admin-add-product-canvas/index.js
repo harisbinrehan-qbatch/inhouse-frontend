@@ -61,7 +61,7 @@ const AddProductCustomCanvas = ({
       images: selectedImages,
       deletedImages
     };
-    console.log({ obj });
+
     dispatch(updateProduct({ obj }));
     setUpdateProductCanvasShow(false);
   };

@@ -8,7 +8,7 @@ export const placeOrder = createAsyncThunk(
     try {
       const state = getState();
       const response = await axios.post(
-        'http://localhost:5000/v1/orders/placeOrder',
+        'http://localhost:5000/v1/orders/order',
         requestData,
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
@@ -26,7 +26,7 @@ export const addAddress = createAsyncThunk(
       const state = getState();
 
       const response = await axios.post(
-        'http://localhost:5000/v1/orders/saveAddress',
+        'http://localhost:5000/v1/orders/address',
         requestData,
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
@@ -44,7 +44,7 @@ export const getAddress = createAsyncThunk(
       const state = getState();
 
       const response = await axios.get(
-        `http://localhost:5000/v1/orders/getAddresses?userId=${userId}`,
+        `http://localhost:5000/v1/orders/address?userId=${userId}`,
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
@@ -61,7 +61,7 @@ export const updateDefaultAddress = createAsyncThunk(
       const state = getState();
 
       const response = await axios.put(
-        'http://localhost:5000/v1/orders/updateDefaultAddress',
+        'http://localhost:5000/v1/orders/address',
         requestData,
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );

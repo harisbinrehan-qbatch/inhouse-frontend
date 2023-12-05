@@ -85,7 +85,6 @@ const AddPaymentCanvas = ({ header, show, setShow }) => {
       handleClose();
     }
   };
-  console.log({ show });
 
   useEffect(() => {
     dispatch(getPaymentDetails(user.userId));

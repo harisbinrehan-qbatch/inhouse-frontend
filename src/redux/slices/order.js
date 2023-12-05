@@ -8,7 +8,7 @@ export const fetchAllOrders = createAsyncThunk(
       const state = getState();
       const { limit, page } = state.order;
 
-      let url = `http://localhost:5000/v1/orders/getOrders?skip=${
+      let url = `http://localhost:5000/v1/orders/orders?skip=${
         (page - 1) * limit
       }&limit=${limit}`;
 
@@ -33,7 +33,7 @@ export const fetchUserOrders = createAsyncThunk(
       const { limit, page } = state.order;
 
       const response = await axios.get(
-        `http://localhost:5000/v1/orders/getUserOrders?userId=${userId}&skip=${
+        `http://localhost:5000/v1/orders/userOrders?userId=${userId}&skip=${
           (page - 1) * limit
         }&limit=${limit}`,
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
@@ -68,7 +68,7 @@ export const getOrderStats = createAsyncThunk(
     try {
       const state = getState();
       const response = await axios.get(
-        'http://localhost:5000/v1/orders/getOrderStats',
+        'http://localhost:5000/v1/orders/dashboardStats',
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
@@ -84,7 +84,7 @@ export const getAdminOrderStats = createAsyncThunk(
     try {
       const state = getState();
       const response = await axios.get(
-        'http://localhost:5000/v1/orders/getAdminOrderStats',
+        'http://localhost:5000/v1/orders/stats',
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
       return response.data;
@@ -100,7 +100,7 @@ export const getNotifications = createAsyncThunk(
     try {
       const state = getState();
       const response = await axios.get(
-        'http://localhost:5000/v1/notifications/getNotifications',
+        'http://localhost:5000/v1/notifications/notifications',
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );
 
@@ -117,7 +117,7 @@ export const readNotification = createAsyncThunk(
     try {
       const state = getState();
       const response = await axios.put(
-        'http://localhost:5000/v1/notifications/readNotification',
+        'http://localhost:5000/v1/notifications/notifications',
         { notificationId },
         { headers: { Authorization: `Bearer ${state.authentication.user.token}` } }
       );

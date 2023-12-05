@@ -24,6 +24,7 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': 0,
     camelcase: 'off',
     radix: 'off',
+    indent: ['error', 2],
     quotes: ['warn', 'single'],
     'react/prop-types': 'off',
     'import/no-unresolved': 0,

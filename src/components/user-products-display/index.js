@@ -71,7 +71,7 @@ const UserProductsDisplay = ({
           />
 
           <img
-            className="user-products-display-image mt-5 ms-4 ps-2"
+            className="user-products-display-image mt-5"
             src={`http://localhost:5000/${product.images[currentImageIndex]}`}
             alt="product"
           />

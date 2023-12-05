@@ -32,11 +32,8 @@ const AddPayment = () => {
   } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
-  console.log('Initially', addPaymentCanvasShow);
   const handleAddPaymentDetails = () => {
-    console.log('Before', addPaymentCanvasShow);
     setAddPaymentCanvasShow(true);
-    console.log('After', addPaymentCanvasShow);
   };
 
   const handleMultiplePaymentDetails = () => {

@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
 import { Table } from 'react-bootstrap';
-import Arrow from '../../assets/images/Arrow-up-down.svg';
+
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import { fetchAllOrders } from '../../redux/slices/order';
 
@@ -104,27 +103,20 @@ function OrderDetails() {
             </p>
           </div>
           <div>
-            <p>__________________________________________________________</p>
+            <p>
+              _____________________________________________________________________________________________________________________________________________________________________
+            </p>
           </div>
           <div>
             <Table bordered hover responsive>
               <thead>
                 <tr className="table-secondary mt-3">
                   <th>Image</th>
-                  <th>
-                    Name
-                    <img src={Arrow} alt="Arrow Icon" className="ps-2" />
-                  </th>
+                  <th>Name</th>
                   <th>Size</th>
                   <th>Color</th>
-                  <th>
-                    Price
-                    <img src={Arrow} alt="Arrow Icon" className="ps-1" />
-                  </th>
-                  <th>
-                    Quantity
-                    <img src={Arrow} alt="Arrow Icon" className="ps-1" />
-                  </th>
+                  <th>Price</th>
+                  <th>Quantity</th>
                 </tr>
               </thead>
               <tbody>

@@ -1,24 +1,28 @@
 import { useEffect, useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import CustomForm from '../input';
 import CustomBtn from '../button';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import CloudBox from '../cloud-box/cloud-box';
 import {
-  setShow,
   addProduct,
-  updateProduct,
-  setUpdateCanvasShow
+  updateProduct
 } from '../../redux/slices/products';
 
 import './style.css';
 
 const AddProductCustomCanvas = ({
-  header, btnText, _id, selectedProduct
+  header,
+  btnText,
+  _id,
+  selectedProduct,
+  addProductCanvasShow,
+  setAddProductCanvasShow,
+  updateProductCanvasShow,
+  setUpdateProductCanvasShow
 }) => {
-  const { show, updateCanvasShow } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [selectedImages, setSelectedImages] = useState([]);
   const [deletedImages, setDeletedImages] = useState([]);
@@ -36,10 +40,10 @@ const AddProductCustomCanvas = ({
   });
 
   const handleClose = () => {
-    if (show) {
-      dispatch(setShow());
-    } else if (updateCanvasShow) {
-      dispatch(setUpdateCanvasShow());
+    if (addProductCanvasShow) {
+      setAddProductCanvasShow(false);
+    } else if (updateProductCanvasShow) {
+      setUpdateProductCanvasShow(false);
     }
   };
 
@@ -59,6 +63,7 @@ const AddProductCustomCanvas = ({
     };
     console.log({ obj });
     dispatch(updateProduct({ obj }));
+    setUpdateProductCanvasShow(false);
   };
 
   const validatePrice = (inputPrice) => {
@@ -95,7 +100,7 @@ const AddProductCustomCanvas = ({
 
   return (
     <Offcanvas
-      show={show || updateCanvasShow}
+      show={addProductCanvasShow || updateProductCanvasShow}
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"
@@ -217,9 +222,9 @@ const AddProductCustomCanvas = ({
                 className="d-flex custom-button justify-content-center p-2"
                 size="sm"
                 onClick={() => {
-                  if (show) {
+                  if (addProductCanvasShow) {
                     handleAddProduct();
-                  } else if (updateCanvasShow) {
+                  } else if (updateProductCanvasShow) {
                     handleUpdateProduct();
                   }
                 }}

@@ -17,8 +17,6 @@ import {
   deleteSelectedAll,
   getAddress,
   getCartOfSpecificUser,
-  setAddressShow,
-  setChangeAddressShow,
   setOrderSuccess,
   setProceedToCheckout
 } from '../../redux/slices/cart';
@@ -27,8 +25,6 @@ import './style.css';
 
 function UserCart() {
   const {
-    addressShow,
-    changeAddressShow,
     cartProducts,
     userCart,
     orderSuccess,
@@ -41,6 +37,10 @@ function UserCart() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   const [defaultAddress, setDefaultAddress] = useState({});
+
+  const [addressShow, setAddressShow] = useState(false);
+
+  const [changeAddressShow, setChangeAddressShow] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -67,7 +67,7 @@ function UserCart() {
   }, [addresses, cartProducts]);
 
   const handleAddAddressClick = () => {
-    dispatch(setAddressShow());
+    setAddressShow(true);
   };
 
   const handleSetOrderSuccess = () => {
@@ -75,7 +75,7 @@ function UserCart() {
   };
 
   const handleChangeAddressClick = () => {
-    dispatch(setChangeAddressShow());
+    setChangeAddressShow(true);
   };
 
   const handleSetProceedToCheckout = () => {
@@ -196,9 +196,18 @@ function UserCart() {
         </div>
       </div>
       {addressShow ? (
-        <AddAddress header="Add Delivery Address" />
+        <AddAddress
+          header="Add Delivery Address"
+          show={addressShow}
+          setShow={setAddressShow}
+        />
       ) : changeAddressShow ? (
-        <ChangeAddressCanvas header="Choose Address" />
+        <ChangeAddressCanvas
+          header="Choose Address"
+          show={changeAddressShow}
+          setShow={setChangeAddressShow}
+          setAddAddressShow={setAddressShow}
+        />
       ) : null}
     </div>
   );

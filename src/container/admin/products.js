@@ -11,8 +11,6 @@ import {
   deleteProduct,
   fetchAdminProducts,
   setPageOne,
-  setShow,
-  setUpdateCanvasShow,
   incrementPage,
   decrementPage,
   setLimit,
@@ -50,8 +48,9 @@ const Products = () => {
   const [importBulkErrorsShow, setImportBulkErrorsShow] = useState(false);
   const [importBulkDiv, setImportBulkDiv] = useState(false);
   const [fileName, setFileName] = useState('');
-  const { show, updateCanvasShow } = useSelector((state) => state.products);
   const [modalShow, setModalShow] = useState(false);
+  const [addProductCanvasShow, setAddProductCanvasShow] = useState(false);
+  const [updateProductCanvasShow, setUpdateProductCanvasShow] = useState(false);
 
   const [bulkProducts, setBulkProducts] = useState([]);
   const {
@@ -63,12 +62,12 @@ const Products = () => {
   const fileInputRef = useRef(null);
 
   const handleAddProductClick = () => {
-    dispatch(setShow());
+    setAddProductCanvasShow(true);
   };
 
   const handleUpdateClick = (productId) => {
     setCurrentProductId(productId);
-    dispatch(setUpdateCanvasShow());
+    setUpdateProductCanvasShow(true);
   };
 
   const handleDeleteProduct = (productId) => {
@@ -230,8 +229,15 @@ const Products = () => {
           )}
         </div>
       </div>
-      {show && (
-        <AddProductCustomCanvas header="Add Product" btnText="Add Product" />
+      {addProductCanvasShow && (
+        <AddProductCustomCanvas
+          header="Add Product"
+          btnText="Add Product"
+          addProductCanvasShow={addProductCanvasShow}
+          setAddProductCanvasShow={setAddProductCanvasShow}
+          updateProductCanvasShow={updateProductCanvasShow}
+          setUpdateProductCanvasShow={setUpdateProductCanvasShow}
+        />
       )}
       <ImportBulkErrorsCanvas
         show={importBulkErrorsShow}
@@ -246,10 +252,14 @@ const Products = () => {
         bulkProducts={bulkProducts}
         setBulkProducts={setBulkProducts}
       />
-      {updateCanvasShow && (
+      {updateProductCanvasShow && (
         <AddProductCustomCanvas
           header="Update Product"
           btnText="Update Product"
+          addProductCanvasShow={addProductCanvasShow}
+          setAddProductCanvasShow={setAddProductCanvasShow}
+          updateProductCanvasShow={updateProductCanvasShow}
+          setUpdateProductCanvasShow={setUpdateProductCanvasShow}
           _id={currentProductId}
           selectedProduct={products.find(
             (product) => product._id === currentProductId

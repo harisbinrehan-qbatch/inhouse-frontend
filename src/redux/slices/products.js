@@ -152,8 +152,6 @@ export const updateProduct = createAsyncThunk(
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
-    show: false,
-    updateCanvasShow: false,
     isFilter: false,
     data: [],
     bulkUploadResult: {},
@@ -169,14 +167,6 @@ const productsSlice = createSlice({
     addSuccess: false
   },
   reducers: {
-    setShow(state) {
-      state.show = !state.show;
-    },
-
-    setUpdateCanvasShow(state) {
-      state.updateCanvasShow = !state.updateCanvasShow;
-    },
-
     incrementPage(state) {
       state.page += 1;
     },
@@ -315,8 +305,6 @@ export const {
   incrementPage,
   decrementPage,
   setPageOne,
-  setShow,
-  setUpdateCanvasShow,
   setPage,
   setLimit,
   setTotalCount,

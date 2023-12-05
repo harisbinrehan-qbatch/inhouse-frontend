@@ -1,33 +1,32 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import {
-  setAddressShow,
-  setChangeAddressShow
-} from '../../redux/slices/cart';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import AddressBox from '../user-address-box';
 import CustomBtn from '../button';
 
 import './style.css';
 
-const ChangeAddressCanvas = ({ header }) => {
-  const { changeAddressShow, addresses } = useSelector((state) => state.cart);
-
-  const dispatch = useDispatch();
+const ChangeAddressCanvas = ({
+  header,
+  show,
+  setShow,
+  setAddAddressShow
+}) => {
+  const { addresses } = useSelector((state) => state.cart);
 
   const handleClose = () => {
-    dispatch(setChangeAddressShow());
+    setShow(false);
   };
 
   const handleAddAddressClick = () => {
-    dispatch(setAddressShow());
-    dispatch(setChangeAddressShow());
+    setShow(false);
+    setAddAddressShow(true);
   };
 
   return (
     <Offcanvas
-      show={changeAddressShow}
+      show={show}
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"

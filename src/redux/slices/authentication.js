@@ -173,9 +173,9 @@ const authSlice = createSlice({
         message.success(action.payload.message, 2);
       })
       .addCase(verifyUser.pending, () => {})
-      .addCase(verifyUser.rejected, (state, action) => {
+      .addCase(verifyUser.rejected, (state) => {
         state.isVerifiedUser = false;
-        message.error(action.payload.message, 2);
+        message.error('Verification failed', 2);
       });
   }
 });

@@ -155,12 +155,9 @@ const cartSlice = createSlice({
     addAddressSuccess: false,
     updateAddressSuccess: false,
     orderSuccess: false,
-    mastercardShow: false,
-    changeAddressShow: false,
-    addressShow: false,
     proceedToCheckout: false,
-    userOrderDetailsShow: false,
-    paymentDetailsStatus: false
+    paymentDetailsStatus: false,
+    userOrderDetailsShow: false
   },
   reducers: {
     setCartSummaryNull: (state) => {
@@ -242,24 +239,12 @@ const cartSlice = createSlice({
       state.orderSummary = action.payload;
     },
 
-    setMastercardShow(state) {
-      state.mastercardShow = !state.mastercardShow;
-    },
-
     setUserOrderDetailsShow(state) {
       state.userOrderDetailsShow = !state.userOrderDetailsShow;
     },
 
     setPaymentDetailsNull(state) {
       state.paymentDetails = [];
-    },
-
-    setChangeAddressShow(state) {
-      state.changeAddressShow = !state.changeAddressShow;
-    },
-
-    setAddressShow(state) {
-      state.addressShow = !state.addressShow;
     },
 
     setProceedToCheckout: (state) => {
@@ -446,9 +431,6 @@ const cartSlice = createSlice({
 export const {
   addToCart,
   setOrderSummary,
-  setMastercardShow,
-  setChangeAddressShow,
-  setAddressShow,
   setProceedToCheckout,
   moveToCartFromNavbar,
   removeFromCart,

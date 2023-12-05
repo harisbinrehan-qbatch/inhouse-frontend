@@ -20,6 +20,7 @@ const UserProducts = () => {
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(4);
   const [scrollEnabled, setScrollEnabled] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -69,6 +70,7 @@ const UserProducts = () => {
 
   const showProductDetails = (product) => {
     setSelectedProduct(product);
+    setCurrentImageIndex(0);
   };
 
   return (
@@ -149,7 +151,11 @@ const UserProducts = () => {
           </div>
 
           <Suspense fallback={<Loading />}>
-            <UserProductsDisplay product={selectedProduct} />
+            <UserProductsDisplay
+              product={selectedProduct}
+              currentImageIndex={currentImageIndex}
+              setCurrentImageIndex={setCurrentImageIndex}
+            />
           </Suspense>
         </div>
       )}

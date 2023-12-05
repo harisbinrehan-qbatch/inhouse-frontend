@@ -11,7 +11,7 @@ const ImportBulk = ({ setShow, handleCloseBulk, fileName }) => {
   };
 
   return (
-    <div className="container import-bulk-div">
+    <div className="container mt-5 import-bulk-div">
       <div className="d-flex justify-content-between">
         <b className="d-flex mt-2">Uploaded File Status</b>
         <img

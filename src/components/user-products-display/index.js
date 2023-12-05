@@ -8,8 +8,25 @@ import CustomBtn from '../button';
 
 import './style.css';
 
-const UserProductsDisplay = ({ product }) => {
+const UserProductsDisplay = ({
+  product,
+  currentImageIndex,
+  setCurrentImageIndex
+}) => {
   const dispatch = useDispatch();
+
+  const handlePreviousImage = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
+  const handleNextImage = () => {
+    if (currentImageIndex < product.images.length - 1) {
+      setCurrentImageIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
   const [productQuantity, setProductQuantity] = useState(1);
 
   useEffect(() => {
@@ -45,11 +62,28 @@ const UserProductsDisplay = ({ product }) => {
       <div className="m-4 ms-3 p-4 user-products-display-main-div">
         <h4 className="ps-3 heading">Product Information:</h4>
         <div className="d-flex">
+          <CustomBtn
+            className="product-display-image-button"
+            variant="light"
+            btnText="<"
+            onClick={handlePreviousImage}
+            disabled={currentImageIndex === 0}
+          />
+
           <img
             className="user-products-display-image mt-5 ms-4 ps-2"
-            src={`http://localhost:5000/${product.images[0]}`}
+            src={`http://localhost:5000/${product.images[currentImageIndex]}`}
             alt="product"
           />
+          <div className="justify-content-center align-items-center">
+            <CustomBtn
+              className="product-display-image-button ms-3"
+              variant="light"
+              btnText=">"
+              onClick={handleNextImage}
+              disabled={currentImageIndex === product.images.length - 1}
+            />
+          </div>
 
           <div className="mt-4 ms-4 pt-3">
             <div className="p-3">

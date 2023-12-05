@@ -5,8 +5,7 @@ import MasterCard from '../master-card';
 import {
   deletePaymentDetails,
   getPaymentDetails,
-  placeOrder,
-  setMastercardShow
+  placeOrder
 } from '../../redux/slices/cart';
 import CustomBtn from '../button';
 import Pencil from '../../assets/images/edit-payment.svg';
@@ -20,11 +19,11 @@ import './style.css';
 const AddPayment = () => {
   const [multiplePaymentsCanvasShow, setMultiplePaymentsCanvasShow] = useState(false);
   const [editPaymentCanvasShow, setEditPaymentCanvasShow] = useState(false);
+  const [addPaymentCanvasShow, setAddPaymentCanvasShow] = useState(false);
 
   const user = JSON.parse(localStorage.getItem('user'));
 
   const {
-    mastercardShow,
     selectedCardIndex,
     paymentDetails,
     userCart,
@@ -33,14 +32,18 @@ const AddPayment = () => {
   } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
-
+  console.log('Initially', addPaymentCanvasShow);
   const handleAddPaymentDetails = () => {
-    dispatch(setMastercardShow());
-    // dispatch(getPaymentDetails(user.userId));
+    console.log('Before', addPaymentCanvasShow);
+    setAddPaymentCanvasShow(true);
+    console.log('After', addPaymentCanvasShow);
   };
 
   const handleMultiplePaymentDetails = () => {
     setMultiplePaymentsCanvasShow(true);
+  };
+  const handleEditPaymentCanvas = () => {
+    setEditPaymentCanvasShow(true);
   };
 
   const handlePlaceOrder = () => {
@@ -61,9 +64,6 @@ const AddPayment = () => {
     }
   };
 
-  const handleEditPaymentCanvas = () => {
-    setEditPaymentCanvasShow(true);
-  };
   const handleDeletePaymentDetails = async () => {
     const cardStripeId = paymentDetails[selectedCardIndex].cardId;
     const userStripeId = user.stripeId;
@@ -118,13 +118,19 @@ const AddPayment = () => {
         </div>
       ) : null}
 
-      {mastercardShow && <AddPaymentCanvas header="Add Payment Details" />}
+      {addPaymentCanvasShow && (
+        <AddPaymentCanvas
+          header="Add Payment Details"
+          show={addPaymentCanvasShow}
+          setShow={setAddPaymentCanvasShow}
+        />
+      )}
 
       {editPaymentCanvasShow && (
-      <EditPaymentCanvas
-        show={editPaymentCanvasShow}
-        setShow={setEditPaymentCanvasShow}
-      />
+        <EditPaymentCanvas
+          show={editPaymentCanvasShow}
+          setShow={setEditPaymentCanvasShow}
+        />
       )}
 
       {multiplePaymentsCanvasShow && (

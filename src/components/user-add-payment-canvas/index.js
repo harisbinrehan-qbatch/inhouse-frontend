@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import { getPaymentDetails, savePaymentDetails, setMastercardShow } from '../../redux/slices/cart';
+import { getPaymentDetails, savePaymentDetails } from '../../redux/slices/cart';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import CustomForm from '../input';
 import CustomBtn from '../button';
 
 import './style.css';
 
-const AddPaymentCanvas = ({ header }) => {
-  const { mastercardShow, paymentDetails, paymentDetailsStatus } = useSelector(
+const AddPaymentCanvas = ({ header, show, setShow }) => {
+  const { paymentDetails, paymentDetailsStatus } = useSelector(
     (state) => state.cart
   );
 
@@ -20,6 +20,10 @@ const AddPaymentCanvas = ({ header }) => {
   const [cardNumberSuggestions, setCardNumberSuggestions] = useState([]);
   const [monthSuggestions, setMonthSuggestions] = useState([]);
   const [yearSuggestions, setYearSuggestions] = useState([]);
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const dispatch = useDispatch();
 
   const validateCardNumber = (inputCardNumber) => {
     const isValidLength = inputCardNumber.length === 16;
@@ -51,20 +55,16 @@ const AddPaymentCanvas = ({ header }) => {
     setYearSuggestions(localYearSuggestions);
   };
 
-  const user = JSON.parse(localStorage.getItem('user'));
-
-  const dispatch = useDispatch();
-
-  const [cardholderName, setCardholderName] = useState(
-    user?.username || ''
-  );
+  const [cardholderName, setCardholderName] = useState(user?.username || '');
 
   const [number, setNumber] = useState(paymentDetails?.cardNumber || '');
-  const [exp_month, setExpiryMonth] = useState(paymentDetails?.expiryMonth || '');
+  const [exp_month, setExpiryMonth] = useState(
+    paymentDetails?.expiryMonth || ''
+  );
   const [exp_year, setExpiryYear] = useState(paymentDetails?.expiryYear || '');
 
   const handleClose = () => {
-    dispatch(setMastercardShow());
+    setShow(false);
   };
 
   const handleSavePaymentDetails = () => {
@@ -85,6 +85,7 @@ const AddPaymentCanvas = ({ header }) => {
       handleClose();
     }
   };
+  console.log({ show });
 
   useEffect(() => {
     dispatch(getPaymentDetails(user.userId));
@@ -92,7 +93,7 @@ const AddPaymentCanvas = ({ header }) => {
 
   return (
     <Offcanvas
-      show={mastercardShow}
+      show={show}
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"

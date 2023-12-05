@@ -168,8 +168,7 @@
 }
 
 .import-bulk-div {
-  margin-top: 54px;
-
+  max-width: 1120px !important;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   background-color: rgb(255, 255, 255);
   border: 1px solid #d0d0d0;

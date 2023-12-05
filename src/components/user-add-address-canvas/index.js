@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { setAddressShow, addAddress } from '../../redux/slices/cart';
+import { addAddress } from '../../redux/slices/cart';
 
 import CustomForm from '../input';
 import CustomBtn from '../button';
@@ -9,19 +9,19 @@ import arrowLeft from '../../assets/images/Arrow left.svg';
 
 import './style.css';
 
-const AddAddress = ({ header }) => {
-  const [name, setName] = useState('Haris Bin Rehan');
-  const [mobile, setMobile] = useState('03104106129');
-  const [country, setCountry] = useState('Pakistan');
-  const [province, setProvince] = useState('Punjab');
-  const [city, setCity] = useState('Lahore');
-  const [address, setAddress] = useState('Asia center, Qbatch');
+const AddAddress = ({ header, show, setShow }) => {
+  const [name, setName] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [country, setCountry] = useState('');
+  const [province, setProvince] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
   const [isDefault, setIsDefault] = useState(false);
-  const { addressShow } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('user'));
+
   const handleClose = () => {
-    dispatch(setAddressShow());
+    setShow(false);
   };
 
   const handleSaveAddress = () => {
@@ -42,7 +42,7 @@ const AddAddress = ({ header }) => {
 
   return (
     <Offcanvas
-      show={addressShow}
+      show={show}
       onHide={handleClose}
       placement="end"
       className="custom-offcanvas"

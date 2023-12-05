@@ -128,13 +128,13 @@ const UserProducts = () => {
             <div>
               {products.length === totalCount ? (
                 <b style={{ color: 'grey' }}>No more products found</b>
-              ) : (
+              ) : !isFilter ? (
                 <b style={{ color: 'grey' }}>
                   {totalCount}
                   {' '}
                   items found in Clothing & Accessories
                 </b>
-              )}
+              ) : null}
             </div>
 
             <div

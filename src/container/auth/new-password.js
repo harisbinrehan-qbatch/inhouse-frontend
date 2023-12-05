@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { message } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Result, message } from 'antd';
 
 import CustomBtn from '../../components/button';
 import CustomForm from '../../components/input';
-import { resetPassword } from '../../redux/slices/authentication';
+import { resetPassword, verifyToken } from '../../redux/slices/authentication';
 
 import './style.css';
 
@@ -19,6 +19,17 @@ const NewPassword = ({ header }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { tokenExpiry } = useSelector((state) => state.authentication);
+  console.log({ tokenExpiry });
+
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+
+    const token = query.get('token');
+
+    dispatch(verifyToken({ token }));
+  }, []);
 
   const handleConfirmPasswordChange = (e) => {
     const newConfirmPassword = e.target.value;
@@ -72,14 +83,15 @@ const NewPassword = ({ header }) => {
         navigate('/auth/login');
       });
     } else {
-      message.error(
-        'Passwords must be the same and meet the password strength criteria',
-        2
-      );
+      message.error('Passwords must be the same and meet the password strength criteria', 2);
     }
   };
 
-  return (
+  return tokenExpiry ? (
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <Result status="403" title="Link Expired" />
+    </div>
+  ) : (
     <div>
       <div className="login-rectangle">
         <h2 className="pb-3 header">{header}</h2>

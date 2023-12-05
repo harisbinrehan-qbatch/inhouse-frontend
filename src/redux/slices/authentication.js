@@ -19,6 +19,23 @@ export const verifyUser = createAsyncThunk(
   }
 );
 
+export const verifyToken = createAsyncThunk(
+  'auth/verifyToken',
+  async (body, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/v1/auth/verifyToken',
+        body,
+        { headers: { Authorization: `Bearer ${body.token}` } }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ error: error.response.data.error });
+    }
+  }
+);
+
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async (body, { rejectWithValue }) => {
@@ -93,6 +110,7 @@ const authSlice = createSlice({
     isAdmin: false,
     isUser: false,
     isVerifiedUser: false,
+    tokenExpiry: false,
     token: ''
   },
   reducers: {
@@ -164,7 +182,8 @@ const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.resetPasswordError = true;
-        state.resetPasswordMessage = action.payload.message || 'Password reset failed';
+        state.resetPasswordMessage = action.payload.message
+          || 'Link is already used to reset password. Please try again';
         message.error(state.resetPasswordMessage, 2);
       })
 
@@ -176,6 +195,19 @@ const authSlice = createSlice({
       .addCase(verifyUser.rejected, (state) => {
         state.isVerifiedUser = false;
         message.error('Verification failed', 2);
+      })
+
+      .addCase(verifyToken.fulfilled, (state, action) => {
+        if (action.payload.tokenExpiry === true) {
+          state.tokenExpiry = true;
+        } else {
+          message.success('This link has expired', 2);
+          state.tokenExpiry = false;
+        }
+      })
+      .addCase(verifyToken.pending, () => {})
+      .addCase(verifyToken.rejected, (state) => {
+        state.tokenExpiry = false;
       });
   }
 });

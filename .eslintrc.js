@@ -28,6 +28,7 @@ module.exports = {
     quotes: ['warn', 'single'],
     'react/prop-types': 'off',
     'import/no-unresolved': 0,
+    'consistent-return': 'off',
     'react/destructuring-assignment': ['warn', 'always'],
     'react/react-in-jsx-scope': 0,
     'import/extensions': 0,
@@ -46,6 +47,7 @@ module.exports = {
     'no-nested-ternary': 'off',
     'react/jsx-no-useless-fragment': 'off',
     'max-len': 'off',
+    'indent-legacy': ['error', 2],
     'comma-dangle': ['error', 'never'],
     'object-curly-newline': [
       'error',

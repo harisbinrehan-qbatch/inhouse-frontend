@@ -89,7 +89,7 @@ const NewPassword = ({ header }) => {
 
   return tokenExpiry ? (
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <Result status="403" title="Link Expired" />
+      <Result status="error" subTitle="Sorry, Link has been expired." />
     </div>
   ) : (
     <div>

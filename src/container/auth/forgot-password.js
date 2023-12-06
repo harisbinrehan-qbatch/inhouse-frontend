@@ -41,7 +41,6 @@ const ForgotPassword = ({ header }) => {
     setIsSendingEmail(true);
     try {
       await dispatch(sendEmail({ email, token: user.token }));
-      window.location.href = 'https://mail.google.com/mail';
     } catch (error) {
       message.error('Error sending email. Please try again.');
     } finally {

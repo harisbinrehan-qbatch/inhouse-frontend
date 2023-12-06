@@ -5,6 +5,7 @@ import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { addToCart, moveToCartFromNavbar, setOrderSuccess } from '../../redux/slices/cart';
 import CustomBtn from '../button';
+import AutoImageChange from '../auto-image-change';
 
 import './style.css';
 
@@ -32,6 +33,7 @@ const UserProductsDisplay = ({
   useEffect(() => {
     setProductQuantity(1);
   }, [product]);
+
   const user = JSON.parse(localStorage.getItem('user'));
 
   const { isUser } = useSelector((state) => state.authentication);
@@ -62,28 +64,15 @@ const UserProductsDisplay = ({
       <div className="m-4 ms-3 p-4 user-products-display-main-div">
         <h4 className="ps-3 heading">Product Information:</h4>
         <div className="d-flex">
-          <CustomBtn
-            className="product-display-image-button"
-            variant="light"
-            btnText="<"
-            onClick={handlePreviousImage}
-            disabled={currentImageIndex === 0}
+          <AutoImageChange
+            currentImageIndex={currentImageIndex}
+            setCurrentImageIndex={setCurrentImageIndex}
+            product={product}
+            handleNextImage={handleNextImage}
+            handlePreviousImage={handlePreviousImage}
+            images={product.images}
+            onChange={(index) => console.log(index)}
           />
-
-          <img
-            className="user-products-display-image mt-5"
-            src={`http://localhost:5000/${product.images[currentImageIndex]}`}
-            alt="product"
-          />
-          <div className="justify-content-center align-items-center">
-            <CustomBtn
-              className="product-display-image-button ms-3"
-              variant="light"
-              btnText=">"
-              onClick={handleNextImage}
-              disabled={currentImageIndex === product.images.length - 1}
-            />
-          </div>
 
           <div className="mt-4 ms-4 pt-3">
             <div className="p-3">
@@ -111,48 +100,48 @@ const UserProductsDisplay = ({
             </div>
           </div>
         </div>
-        <div className="d-flex pt-5 justify-content-end">
-          {isUser ? (
-            <div className="container d-flex align-items-center justify-content-around gap-5">
-              <div className="d-flex">
-                <CustomBtn
-                  className="py-1"
-                  variant="secondary"
-                  btnText="-"
-                  onClick={() => {
-                    if (productQuantity !== 1) {
-                      setProductQuantity((prev) => prev - 1);
-                    }
-                  }}
-                />
-                <div className="d-flex cart-counter-view ms-2 mt-1 me-2">
-                  {productQuantity}
-                </div>
-                <CustomBtn
-                  className="py-1"
-                  variant="secondary"
-                  btnText="+"
-                  onClick={() => {
-                    if (productQuantity !== product.quantity) {
-                      setProductQuantity((prev) => prev + 1);
-                    } else {
-                      message.warning('No more products available', 2);
-                    }
-                  }}
-                />
+        {isUser ? (
+          <div className="d-flex mt-4 ms-5 ps-4 justify-content-around">
+            <div className="d-flex">
+              <CustomBtn
+                className="py-1"
+                variant="secondary"
+                btnText="-"
+                onClick={() => {
+                  if (productQuantity !== 1) {
+                    setProductQuantity((prev) => prev - 1);
+                  }
+                }}
+              />
+              <div className="d-flex cart-counter-view ms-2 mt-1 me-2">
+                {productQuantity}
               </div>
-              <div>
-                <Link to="./shopping-bag">
-                  <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
-                </Link>
-              </div>
+              <CustomBtn
+                className="py-1"
+                variant="secondary"
+                btnText="+"
+                onClick={() => {
+                  if (productQuantity !== product.quantity) {
+                    setProductQuantity((prev) => prev + 1);
+                  } else {
+                    message.warning('No more products available', 2);
+                  }
+                }}
+              />
             </div>
-          ) : (
-            <Link to="/auth/login">
+            <div>
+              <Link to="./shopping-bag">
+                <CustomBtn btnText="Add to cart" onClick={handleAddToCart} />
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <Link to="/auth/login">
+            <div className="d-flex mt-4 justify-content-end">
               <CustomBtn btnText="Login to continue" />
-            </Link>
-          )}
-        </div>
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );

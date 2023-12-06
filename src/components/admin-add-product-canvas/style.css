@@ -21,16 +21,18 @@
 }
 .custom-offcanvas {
   width: 650px !important;
+  max-height: 100vh !important;
+  overflow: auto !important;
 }
 .upload-image {
-    width: 170px;
-    height: 169px;
-    text-align: center;
-    border: 1px solid var(--components-forms-input-border, #CED4DA);
-    border-radius: 4px;
+  width: 170px;
+  height: 169px;
+  text-align: center;
+  border: 1px solid var(--components-forms-input-border, #ced4da);
+  border-radius: 4px;
 }
 
-.text-style{
+.text-style {
   font-family: Inter;
   font-size: 12px;
   font-weight: 400;
@@ -46,17 +48,17 @@
 .custom-offcanvas-header {
   display: flex;
 }
-.offcanvas-body{
- min-width: 400px !important;
- min-height: 600px !important;
+.offcanvas-body {
+  min-width: 400px !important;
+  min-height: 600px !important;
 }
-.custom-button{
+.custom-button {
   min-width: 2px;
 }
-.add-product-header{
-     background-color: rgba(233, 236, 239, 1);
+.add-product-header {
+  background-color: rgba(233, 236, 239, 1);
 }
-.image-item{
+.image-item {
   max-width: 60px;
   max-height: 60px;
 }
@@ -79,8 +81,8 @@
   line-height: 1;
 }
 .square.selected {
-  border: 3px solid #007BFF;
+  border: 3px solid #007bff;
 }
 .size.selected {
-  border: 2px solid #007BFF;
+  border: 2px solid #007bff;
 }

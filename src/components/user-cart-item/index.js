@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { message } from 'antd';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 
 import CustomBtn from '../button';
 import Trash from '../../assets/images/Trash.svg';
@@ -10,6 +13,7 @@ import {
   incrementQuantity,
   removeFromCart
 } from '../../redux/slices/cart';
+
 import './style.css';
 
 const colorMap = {
@@ -26,7 +30,6 @@ function getColorName(hexCode) {
 
 function CartItem({ cartItem }) {
   const { data } = useSelector((state) => state.products);
-  const { proceedToCheckout } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
@@ -71,31 +74,24 @@ function CartItem({ cartItem }) {
         </div>
       </div>
       <div className="container d-flex align-items-center justify-content-between">
-        {!proceedToCheckout ? (
-          <div className="d-flex">
-            <CustomBtn
-              className="py-1"
-              variant="secondary"
-              btnText="-"
-              onClick={handleDecrementQuantity}
-            />
-            <div className="d-flex cart-counter-view ms-2 mt-1 me-2">
-              {cartItem.quantity}
-            </div>
-            <CustomBtn
-              className="py-1"
-              variant="secondary"
-              btnText="+"
-              onClick={handleIncrementQuantity}
-            />
-          </div>
-        ) : (
-          <div>
-            Quantity:
-            {' '}
+
+        <div className="d-flex">
+          <CustomBtn
+            className="py-1"
+            variant="secondary"
+            btnText="-"
+            onClick={handleDecrementQuantity}
+          />
+          <div className="d-flex cart-counter-view ms-2 mt-1 me-2">
             {cartItem.quantity}
           </div>
-        )}
+          <CustomBtn
+            className="py-1"
+            variant="secondary"
+            btnText="+"
+            onClick={handleIncrementQuantity}
+          />
+        </div>
 
         <div>
           Price:
@@ -103,16 +99,12 @@ function CartItem({ cartItem }) {
           {cartItem.price}
         </div>
         <div className="cart-trash">
-          {!proceedToCheckout ? (
-            <img
-              src={Trash}
-              alt="trash"
-              onClick={handleRemoveFromCart}
-              className="cart-trash-enabled"
-            />
-          ) : (
-            <img src={Trash} alt="trash" className="cart-trash-disabled" />
-          )}
+          <img
+            src={Trash}
+            alt="trash"
+            onClick={handleRemoveFromCart}
+            className="cart-trash-enabled"
+          />
         </div>
       </div>
     </div>

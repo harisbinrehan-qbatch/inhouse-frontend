@@ -5,6 +5,8 @@ import { Table } from 'react-bootstrap';
 import arrowLeft from '../../assets/images/Arrow left.svg';
 import { setUserOrderDetailsShow } from '../../redux/slices/cart';
 
+import './style.css';
+
 const colorMap = {
   '#155724': 'green',
   '#AAA': 'grey',
@@ -33,9 +35,8 @@ const UserOrderDetailsCanvas = ({ orderData }) => {
     <Offcanvas
       show={userOrderDetailsShow}
       onHide={handleClose}
-      placement="end"
-      className="custom-offcanvas"
-      height={600}
+      placement="bottom"
+      className="order-details-offcanvas"
     >
       <div className="d-flex add-product-header">
         <div>
@@ -57,6 +58,60 @@ const UserOrderDetailsCanvas = ({ orderData }) => {
       <div className="d-flex offcanvas-body">
         <Offcanvas.Body>
           <div>
+            <div className="container d-flex justify-content-between">
+              <p>
+                <strong style={{ color: 'green' }}>Date:</strong>
+                {' '}
+                <strong className="">
+                  {new Date(orderData.date).toLocaleString('en-US', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                  })}
+                </strong>
+              </p>
+              <p>
+                <strong style={{ color: 'green' }}>Order #:</strong>
+                {' '}
+                <strong className="ps-1">{orderData.orderId}</strong>
+              </p>
+              <p>
+                <strong style={{ color: 'green' }}>User:</strong>
+                {' '}
+                <strong className="ps-1">{orderData.username}</strong>
+              </p>
+              <p>
+                <strong style={{ color: 'green' }}>Products:</strong>
+                {' '}
+                <strong className="ps-1">{orderData.products.length}</strong>
+              </p>
+
+              <p>
+                <strong style={{ color: 'green' }}>Amount:</strong>
+                {' '}
+                <strong className="ps-1">{orderData.total}</strong>
+              </p>
+              <p className="d-flex">
+                <strong style={{ color: 'green' }}>Status:</strong>
+                {' '}
+                {orderData.isPaid ? (
+                  <div
+                    className="row-paid-div ms-2"
+                    style={{ marginTop: '-5px' }}
+                  >
+                    Paid
+                  </div>
+                ) : (
+                  <div
+                    className="row-unpaid-div ms-2"
+                    style={{ marginTop: '-5px' }}
+                  >
+                    Unpaid
+                  </div>
+                )}
+              </p>
+            </div>
+            <hr />
             <Table bordered hover responsive>
               <thead>
                 <tr className="table-secondary mt-3">

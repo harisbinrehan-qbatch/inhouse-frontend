@@ -2,13 +2,24 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import axios from 'axios';
 
+export const signinWithGoogle = createAsyncThunk(
+  'auth/signinWithGoogle',
+  async (body, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('http://localhost:5000/v1/auth/googleSignin', body);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ error: error.response.data.error });
+    }
+  }
+);
 export const verifyUser = createAsyncThunk(
   'auth/verifyUser',
   async (body, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         'http://localhost:5000/v1/auth/verifyUser',
-        body,
         { headers: { Authorization: `Bearer ${body.token}` } }
       );
 
@@ -57,10 +68,7 @@ export const sendEmail = createAsyncThunk(
   'auth/forgotPassword',
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        'http://localhost:5000/v1/auth/sendEmail',
-        email
-      );
+      const response = await axios.post('http://localhost:5000/v1/auth/sendEmail', email);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -72,10 +80,7 @@ export const signUpUser = createAsyncThunk(
   'signUpStatus',
   async (body, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        'http://localhost:5000/v1/auth/signup',
-        body
-      );
+      const response = await axios.post('http://localhost:5000/v1/auth/signup', body);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -105,9 +110,10 @@ const authSlice = createSlice({
     signUpError: false,
     signUpMessage: null,
     loginMessage: null,
-    loginError: false,
+    loginError: true,
     user: {},
     isAdmin: false,
+    loading: false,
     isUser: false,
     isVerifiedUser: false,
     tokenExpiry: false,
@@ -119,7 +125,6 @@ const authSlice = createSlice({
       state.user = '';
       state.isAdmin = false;
       state.isUser = false;
-      state.loginError = true;
       message.success('Logout Successful', 2);
     }
   },
@@ -153,7 +158,8 @@ const authSlice = createSlice({
         state.loginMessage = action.payload.message || 'Login Successful';
         message.success('Login Successful', 2);
       })
-      .addCase(loginUser.pending, () => {})
+      .addCase(loginUser.pending, () => {
+      })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginError = true;
         state.loginMessage = action.payload?.message || 'Login failed';
@@ -208,6 +214,24 @@ const authSlice = createSlice({
       .addCase(verifyToken.pending, () => {})
       .addCase(verifyToken.rejected, (state) => {
         state.tokenExpiry = false;
+      })
+
+      .addCase(signinWithGoogle.fulfilled, (state, action) => {
+        state.loginError = false;
+        state.loading = false;
+        state.user = action.payload;
+        state.isAdmin = false;
+        state.isUser = true;
+        localStorage.setItem('user', JSON.stringify(action.payload));
+        message.success('Login Successful', 2);
+      })
+      .addCase(signinWithGoogle.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(signinWithGoogle.rejected, (state) => {
+        state.loginError = true;
+        state.loading = false;
+        message.error('Login failed', 2);
       });
   }
 });

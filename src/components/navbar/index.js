@@ -224,7 +224,7 @@ function CustomNavbar() {
             ) : null}
             {isUser || isAdmin ? (
               <Image
-                src={userImage}
+                src={user.image ? user.image : userImage}
                 alt="User Image"
                 className="user-image mx-3"
                 roundedCircle

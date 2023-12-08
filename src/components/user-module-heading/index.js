@@ -15,15 +15,15 @@ const UserModuleHeader = () => {
   const dropdownArray = [
     {
       heading: 'Size',
-      items: ['none', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
+      items: ['none', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
     },
     {
       heading: 'Color',
-      items: ['none', '#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'],
+      items: ['none', '#155724', '#AAA', '#1B1E21', '#231579', '#740F0F']
     },
     {
       heading: 'Price',
-      items: ['none', '$0 - $200', '$200 - $400', '$400 - $1000'],
+      items: ['none', '$0 - $200', '$200 - $400', '$400 - $1000']
     },
     {
       heading: 'Sorting',
@@ -31,9 +31,9 @@ const UserModuleHeader = () => {
         'none',
         'Price low to high',
         'Price high to low',
-        'Newest products',
-      ],
-    },
+        'Newest products'
+      ]
+    }
   ];
 
   const handleSearch = debounce((e) => {
@@ -42,7 +42,7 @@ const UserModuleHeader = () => {
     setFilterObject((prevFilterObject) => {
       const latestFilterObject = {
         ...prevFilterObject,
-        search,
+        search
       };
       if (isEmpty(prevFilterObject)) {
         dispatch(setIsFilter(false));
@@ -73,7 +73,7 @@ const UserModuleHeader = () => {
     if (filterName === 'price' && filterAction === 'none') {
       setFilterObject({
         ...filterObject,
-        [filterName]: undefined,
+        [filterName]: undefined
       });
     } else if (filterName === 'price') {
       const splittedValue = filterAction.split('-');
@@ -81,12 +81,12 @@ const UserModuleHeader = () => {
       const endValue = splittedValue[1].split('$')[1];
       setFilterObject({
         ...filterObject,
-        [filterName]: [startValue, endValue],
+        [filterName]: [startValue, endValue]
       });
     } else {
       setFilterObject({
         ...filterObject,
-        [filterName]: filterAction,
+        [filterName]: filterAction
       });
     }
   };

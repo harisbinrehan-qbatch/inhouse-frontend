@@ -37,7 +37,6 @@ const Signup = ({ header }) => {
 
     try {
       await dispatch(signUpUser(body));
-      window.location.href = 'https://mail.google.com/mail';
     } catch (error) {
       message.error('Error creating user. Please try again.');
     } finally {

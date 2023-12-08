@@ -21,7 +21,6 @@ const NewPassword = ({ header }) => {
   const navigate = useNavigate();
 
   const { tokenExpiry } = useSelector((state) => state.authentication);
-  console.log({ tokenExpiry });
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);

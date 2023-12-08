@@ -1,7 +1,10 @@
 import Cart from '../../assets/images/shopping_cart.svg';
 
 const DashboardCart = ({
-  cartText, totalOrders, totalUnits, totalSale,
+  cartText,
+  totalOrders,
+  totalUnits,
+  totalSale
 }) => (
   <div className="dashboard-cart-main-div container">
     <div className="mt-3 ms-2">

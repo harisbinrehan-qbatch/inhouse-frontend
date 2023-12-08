@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -15,7 +16,7 @@ import MainPageLayout from '../layouts/main-page';
 import VerifyUser from '../container/auth/verify-user';
 
 const AuthRoutes = () => {
-  const { loginError } = useSelector((state) => state.authentication);
+  const { user } = useSelector((state) => state.authentication);
 
   const navigate = useNavigate();
 
@@ -24,10 +25,10 @@ const AuthRoutes = () => {
   const { pathname } = location;
 
   useEffect(() => {
-    if (!loginError && pathname === '/auth/login') {
+    if (user && pathname === '/auth/login') {
       navigate('/');
     }
-  }, [loginError]);
+  }, [user]);
 
   return (
     <MainPageLayout>

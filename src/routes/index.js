@@ -5,6 +5,7 @@ import UserRoutes from './user';
 import MainRoutes from './main';
 
 const CustomRoutes = () => (
+
   <Routes>
     <Route path="/" element={<MainRoutes />} />
     <Route path="/auth/*" element={<AuthRoutes />} />

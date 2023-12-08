@@ -12,10 +12,9 @@ import Loading from '../loading';
 
 const UserProductsDisplay = lazy(() => import('../user-products-display'));
 
-const UserProducts = () => {
+const UserProducts = ({ selectedProduct, setSelectedProduct }) => {
   const products = useSelector((state) => state.products.data);
   const { totalCount, isFilter } = useSelector((state) => state.products);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(4);

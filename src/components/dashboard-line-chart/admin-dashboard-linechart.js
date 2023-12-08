@@ -5,7 +5,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
+  Tooltip
 } from 'recharts';
 import ordersEllipse from '../../assets/images/orders-unpaid.svg';
 import salesEllipse from '../../assets/images/salesEllipse.svg';
@@ -26,7 +26,7 @@ const DashboardLineChart = ({ oneYearStats }) => {
         'Sep',
         'Oct',
         'Nov',
-        'Dec',
+        'Dec'
       ];
       return monthNames.indexOf(a.month) - monthNames.indexOf(b.month);
     });
@@ -34,7 +34,7 @@ const DashboardLineChart = ({ oneYearStats }) => {
   const data = statsArray.map((entry) => ({
     name: entry.month,
     orders: entry.totalOrders || 0,
-    sales: entry.totalSales || 0,
+    sales: entry.totalSales || 0
   }));
 
   return (
@@ -58,7 +58,7 @@ const DashboardLineChart = ({ oneYearStats }) => {
           top: 5,
           right: 30,
           left: 20,
-          bottom: 5,
+          bottom: 5
         }}
       >
         <Line

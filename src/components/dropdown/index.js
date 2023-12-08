@@ -9,7 +9,7 @@ function CustomDropdown({ heading, items, handleFilter }) {
     '#AAA': 'Grey',
     '#1B1E21': 'Black',
     '#231579': 'Blue',
-    '#740F0F': 'Red',
+    '#740F0F': 'Red'
   };
 
   const [selectedFilterText, setSelectedFilterText] = useState(heading);
@@ -18,7 +18,7 @@ function CustomDropdown({ heading, items, handleFilter }) {
     const filterName = Object.keys(filter)[0];
     const filterAction = filter[filterName];
     setSelectedFilterText(
-      `${filterName}: ${colorMap[filterAction] || filterAction}`,
+      `${filterName}: ${colorMap[filterAction] || filterAction}`
     );
   };
 
